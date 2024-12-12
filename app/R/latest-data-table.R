@@ -1,7 +1,3 @@
-
-
-# Functions -----
-
 # c2f: convert degrees Celsius to degrees Fahrenheit
 # @param: valueIn - variable with units of Celsius
 # @return: valueOut - variable with units of Fahrenheit
@@ -10,19 +6,19 @@ c2f <- function(valueIn) {
   return(valueOut)
 }
 
-# mm2in: convert millimeters to inches
-# @param: valueIn - variable with units of millimeters
-# @return: valueOut - variable with units of inches
-mm2in <- function(valueIn) {
-  valueOut <- valueIn / 25.4
-  return(valueOut)
-}
-
 # kwm22wm2: convert kilowatts/m^2 to watts/m^2
 # @param: valueIn - variable with units of kilowatts/m^2
 # @return: valueOut - variable with units of watts/m^2
 kwm22wm2 <- function(valueIn) {
   valueOut <- valueIn * 1000
+  return(valueOut)
+}
+
+# mm2in: convert millimeters to inches
+# @param: valueIn - variable with units of millimeters
+# @return: valueOut - variable with units of inches
+mm2in <- function(valueIn) {
+  valueOut <- valueIn / 25.4
   return(valueOut)
 }
 
@@ -96,6 +92,7 @@ table <- tib |>
     columns = list(
       meta_station_name = reactable::colDef(
         name = "Station",
+        minWidth = 150,
         #aggregate = NULL,
         #sortable = NULL,
         #resizable = NULL,
@@ -143,7 +140,7 @@ table <- tib |>
         rowHeader = TRUE
       ),
       precip_total_in = reactable::colDef(
-        name = "P d (in)",
+        name = paste0("P (in)", common::supsc(1)),
         format = reactable::colFormat(digits = 2),
         na = "NA",
         rowHeader = TRUE
@@ -317,7 +314,7 @@ table <- tib |>
     #rowStyle = NULL,
     fullWidth = TRUE,
     width = "auto",
-    height = 600,
+    height = 400,
     #theme = getOption("reactable.theme"), <-----
     #language = getOption("reactable.language"),
     #meta = NULL,

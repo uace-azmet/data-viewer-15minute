@@ -13,8 +13,8 @@
 
 # Libraries
 library(azmetr)
-library(bsicons)
 library(bslib)
+library(common)
 library(dplyr)
 library(htmltools)
 library(reactable)
@@ -37,11 +37,9 @@ ui <- htmltools::htmlTemplate(
     #title = "TITLE",
     
     bslib::nav_panel(
-      #title = "Network-wide",
       title = htmltools::h6(
-        #bsicons::bs_icon("sliders"),
         tags$span(class = "lm-az"),
-        htmltools::HTML("&nbsp;"), 
+        #htmltools::HTML("&nbsp;"), 
         "Network-wide Summary"
       ),
       #p("First tab content."), 
@@ -50,9 +48,11 @@ ui <- htmltools::htmlTemplate(
     
     
     bslib::nav_panel(
-      title = htmltools::h6(tags$span(class = "lm-icons-weatherstation"),
-                            htmltools::HTML("&nbsp;"), 
-                            "Station-level Summaries"), 
+      title = htmltools::h6(
+        tags$span(class = "lm-icons-weatherstation"),
+        #htmltools::HTML("&nbsp;"), 
+        "Station-level Summaries"
+      ), 
       bslib::layout_columns(
         cardsCurrentConditions[[1]], 
         cardsCurrentConditions[[2]], 
@@ -78,9 +78,8 @@ ui <- htmltools::htmlTemplate(
   #  footer = shiny::htmlOutput(outputId = "reportPageText"),
   #  id = "pageNavbar",
     selected = htmltools::h6(
-      #bsicons::bs_icon("sliders"),
       tags$span(class = "lm-az"),
-      htmltools::HTML("&nbsp;"), 
+      #htmltools::HTML("&nbsp;"), 
       "Network-wide Summary"
     ),
     sidebar = NULL
