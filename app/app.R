@@ -1,20 +1,15 @@
-# View 15-minute data in tables and time series
+# Tables and time series of 15-minute data to support QA/QC
 
 # Add code for the following
 # 
 # 'azmet-shiny-template.html': <!-- Google tag (gtag.js) -->
 # 'azmet-shiny-template.html': <!-- CSS specific to this AZMet Shiny app -->
 
-# Edit the following [in square brackets]:
-# 
-# 'azmet-shiny-template.html': <h1 class="mt-4 d-inline">[Web Tool Name]</h1>
-# 'azmet-shiny-template.html': <h4 class="mb-0 mt-2">[High-level text summary]</h4>
-
 
 # Libraries
 library(azmetr)
+library(bsicons)
 library(bslib)
-library(common)
 library(dplyr)
 library(htmltools)
 library(reactable)
@@ -29,77 +24,66 @@ library(shiny)
 
 # UI --------------------
 
-ui <- htmltools::htmlTemplate(
-  
-  "azmet-shiny-template.html",
-  
-  pageNavbar = bslib::page_navbar(
-    #title = "TITLE",
+ui <- 
+  htmltools::htmlTemplate(
+    filename = "azmet-shiny-template.html",
     
-    bslib::nav_panel(
-      title = htmltools::h6(
-        tags$span(class = "lm-az"),
-        #htmltools::HTML("&nbsp;"), 
-        "Network-wide Summary"
-      ),
-      #p("First tab content."), 
-      reactable::reactableOutput(outputId = "table")
-    ),
-    
-    
-    bslib::nav_panel(
-      title = htmltools::h6(
-        tags$span(class = "lm-icons-weatherstation"),
-        #htmltools::HTML("&nbsp;"), 
-        "Station-level Summaries"
-      ), 
-      bslib::layout_columns(
-        cardsCurrentConditions[[1]], 
-        cardsCurrentConditions[[2]], 
-        cardsCurrentConditions[[3]], 
-        cardsCurrentConditions[[4]], 
-        cardsCurrentConditions[[5]],
+    pageNavbar = bslib::page_navbar(
+      title = NULL,
+      
+      # Network-wide Summary -----
+      bslib::nav_panel(
+        title = navPanelTitleNetworkWide,
         
-        col_widths = breakpoints(sm = c(12), md = c(6, 6), lg = c(4, 4, 4))
-      ),
-      value = "Current Conditions"
-    ),
-    #bslib::nav_panel(
-    #  title = htmltools::h6(tags$span(class = "lm-cogs"),
-    #                        "Past 48 Hours"), 
-    #  htmltools::p("Second tab content."),
-    #  value = "Past 48 Hours"
-    #),
-    
-    
-    collapsible = FALSE,
-    fillable = TRUE,
-    fillable_mobile = FALSE,
-  #  footer = shiny::htmlOutput(outputId = "reportPageText"),
-  #  id = "pageNavbar",
-    selected = htmltools::h6(
-      tags$span(class = "lm-az"),
-      #htmltools::HTML("&nbsp;"), 
-      "Network-wide Summary"
-    ),
-    sidebar = NULL
-  #  theme = theme, # `scr03_theme.R`
-    #title = "TITLE"
-    #underline = TRUE,
-    #fluid = TRUE,
-    #window_title = "Leaf Wetness Report"
-    #)
+        reactable::reactableOutput(outputId = "table"),
+        
+        # TO-DO: Turn into fxn for custom render with HTML class
+        htmltools::p(
+          htmltools::HTML( 
+            "<sup>1</sup> Since midnight local time   <sup>2</sup> Since the top of the hour"
+          )
+        ),
+        
+        value = "network-wide-summary"
+      ), 
+      
+      # Station-level summaries -----
+      bslib::nav_panel(
+        title = navPanelTitleStationLevel,
+        
+        bslib::layout_sidebar(
+          sidebar = sidebarGraph,
+          htmltools::p("Coming soon.")
+          # options ???
+        ),
+        
+        value = "station-level-summaries"
+      )#,
+      
+    #  collapsible = FALSE,
+    #  fillable = TRUE,
+    #  fillable_mobile = FALSE,
+    #  footer = shiny::htmlOutput(outputId = "reportPageText"),
+    #  id = "pageNavbar",
+    #  selected = navPanelTitleNetworkWide,
+    #  sidebar = NULL
+    #  theme = theme, # `scr03_theme.R`
+      #title = "TITLE"
+      #underline = TRUE,
+      #fluid = TRUE,
+      #window_title = NULL
+    )
   )
-)
 
 
 # Server --------------------
 
-server <- function(input, output, session) {
-  output$table <- reactable::renderReactable({
-    table
-  })
-}
+server <- 
+  function(input, output, session) {
+    output$table <- reactable::renderReactable({
+      table  # TO-DO: Turn into fxn
+    })
+  }
 
 
 # Run --------------------
