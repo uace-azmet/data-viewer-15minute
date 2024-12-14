@@ -16,10 +16,10 @@ library(reactable)
 library(shiny)
 
 # Functions 
-#source("./R/fxn_ABC.R", local = TRUE)
+#source("./R/fxnName.R", local = TRUE)
 
 # Scripts
-#source("./R/scr##_DEF.R", local = TRUE)
+#source("./R/scriptName.R", local = TRUE)
 
 
 # UI --------------------
@@ -33,29 +33,28 @@ ui <-
       
       # Network-wide Summary -----
       bslib::nav_panel(
-        title = navPanelTitleNetworkWide,
+        title = networkWideNavpanelTitle,
         
-        reactable::reactableOutput(outputId = "table"),
-        
-        # TO-DO: Turn into fxn for custom render with HTML class
-        htmltools::p(
-          htmltools::HTML( 
-            "<sup>1</sup> Since midnight local time   <sup>2</sup> Since the top of the hour"
-          )
-        ),
+        shiny::htmlOutput(outputId = "networkWideTableTitle"),
+        shiny::htmlOutput(outputId = "networkWideTableHelpText"),
+        reactable::reactableOutput(outputId = "networkWideTable"),
+        shiny::htmlOutput(outputId = "networkWideTableFooter"),
+        shiny::htmlOutput(outputId = "networkWideBottomText"),
         
         value = "network-wide-summary"
       ), 
       
       # Station-level summaries -----
       bslib::nav_panel(
-        title = navPanelTitleStationLevel,
+        title = stationLevelNavpanelTitle,
         
         bslib::layout_sidebar(
           sidebar = sidebarGraph,
           htmltools::p("Coming soon.")
           # options ???
         ),
+        
+        shiny::htmlOutput(outputId = "stationLevelBottomText"),
         
         value = "station-level-summaries"
       )#,
@@ -78,12 +77,36 @@ ui <-
 
 # Server --------------------
 
-server <- 
-  function(input, output, session) {
-    output$table <- reactable::renderReactable({
-      table  # TO-DO: Turn into fxn
-    })
-  }
+server <- function(input, output, session) {
+  
+  # Outputs -----
+  
+  # TO-DO: Convert functions to scripts for simplification
+  
+  output$networkWideBottomText <- shiny::renderUI({
+    networkWideBottomText()
+  })
+  
+  output$networkWideTable <- reactable::renderReactable({
+    networkWideTable
+  })
+  
+  output$networkWideTableFooter <- shiny::renderUI({
+    networkWideTableFooter()
+  })
+  
+  output$networkWideTableHelpText <- shiny::renderUI({
+    networkWideTableHelpText()
+  })
+  
+  output$networkWideTableTitle <- shiny::renderUI({
+    networkWideTableTitle()
+  })
+  
+  output$stationLevelBottomText <- shiny::renderUI({
+    stationLevelBottomText()
+  })
+}
 
 
 # Run --------------------
