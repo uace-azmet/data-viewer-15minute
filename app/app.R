@@ -81,7 +81,7 @@ server <- function(input, output, session) {
   
   # Outputs -----
   
-  # TO-DO: Convert functions to scripts for simplification
+  # TO-DO: Convert functions to scripts for simplification ???
   
   output$networkWideBottomText <- shiny::renderUI({
     networkWideBottomText()
