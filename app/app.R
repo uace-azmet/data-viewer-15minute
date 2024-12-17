@@ -11,6 +11,7 @@ library(azmetr)
 library(bsicons)
 library(bslib)
 library(dplyr)
+library(ggplot2)
 library(htmltools)
 library(reactable)
 library(shiny)
@@ -49,21 +50,35 @@ ui <-
         title = stationLevelNavpanelTitle,
         
         bslib::layout_sidebar(
-          sidebar = sidebarGraph,
-          htmltools::p("Coming soon.")
+          sidebar = stationLevelSidebar,
+          htmltools::p("Coming soon."),
+          mainPanel(
+            shiny::plotOutput(outputId = "stationLevelTimeSeries")
+            #plotly::plotlyOutput("stationLevelTimeSeries")
+          )
           # options ???
+          #fillable = TRUE,
+          #fill = TRUE,
+          #bg = NULL,
+          #fg = NULL,
+          #border = NULL,
+          #border_radius = NULL,
+          #border_color = NULL,
+          #padding = NULL,
+          #gap = NULL,
+          #height = NULL
         ),
         
         shiny::htmlOutput(outputId = "stationLevelBottomText"),
         
         value = "station-level-summaries"
-      )#,
+      ),
       
     #  collapsible = FALSE,
     #  fillable = TRUE,
     #  fillable_mobile = FALSE,
     #  footer = shiny::htmlOutput(outputId = "reportPageText"),
-    #  id = "pageNavbar",
+      id = "pageNavbar"#,
     #  selected = navPanelTitleNetworkWide,
     #  sidebar = NULL
     #  theme = theme, # `scr03_theme.R`
@@ -78,6 +93,16 @@ ui <-
 # Server --------------------
 
 server <- function(input, output, session) {
+  
+  # Reactives -----
+  
+  stationLevelTimeSeries <- shiny::reactive({
+    fxn_stationLevelTimeSeries(
+      #inData = dataAZMetDataELT(),
+      azmetStationGroup = input$azmetStationGroup,
+      stationVariable = input$stationVariable
+    )
+  })
   
   # Outputs -----
   
@@ -105,6 +130,10 @@ server <- function(input, output, session) {
   
   output$stationLevelBottomText <- shiny::renderUI({
     stationLevelBottomText()
+  })
+  
+  output$stationLevelTimeSeries <- shiny::renderPlot({
+    stationLevelTimeSeries()
   })
 }
 
