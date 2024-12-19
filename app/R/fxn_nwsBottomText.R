@@ -1,10 +1,11 @@
-#' `stationLevelBottomText.R` - Build supporting text for data tool
+#' `fxn_nwsBottomText.R` - Build supporting text for network-wide summary nav_panel
 #' 
-#' @return `stationLevelBottomText` - Supporting text for data tool
+#' @return `nwsBottomText` - Supporting text for network-wide summary nav_panel
 
 
-stationLevelBottomText <- function() {
-  # Define inputs
+fxn_nwsBottomText <- function() {
+  # Define inputs -----
+  
   apiURL <- a(
     "api.azmet.arizona.edu", 
     href="https://api.azmet.arizona.edu/v1/observations/15min",
@@ -51,8 +52,9 @@ stationLevelBottomText <- function() {
     target="_blank"
   )
   
-  # Build text
-  stationLevelBottomText <- 
+  # Build text -----
+  
+  nwsBottomText <- 
     htmltools::p(
       htmltools::HTML(
         paste0(
@@ -64,8 +66,8 @@ stationLevelBottomText <- function() {
         )
       ),
       
-      class = "station-level-bottom-text"
+      class = "nws-bottom-text"
     )
   
-  return(stationLevelBottomText)
+  return(nwsBottomText)
 }

@@ -1,10 +1,10 @@
-#' `networkWideTableTitle.R` - Build title for network-wide table
+#' `fxn_nwsTableTitle.R` - Build title for network-wide summary table
 #' 
-#' @return `tableTitle` - Title for network-wide table
+#' @return `nwsTableTitle` - Title for network-wide summary table
 
 
-networkWideTableTitle <- function() {
-  networkWideTableTitle <- 
+fxn_nwsTableTitle <- function() {
+  nwsTableTitle <- 
     htmltools::p(
       htmltools::HTML(
         paste0(
@@ -15,8 +15,8 @@ networkWideTableTitle <- function() {
         ),
       ),
       
-      class = "table-title"
+      class = "nws-table-title"
     )
   
-  return(networkWideTableTitle)
+  return(nwsTableTitle)
 }

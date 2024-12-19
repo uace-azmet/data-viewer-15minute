@@ -1,21 +1,13 @@
-#' `fxnTimeSeries.R` Generate time series graph based on user input
+#' `fxn_dataETL.R` Download AZMet 15-minute data, transform variables, and return to app
 #' 
-#' @param inData - daily AZMet data from `dataAZMetDataELT()`
-#' @param azmetStation - user-specified AZMet station
-#' @param batteryVariable - user-specified battery variable
-#' @param stationVariable - user-specified weather variable
-#' @return `timeSeries` - time series graphs based on user input
-
-# https://plotly-r.com/ 
-# https://plotly.com/r/reference/ 
-# https://plotly.github.io/schema-viewer/
-# https://github.com/plotly/plotly.js/blob/c1ef6911da054f3b16a7abe8fb2d56019988ba14/src/components/fx/hover.js#L1596
+#' @return `dataETL` - Downloaded data and transformed variables over previous 48 hours
 
 
-fxn_stationLevelTimeSeries <- function(azmetStationGroup, stationVariable) {
-  tib <- 
+fxn_dataETL <- function() {
+  dataETL <- 
     azmetr::az_15min(
-      start_date_time = lubridate::now(tzone = "America/Phoenix") - lubridate::hours(50)
+      start_date_time = 
+        lubridate::now(tzone = "America/Phoenix") - lubridate::hours(50)
     ) |>
     
     dplyr::mutate(
@@ -64,20 +56,7 @@ fxn_stationLevelTimeSeries <- function(azmetStationGroup, stationVariable) {
       wind_2min_vector_dir_max_daily,
       wind_2min_spd_max_mph_hourly,
       wind_2min_vector_dir_max_hourly
-    ) |>
-    
-    dplyr::arrange(meta_station_name)
-  
-  p <- 
-    ggplot2::ggplot() +
-    ggplot2::geom_col(
-      data = dplyr::filter(tib, meta_station_name != azmetStationGroup),
-      mapping = ggplot2::aes(x = meta_station_name, y = .data[[stationVariable]], fill = relative_humidity)
-    ) +
-    ggplot2::geom_col(
-      data = dplyr::filter(tib, meta_station_name == azmetStationGroup),
-      mapping = ggplot2::aes(x = meta_station_name, y = .data[[stationVariable]]), fill = "red"
     )
   
-  return(p)
+  return(dataETL)
 }

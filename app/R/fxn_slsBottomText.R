@@ -1,10 +1,11 @@
-#' `networkWideBottomText.R` - Build supporting text for data tool
+#' `fxn_slsBottomText.R` - Build supporting text for station-level summaries nav_panel
 #' 
-#' @return `networkWideBottomText` - Supporting text for data tool
+#' @return `slsBottomText` - Supporting text for station-level summaries nav_panel
 
 
-networkWideBottomText <- function() {
-  # Define inputs
+fxn_slsBottomText <- function() {
+  # Define inputs -----
+  
   apiURL <- a(
     "api.azmet.arizona.edu", 
     href="https://api.azmet.arizona.edu/v1/observations/15min",
@@ -51,8 +52,9 @@ networkWideBottomText <- function() {
     target="_blank"
   )
   
-  # Build text
-  networkWideBottomText <- 
+  # Build text -----
+  
+  slsBottomText <- 
     htmltools::p(
       htmltools::HTML(
         paste0(
@@ -64,8 +66,8 @@ networkWideBottomText <- function() {
         )
       ),
       
-      class = "network-wide-bottom-text"
+      class = "sls-bottom-text"
     )
   
-  return(networkWideBottomText)
+  return(slsBottomText)
 }
