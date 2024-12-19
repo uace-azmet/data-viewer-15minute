@@ -3,7 +3,7 @@
 #' @return `networkWideTable` - Network-wide table
 
 
-#networkWideTable <- function() {
+networkWideTable <- function() {
   # Data ELT -----
   
   tib <- azmetr::az_15min() |>
@@ -517,5 +517,5 @@
       #selectionId = NULL
     )
   
-#  return(networkWideTable)
-#}
+  return(networkWideTable)
+}

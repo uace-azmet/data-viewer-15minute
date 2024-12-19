@@ -1,10 +1,11 @@
 # Remove some datetime-, leaf-wetness, and meta-related variables from lineup, as they won't be used in display
-dataVariables <- dataVariables |>
+dataVariablesDropdown <- dataVariables |>
   dplyr::filter(! variable %in% c(
     "date_doy",
     "date_hour",
     "date_seconds",
     "date_year",
+    "datetime",
     "dwpt_30cm",
     "lw1_mV",
     "lw1_total_con_mins",
@@ -67,7 +68,7 @@ stationLevelSidebar <-
         shiny::selectInput(
           inputId = "stationVariable", 
           label = "Station Variable",
-          choices = sort(unique(dataVariables$variable)),
+          choices = sort(unique(dataVariablesDropdown$variable)),
           selected = "relative_humidity"
         )
       ) # bslib::accordion_panel()

@@ -30,15 +30,17 @@ ui <-
     filename = "azmet-shiny-template.html",
     
     pageNavbar = bslib::page_navbar(
-      title = NULL,
       
       # Network-wide Summary -----
+      
       bslib::nav_panel(
-        title = networkWideNavpanelTitle,
+        title = networkWideNavpanelTitle, # `02_setGlobalVariables.R`
         
         shiny::htmlOutput(outputId = "networkWideTableTitle"),
         shiny::htmlOutput(outputId = "networkWideTableHelpText"),
+        
         reactable::reactableOutput(outputId = "networkWideTable"),
+        
         shiny::htmlOutput(outputId = "networkWideTableFooter"),
         shiny::htmlOutput(outputId = "networkWideBottomText"),
         
@@ -46,16 +48,16 @@ ui <-
       ), 
       
       # Station-level summaries -----
+      
       bslib::nav_panel(
-        title = stationLevelNavpanelTitle,
+        title = stationLevelNavpanelTitle, # `02_setGlobalVariables.R`
         
         bslib::layout_sidebar(
-          sidebar = stationLevelSidebar,
+          sidebar = stationLevelSidebar, # `03_stationLevelSidebar.R`
+          
           htmltools::p("Coming soon."),
-          mainPanel(
-            shiny::plotOutput(outputId = "stationLevelTimeSeries")
-            #plotly::plotlyOutput("stationLevelTimeSeries")
-          )
+          shiny::plotOutput(outputId = "stationLevelTimeSeries")
+          
           # options ???
           #fillable = TRUE,
           #fill = TRUE,
@@ -74,14 +76,15 @@ ui <-
         value = "station-level-summaries"
       ),
       
-    #  collapsible = FALSE,
-    #  fillable = TRUE,
-    #  fillable_mobile = FALSE,
-    #  footer = shiny::htmlOutput(outputId = "reportPageText"),
-      id = "pageNavbar"#,
-    #  selected = navPanelTitleNetworkWide,
-    #  sidebar = NULL
-    #  theme = theme, # `scr03_theme.R`
+      title = NULL,
+      #  collapsible = FALSE,
+      #  fillable = TRUE,
+      #  fillable_mobile = FALSE,
+      #  footer = shiny::htmlOutput(outputId = "reportPageText"),
+      id = "pageNavbar",
+      selected = "network-wide-summary",
+      sidebar = NULL#,
+      #  theme = theme, # `scr03_theme.R`,
       #title = "TITLE"
       #underline = TRUE,
       #fluid = TRUE,
@@ -104,16 +107,27 @@ server <- function(input, output, session) {
     )
   })
   
-  # Outputs -----
+  # Observables -----
   
-  # TO-DO: Convert functions to scripts for simplification ???
+  shiny::observe({
+    if (shiny::req(input$pageNavbar) == "network-wide-summary") {
+      message("network-wide-summary has been selected")
+    }
+      
+    if (shiny::req(input$pageNavbar) == "station-level-summaries") {
+      message("station-level-summaries has been selected")
+    }
+  })
+  
+  
+  # Outputs -----
   
   output$networkWideBottomText <- shiny::renderUI({
     networkWideBottomText()
   })
   
   output$networkWideTable <- reactable::renderReactable({
-    networkWideTable
+    networkWideTable()
   })
   
   output$networkWideTableFooter <- shiny::renderUI({
