@@ -16,11 +16,11 @@ library(htmltools)
 library(reactable)
 library(shiny)
 
-# Functions 
-#source("./R/fxnName.R", local = TRUE)
+# Functions. Loaded automatically at app start if in `R` folder
+#source("./R/fxn_functionName.R", local = TRUE)
 
-# Scripts
-#source("./R/scriptName.R", local = TRUE)
+# Scripts. Loaded automatically at app start if in `R` folder
+#source("./R/scr_scriptName.R", local = TRUE)
 
 
 # UI --------------------
@@ -34,7 +34,7 @@ ui <-
       # Network-wide Summary -----
       
       bslib::nav_panel(
-        title = networkWideNavpanelTitle, # `02_setGlobalVariables.R`
+        title = networkWideNavpanelTitle, # `_setup.R`
         
         shiny::htmlOutput(outputId = "networkWideTableTitle"),
         shiny::htmlOutput(outputId = "networkWideTableHelpText"),
@@ -50,10 +50,10 @@ ui <-
       # Station-level summaries -----
       
       bslib::nav_panel(
-        title = stationLevelNavpanelTitle, # `02_setGlobalVariables.R`
+        title = stationLevelNavpanelTitle, # `_setup.R``
         
         bslib::layout_sidebar(
-          sidebar = stationLevelSidebar, # `03_stationLevelSidebar.R`
+          sidebar = stationLevelSidebar, # `scr_stationLevelSidebar.R`
           
           htmltools::p("Coming soon."),
           shiny::plotOutput(outputId = "stationLevelTimeSeries")

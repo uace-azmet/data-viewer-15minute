@@ -10,21 +10,21 @@ networkWideTable <- function() {
     
     dplyr::mutate(
       datetime = format(datetime, format = "%Y-%m-%d %H:%M:%S"),
-      dwptF = conv_c_to_f(dwpt),
-      precip_total_in = conv_mm_to_in(precip_total_mm),
-      sol_rad_Wm2 = conv_kwm2_to_wm2(sol_rad_kWm2),
-      temp_airF = conv_c_to_f(temp_airC),
-      temp_air_maxF = conv_c_to_f(temp_air_maxC),
-      temp_air_minF = conv_c_to_f(temp_air_minC),
-      temp_panelF = conv_c_to_f(temp_panelC),
-      temp_soil_10cmF = conv_c_to_f(temp_soil_10cmC),
-      temp_soil_50cmF = conv_c_to_f(temp_soil_50cmC),
-      temp_wetbulbF = conv_c_to_f(temp_wetbulbC),
-      wind_2min_spd_max_mph_daily = conv_mps_to_mph(wind_2min_spd_max_mps_daily),
-      wind_2min_spd_max_mph_hourly = conv_mps_to_mph(wind_2min_spd_max_mps_hourly),
-      wind_2min_spd_mean_mph = conv_mps_to_mph(wind_2min_spd_mean_mps),
-      wind_spd_max_mph = conv_mps_to_mph(wind_spd_max_mps),
-      wind_spd_mph = conv_mps_to_mph(wind_spd_mps)
+      dwptF = fxn_c_to_f(dwpt),
+      precip_total_in = fxn_mm_to_in(precip_total_mm),
+      sol_rad_Wm2 = fxn_kwm2_to_wm2(sol_rad_kWm2),
+      temp_airF = fxn_c_to_f(temp_airC),
+      temp_air_maxF = fxn_c_to_f(temp_air_maxC),
+      temp_air_minF = fxn_c_to_f(temp_air_minC),
+      temp_panelF = fxn_c_to_f(temp_panelC),
+      temp_soil_10cmF = fxn_c_to_f(temp_soil_10cmC),
+      temp_soil_50cmF = fxn_c_to_f(temp_soil_50cmC),
+      temp_wetbulbF = fxn_c_to_f(temp_wetbulbC),
+      wind_2min_spd_max_mph_daily = fxn_mps_to_mph(wind_2min_spd_max_mps_daily),
+      wind_2min_spd_max_mph_hourly = fxn_mps_to_mph(wind_2min_spd_max_mps_hourly),
+      wind_2min_spd_mean_mph = fxn_mps_to_mph(wind_2min_spd_mean_mps),
+      wind_spd_max_mph = fxn_mps_to_mph(wind_spd_max_mps),
+      wind_spd_mph = fxn_mps_to_mph(wind_spd_mps)
     ) |>
     
     dplyr::select(
