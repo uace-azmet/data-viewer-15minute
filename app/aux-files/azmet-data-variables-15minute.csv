@@ -4,8 +4,8 @@ hour of measurement,date_hour,24-hour day time,NA,NA,NA,NA
 second of measurement,date_seconds,60-second minute time,NA,NA,NA,NA
 year of measurement,date_year,calendar year starting January 1,NA,NA,NA,NA
 date and time of measurement,datetime,year-month-day and hour-minute-second,NA,NA,NA,NA
-dew point temperature,dwpt,datetime value in degrees Celsius at 1.5 meters height,¡C,SI,derived,"relative_humidity, temp_airC"
-dew point temperature,dwpt_30cm,datetime value in degrees Celsius at 0.3 meters height,¡C,SI,derived,"relative_humidity_30cm, temp_air_30cmC"
+dew point temperature,dwpt,datetime value in degrees Celsius at 1.5 meters height,C,SI,derived,"relative_humidity, temp_airC"
+dew point temperature,dwpt_30cm,datetime value in degrees Celsius at 0.3 meters height,C,SI,derived,"relative_humidity_30cm, temp_air_30cmC"
 dielectric constant,lw1_mv,datetime value from leaf wetness sensor 1 in millivolts,mV,SI,measured,NA
 time of dielectric constant between 274 and 283 mV,lw1_total_con_mins,datetime value from leaf wetness sensor 1 in minutes,min,NA,measured,NA
 time of dielectric constant below 274 mV,lw1_total_dry_mins,datetime value from leaf wetness sensor 1 in minutes,min,NA,measured,NA
@@ -24,14 +24,14 @@ relative humidity,relative_humidity,datetime value in percent at 1.5 meters heig
 relative humidity,relative_humidity_30cm,datetime value in percent at 0.3 meters height,%,NA,measured,NA
 solar radiation,sol_rad_kWm2,datetime value in kilowatts per square meter,kW/m^2,SI,measured,NA
 solar radiation,sol_rad_total,datetime value in megajoules per square meter,MJ/m^2,SI,measured,NA
-air temperature,temp_air_30cmC,datetime value in degrees Celsius at 0.3 meters height,¡C,SI,measured,NA
-air temperature,temp_air_maxC,maximum value in degrees Celsius at 1.5 meters height since midnight local time,¡C,SI,measured,NA
-air temperature,temp_air_minC,minimum value in degrees Celsius at 1.5 meters height since midnight local time,¡C,SI,measured,NA
-air temperature,temp_airC,datetime value in degrees Celsius at 1.5 meters height,¡C,SI,measured,NA
-panel temperature,temp_panelC,datetime value of data logger panel in degrees Celsius,¡C,SI,measured,NA
-soil temperature,temp_soil_10cmC,datetime value in degrees Celsius at 10 centimeters depth,¡C,SI,measured,NA
-soil temperature,temp_soil_50cmC,datetime value in degrees Celsius at 50 centimeters depth,¡C,SI,measured,NA
-wet-bulb temperature,temp_wetbulbC,datetime value in degrees Celsius at 1.5 meters height,¡C,SI,derived,"relative_humidity, temp_airC"
+air temperature,temp_air_30cmC,datetime value in degrees Celsius at 0.3 meters height,C,SI,measured,NA
+air temperature,temp_air_maxC,maximum value in degrees Celsius at 1.5 meters height since midnight local time,C,SI,measured,NA
+air temperature,temp_air_minC,minimum value in degrees Celsius at 1.5 meters height since midnight local time,C,SI,measured,NA
+air temperature,temp_airC,datetime value in degrees Celsius at 1.5 meters height,C,SI,measured,NA
+panel temperature,temp_panelC,datetime value of data logger panel in degrees Celsius,C,SI,measured,NA
+soil temperature,temp_soil_10cmC,datetime value in degrees Celsius at 10 centimeters depth,C,SI,measured,NA
+soil temperature,temp_soil_50cmC,datetime value in degrees Celsius at 50 centimeters depth,C,SI,measured,NA
+wet-bulb temperature,temp_wetbulbC,datetime value in degrees Celsius at 1.5 meters height,C,SI,derived,"relative_humidity, temp_airC"
 actual vapor pressure,vp_actual,datetime value in kilopascals,kPa,SI,derived,"relative_humidity, temp_airC"
 vapor pressure deficit,vp_deficit,datetime value in kilopascals,kPa,SI,derived,"relative_humidity, temp_airC"
 saturation vapor pressure,vp_saturation,datetime value in kilopascals,kPa,SI,derived,temp_airC
@@ -44,18 +44,18 @@ wind vector direction of two-minute sustained wind speed,wind_2min_vector_dir_ma
 wind speed,wind_spd_max_mps,maximum value in meters per second since midnight local time,mps,SI,measured,NA
 wind speed,wind_spd_mps,datetime value in meters per second,mps,SI,measured,NA
 wind vector direction,wind_vector_dir,datetime value in degrees,deg,non-SI,measured,NA
-dew point temperature,dwptF,datetime value in degrees Fahrenheit at 1.5 meters height,¡F,non-SI,derived,dwpt
-dew point temperature,dwpt_30cmF,datetime value in degrees Fahrenheit at 0.3 meters height,¡F,non-SI,derived,dwpt_30cm
+dew point temperature,dwptF,datetime value in degrees Fahrenheit at 1.5 meters height,F,non-SI,derived,dwpt
+dew point temperature,dwpt_30cmF,datetime value in degrees Fahrenheit at 0.3 meters height,F,non-SI,derived,dwpt_30cm
 precipitation,precip_total_in,datetime value in millimeters since midnight local time,in,non-SI,derived,precip_total_mm
 solar radiation,sol_rad_Wm2,datetime value in watts per square meter,W/m^2,SI,derived,sol_rad_kWm2
-air temperature,temp_air_30cmF,datetime value in degrees Fahrenheit at 0.3 meters height,¡F,non-SI,derived,temp_air_30cmC
-air temperature,temp_air_maxF,maximum value in degrees Fahrenheit at 1.5 meters height since midnight local time,¡F,non-SI,derived,temp_air_maxC
-air temperature,temp_air_minF,minimum value in degrees Fahrenheit at 1.5 meters height since midnight local time,¡F,non-SI,derived,temp_air_minC
-air temperature,temp_airF,datetime value in degrees Fahrenheit at 1.5 meters height,¡F,non-SI,derived,temp_airC
-panel temperature,temp_panelF,datetime value of data logger panel in degrees Fahrenheit,¡F,non-SI,derived,temp_panelC
-soil temperature,temp_soil_10cmF,datetime value in degrees Fahrenheit at 10 centimeters depth,¡F,non-SI,derived,temp_soil_10cmC
-soil temperature,temp_soil_50cmF,datetime value in degrees Fahrenheit at 50 centimeters depth,¡F,non-SI,derived,temp_soil_50cmC
-wet-bulb temperature,temp_wetbulbF,datetime value in degrees Fahrenheit at 1.5 meters height,¡F,non-SI,derived,temp_wetbulbC
+air temperature,temp_air_30cmF,datetime value in degrees Fahrenheit at 0.3 meters height,F,non-SI,derived,temp_air_30cmC
+air temperature,temp_air_maxF,maximum value in degrees Fahrenheit at 1.5 meters height since midnight local time,F,non-SI,derived,temp_air_maxC
+air temperature,temp_air_minF,minimum value in degrees Fahrenheit at 1.5 meters height since midnight local time,F,non-SI,derived,temp_air_minC
+air temperature,temp_airF,datetime value in degrees Fahrenheit at 1.5 meters height,F,non-SI,derived,temp_airC
+panel temperature,temp_panelF,datetime value of data logger panel in degrees Fahrenheit,F,non-SI,derived,temp_panelC
+soil temperature,temp_soil_10cmF,datetime value in degrees Fahrenheit at 10 centimeters depth,F,non-SI,derived,temp_soil_10cmC
+soil temperature,temp_soil_50cmF,datetime value in degrees Fahrenheit at 50 centimeters depth,F,non-SI,derived,temp_soil_50cmC
+wet-bulb temperature,temp_wetbulbF,datetime value in degrees Fahrenheit at 1.5 meters height,F,non-SI,derived,temp_wetbulbC
 two-minute sustained wind speed,wind_2min_spd_max_mph_daily,maximum value in miles per hour since midnight local time,mph,non-SI,derived,wind_2min_spd_max_mps_daily
 two-minute sustained wind speed,wind_2min_spd_max_mph_daily,maximum value in miles per hour since top of the hour,mph,non-SI,derived,wind_2min_spd_max_mps_daily
 two-minute sustained wind speed,wind_2min_spd_mean_mph,datetime value in miles per hour,mph,non-SI,derived,wind_2min_spd_mean_mps

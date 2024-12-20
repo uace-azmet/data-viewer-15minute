@@ -16,8 +16,9 @@ fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
   inData <- inData |>
     dplyr::mutate(datetime = lubridate::ymd_hms(datetime))
   
-  xAxisVariable <- dplyr::filter(dataVariables, name == "datetime")$variable
-  xAxisUnits <- "year-month-day and hour:minute:second"
+  #xAxisVariable <- dplyr::filter(dataVariables, name == "datetime")$variable
+  xAxisVariable <- "datetime"
+  xAxisUnits <- "year-month-day hour:minute:second"
   
   yAxisVariable <- dplyr::filter(dataVariables, name == stationVariable)$variable
   yAxisUnits <- dplyr::filter(dataVariables, name == stationVariable)$units
