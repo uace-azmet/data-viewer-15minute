@@ -11,15 +11,16 @@ library(azmetr)
 library(bsicons)
 library(bslib)
 library(dplyr)
+library(ggplot2)
 library(htmltools)
 library(reactable)
 library(shiny)
 
-# Functions 
-#source("./R/fxnName.R", local = TRUE)
+# Functions. Loaded automatically at app start if in `R` folder
+#source("./R/fxn_functionName.R", local = TRUE)
 
-# Scripts
-#source("./R/scriptName.R", local = TRUE)
+# Scripts. Loaded automatically at app start if in `R` folder
+#source("./R/scr_scriptName.R", local = TRUE)
 
 
 # UI --------------------
@@ -29,44 +30,60 @@ ui <-
     filename = "azmet-shiny-template.html",
     
     pageNavbar = bslib::page_navbar(
-      title = NULL,
       
-      # Network-wide Summary -----
+      # Network-wide Summary (nws) -----
+      
       bslib::nav_panel(
-        title = networkWideNavpanelTitle,
+        title = nwsNavpanelTitle, # `_setup.R`
         
-        shiny::htmlOutput(outputId = "networkWideTableTitle"),
-        shiny::htmlOutput(outputId = "networkWideTableHelpText"),
-        reactable::reactableOutput(outputId = "networkWideTable"),
-        shiny::htmlOutput(outputId = "networkWideTableFooter"),
-        shiny::htmlOutput(outputId = "networkWideBottomText"),
+        shiny::htmlOutput(outputId = "nwsTableTitle"),
+        shiny::htmlOutput(outputId = "nwsTableHelpText"),
+        
+        reactable::reactableOutput(outputId = "nwsTable"),
+        
+        shiny::htmlOutput(outputId = "nwsTableFooter"),
+        shiny::htmlOutput(outputId = "nwsBottomText"),
         
         value = "network-wide-summary"
       ), 
       
       # Station-level summaries -----
+      
       bslib::nav_panel(
-        title = stationLevelNavpanelTitle,
+        title = slsNavpanelTitle, # `_setup.R``
         
         bslib::layout_sidebar(
-          sidebar = sidebarGraph,
-          htmltools::p("Coming soon.")
+          sidebar = slsSidebar, # `scr_slsSidebar.R`
+          
+          shiny::plotOutput(outputId = "slsTimeSeries")
+          
           # options ???
+          #fillable = TRUE,
+          #fill = TRUE,
+          #bg = NULL,
+          #fg = NULL,
+          #border = NULL,
+          #border_radius = NULL,
+          #border_color = NULL,
+          #padding = NULL,
+          #gap = NULL,
+          #height = NULL
         ),
         
-        shiny::htmlOutput(outputId = "stationLevelBottomText"),
+        shiny::htmlOutput(outputId = "slsBottomText"),
         
         value = "station-level-summaries"
-      )#,
+      ),
       
-    #  collapsible = FALSE,
-    #  fillable = TRUE,
-    #  fillable_mobile = FALSE,
-    #  footer = shiny::htmlOutput(outputId = "reportPageText"),
-    #  id = "pageNavbar",
-    #  selected = navPanelTitleNetworkWide,
-    #  sidebar = NULL
-    #  theme = theme, # `scr03_theme.R`
+      title = NULL,
+      #  collapsible = FALSE,
+      #  fillable = TRUE,
+      #  fillable_mobile = FALSE,
+      #  footer = shiny::htmlOutput(outputId = "reportPageText"),
+      id = "pageNavbar",
+      selected = "network-wide-summary",
+      sidebar = NULL#,
+      #  theme = theme, # `scr03_theme.R`,
       #title = "TITLE"
       #underline = TRUE,
       #fluid = TRUE,
@@ -78,34 +95,96 @@ ui <-
 # Server --------------------
 
 server <- function(input, output, session) {
+  dataETL <- fxn_dataETL()
+  
+  # Reactives -----
+  
+  #slsTimeSeries <- shiny::reactive({
+  #  fxn_dataETL()
+  #  
+  #  fxn_slsTimeSeries(
+  #    inData = dataELT,
+  #    azmetStationGroup = input$azmetStationGroup,
+  #    stationVariable = input$stationVariable
+  #  )
+  #})
+  
+  # Observables -----
+  
+  shiny::observe({
+    if (shiny::req(input$pageNavbar) == "network-wide-summary") {
+      message("network-wide-summary has been selected")
+    }
+      
+    if (shiny::req(input$pageNavbar) == "station-level-summaries") {
+      message("station-level-summaries has been selected")
+    }
+  })
+  
+  shiny::observeEvent(dataETL, {
+    shiny::updateSelectInput(
+      inputId = "azmetStationGroup",
+      label = "AZMet Station Group",
+      choices = sort(unique(dataETL$meta_station_group)),
+      selected = sort(unique(dataETL$meta_station_group))[1]
+    )
+    
+    shiny::updateSelectInput(
+      inputId = "stationVariable",
+      label = "Station Variable",
+      choices = 
+        sort(
+          colnames(
+            dplyr::select(
+              dataETL, !c(datetime, meta_station_group, meta_station_name)
+            )
+          )
+        ),
+      selected = 
+        sort(
+          colnames(
+            dplyr::select(
+              dataETL, !c(datetime, meta_station_group, meta_station_name)
+            )
+          )
+        )[1]
+    )
+  })
   
   # Outputs -----
   
-  # TO-DO: Convert functions to scripts for simplification ???
-  
-  output$networkWideBottomText <- shiny::renderUI({
-    networkWideBottomText()
+  output$nwsBottomText <- shiny::renderUI({
+    fxn_nwsBottomText()
   })
   
-  output$networkWideTable <- reactable::renderReactable({
-    networkWideTable
+  output$nwsTable <- reactable::renderReactable({
+    fxn_nwsTable(inData = dataETL)
   })
   
-  output$networkWideTableFooter <- shiny::renderUI({
-    networkWideTableFooter()
+  output$nwsTableFooter <- shiny::renderUI({
+    fxn_nwsTableFooter()
   })
   
-  output$networkWideTableHelpText <- shiny::renderUI({
-    networkWideTableHelpText()
+  output$nwsTableHelpText <- shiny::renderUI({
+    fxn_nwsTableHelpText()
   })
   
-  output$networkWideTableTitle <- shiny::renderUI({
-    networkWideTableTitle()
+  output$nwsTableTitle <- shiny::renderUI({
+    fxn_nwsTableTitle()
   })
   
-  output$stationLevelBottomText <- shiny::renderUI({
-    stationLevelBottomText()
+  output$slsBottomText <- shiny::renderUI({
+    fxn_slsBottomText()
   })
+  
+  output$slsTimeSeries <- shiny::renderPlot({
+    #slsTimeSeries
+    fxn_slsTimeSeries(
+      inData = dataETL,
+      azmetStationGroup = input$azmetStationGroup,
+      stationVariable = input$stationVariable
+    )
+  }, res = 96)
 }
 
 
