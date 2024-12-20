@@ -55,7 +55,6 @@ ui <-
         bslib::layout_sidebar(
           sidebar = slsSidebar, # `scr_slsSidebar.R`
           
-          htmltools::p("Coming soon."),
           shiny::plotOutput(outputId = "slsTimeSeries")
           
           # options ???
@@ -133,8 +132,22 @@ server <- function(input, output, session) {
     shiny::updateSelectInput(
       inputId = "stationVariable",
       label = "Station Variable",
-      choices = sort(colnames(dplyr::select(dataETL, !c(datetime, meta_station_name)))),
-      selected = sort(colnames(dplyr::select(dataETL, !c(datetime, meta_station_name))))[1]
+      choices = 
+        sort(
+          colnames(
+            dplyr::select(
+              dataETL, !c(datetime, meta_station_group, meta_station_name)
+            )
+          )
+        ),
+      selected = 
+        sort(
+          colnames(
+            dplyr::select(
+              dataETL, !c(datetime, meta_station_group, meta_station_name)
+            )
+          )
+        )[1]
     )
   })
   
@@ -171,7 +184,7 @@ server <- function(input, output, session) {
       azmetStationGroup = input$azmetStationGroup,
       stationVariable = input$stationVariable
     )
-  })
+  }, res = 96)
 }
 
 
