@@ -56,7 +56,9 @@ fxn_dataETL <- function() {
       wind_2min_vector_dir_max_daily,
       wind_2min_spd_max_mph_hourly,
       wind_2min_vector_dir_max_hourly
-    )
+    )  |>
+    
+    dplyr::arrange(meta_station_name)
   
   return(dataETL)
 }

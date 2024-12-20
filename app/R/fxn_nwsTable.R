@@ -1,6 +1,6 @@
 #' `fxn_nwsTable.R` - Build network-wide summary table
 #' 
-#' @param inData - Formatted AZMet hourly or daily data from `fxn_dataFormat.R`
+#' @param inData - AZMet 15-minute data from `fxn_dataETL.R`
 #' @return `nwsTable` - Network-wide summary table
 
 
@@ -8,8 +8,7 @@ fxn_nwsTable <- function(inData) {
   inData <- inData |>
     dplyr::group_by(meta_station_name) |>
     dplyr::filter(datetime == max(datetime)) |>
-    dplyr::ungroup() |>
-    dplyr::arrange(meta_station_name)
+    dplyr::ungroup()
   
   nwsTable <- inData |>
     reactable::reactable(

@@ -53,7 +53,7 @@ ui <-
         title = slsNavpanelTitle, # `_setup.R``
         
         bslib::layout_sidebar(
-          sidebar = stationLevelSidebar, # `scr_stationLevelSidebar.R`
+          sidebar = slsSidebar, # `scr_slsSidebar.R`
           
           htmltools::p("Coming soon."),
           shiny::plotOutput(outputId = "slsTimeSeries")
@@ -96,16 +96,19 @@ ui <-
 # Server --------------------
 
 server <- function(input, output, session) {
+  dataETL <- fxn_dataETL()
   
   # Reactives -----
   
-  stationLevelTimeSeries <- shiny::reactive({
-    fxn_stationLevelTimeSeries(
-      #inData = dataAZMetDataELT(),
-      azmetStationGroup = input$azmetStationGroup,
-      stationVariable = input$stationVariable
-    )
-  })
+  #slsTimeSeries <- shiny::reactive({
+  #  fxn_dataETL()
+  #  
+  #  fxn_slsTimeSeries(
+  #    inData = dataELT,
+  #    azmetStationGroup = input$azmetStationGroup,
+  #    stationVariable = input$stationVariable
+  #  )
+  #})
   
   # Observables -----
   
@@ -119,6 +122,14 @@ server <- function(input, output, session) {
     }
   })
   
+  shiny::observeEvent(dataETL, {
+    shiny::updateSelectInput(
+      inputId = "stationVariable",
+      label = "Station Variable",
+      choices = sort(colnames(dplyr::select(dataETL, !datetime))),
+      selected = sort(colnames(dplyr::select(dataETL, !datetime)))[1]
+    )
+  })
   
   # Outputs -----
   
@@ -127,7 +138,7 @@ server <- function(input, output, session) {
   })
   
   output$nwsTable <- reactable::renderReactable({
-    fxn_nwsTable(inData = fxn_dataETL())
+    fxn_nwsTable(inData = dataETL)
   })
   
   output$nwsTableFooter <- shiny::renderUI({
@@ -147,8 +158,10 @@ server <- function(input, output, session) {
   })
   
   output$slsTimeSeries <- shiny::renderPlot({
+    #slsTimeSeries
     fxn_slsTimeSeries(
-      azmetStationGroup = input$azmetStationGroup, 
+      inData = dataETL,
+      azmetStationGroup = input$azmetStationGroup,
       stationVariable = input$stationVariable
     )
   })
