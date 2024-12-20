@@ -8,7 +8,8 @@ fxn_nwsTable <- function(inData) {
   inData <- inData |>
     dplyr::group_by(meta_station_name) |>
     dplyr::filter(datetime == max(datetime)) |>
-    dplyr::ungroup()
+    dplyr::ungroup() |>
+    dplyr::select(!meta_station_group)
   
   nwsTable <- inData |>
     reactable::reactable(

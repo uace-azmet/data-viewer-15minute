@@ -124,10 +124,17 @@ server <- function(input, output, session) {
   
   shiny::observeEvent(dataETL, {
     shiny::updateSelectInput(
+      inputId = "azmetStationGroup",
+      label = "AZMet Station Group",
+      choices = sort(unique(dataETL$meta_station_group)),
+      selected = sort(unique(dataETL$meta_station_group))[1]
+    )
+    
+    shiny::updateSelectInput(
       inputId = "stationVariable",
       label = "Station Variable",
-      choices = sort(colnames(dplyr::select(dataETL, !datetime))),
-      selected = sort(colnames(dplyr::select(dataETL, !datetime)))[1]
+      choices = sort(colnames(dplyr::select(dataETL, !c(datetime, meta_station_name)))),
+      selected = sort(colnames(dplyr::select(dataETL, !c(datetime, meta_station_name))))[1]
     )
   })
   

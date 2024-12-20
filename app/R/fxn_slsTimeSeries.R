@@ -15,15 +15,16 @@ fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
   p <- 
     ggplot2::ggplot() +
     ggplot2::geom_line(
-      data = dplyr::filter(inData, meta_station_name != azmetStationGroup),
+      data = dplyr::filter(inData, meta_station_group != azmetStationGroup),
       mapping = ggplot2::aes(x = datetime, y = .data[[stationVariable]], group = meta_station_name), 
       color = "#909090"
     ) +
     ggplot2::geom_line(
-      data = dplyr::filter(inData, meta_station_name == azmetStationGroup),
-      mapping = ggplot2::aes(x = datetime, y = .data[[stationVariable]], group = meta_station_name),
-      color = "red"
-    )
+      data = dplyr::filter(inData, meta_station_group == azmetStationGroup),
+      mapping = ggplot2::aes(x = datetime, y = .data[[stationVariable]], group = meta_station_name)#,
+      #color = "red"
+    ) +
+    ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
   
   return(p)
 }
