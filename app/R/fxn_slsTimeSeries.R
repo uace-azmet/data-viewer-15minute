@@ -18,7 +18,7 @@ fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
   
   #xAxisVariable <- dplyr::filter(dataVariables, name == "datetime")$variable
   xAxisVariable <- "datetime"
-  xAxisUnits <- "year-month-day hour:minute:second"
+  xAxisUnits <- "ymd hms"
   
   yAxisVariable <- dplyr::filter(dataVariables, name == stationVariable)$variable
   yAxisUnits <- dplyr::filter(dataVariables, name == stationVariable)$units

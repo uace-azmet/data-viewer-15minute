@@ -114,10 +114,32 @@ server <- function(input, output, session) {
   shiny::observe({
     if (shiny::req(input$pageNavbar) == "network-wide-summary") {
       message("network-wide-summary has been selected")
+      
+      #idRetrievingData <- shiny::showNotification(
+      #  ui = "Retrieving data . . .", 
+      #  action = NULL, 
+      #  duration = NULL, 
+      #  closeButton = FALSE,
+      #  id = "idRetrievingData",
+      #  type = "message"
+      #)
+      
+      #on.exit(shiny::removeNotification(id = idRetrievingData), add = TRUE)
     }
       
     if (shiny::req(input$pageNavbar) == "station-level-summaries") {
       message("station-level-summaries has been selected")
+      
+      #idRetrievingData <- shiny::showNotification(
+      #  ui = "Retrieving data . . .", 
+      #  action = NULL, 
+      #  duration = NULL, 
+      #  closeButton = FALSE,
+      #  id = "idRetrievingData",
+      #  type = "message"
+      #)
+      
+      #on.exit(shiny::removeNotification(id = idRetrievingData), add = TRUE)
     }
   })
   
