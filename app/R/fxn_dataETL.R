@@ -4,6 +4,15 @@
 
 
 fxn_dataETL <- function() {
+  idRetrievingData <- shiny::showNotification(
+    ui = "Retrieving the latest 15-minute data . . .", 
+    action = NULL, 
+    duration = NULL, 
+    closeButton = FALSE,
+    id = "idRetrievingData",
+    type = "message"
+  )
+  
   dataETL <- 
     azmetr::az_15min(
       start_date_time = 
@@ -84,6 +93,8 @@ fxn_dataETL <- function() {
     )  |>
     
     dplyr::arrange(meta_station_name)
+  
+  on.exit(shiny::removeNotification(id = idRetrievingData), add = TRUE)
   
   return(dataETL)
 }
