@@ -42,12 +42,14 @@ ui <-
         reactable::reactableOutput(outputId = "nwsTable"),
         
         shiny::htmlOutput(outputId = "nwsTableFooter"),
+        shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
+        shiny::uiOutput(outputId = "nwsDownloadButton"),
         shiny::htmlOutput(outputId = "nwsBottomText"),
         
         value = "network-wide-summary"
       ), 
       
-      # Station-level summaries -----
+      # Station-level summaries (sls) -----
       
       bslib::nav_panel(
         title = slsNavpanelTitle, # `_setup.R``
@@ -97,18 +99,6 @@ ui <-
 server <- function(input, output, session) {
   dataETL <- fxn_dataETL()
   
-  # Reactives -----
-  
-  #slsTimeSeries <- shiny::reactive({
-  #  fxn_dataETL()
-  #  
-  #  fxn_slsTimeSeries(
-  #    inData = dataELT,
-  #    azmetStationGroup = input$azmetStationGroup,
-  #    stationVariable = input$stationVariable
-  #  )
-  #})
-  
   # Observables -----
   
   shiny::observe({
@@ -126,7 +116,7 @@ server <- function(input, output, session) {
       
       #on.exit(shiny::removeNotification(id = idRetrievingData), add = TRUE)
     }
-      
+    
     if (shiny::req(input$pageNavbar) == "station-level-summaries") {
       message("station-level-summaries has been selected")
       
@@ -173,11 +163,57 @@ server <- function(input, output, session) {
     )
   })
   
+  # Reactives -----
+  
+  # Build download button help text
+  nwsDownloadHelpText <- shiny::eventReactive(dataETL, {
+    fxn_nwsDownloadHelpText()
+  })
+  
+  #slsTimeSeries <- shiny::reactive({
+  #  fxn_dataETL()
+  #  
+  #  fxn_slsTimeSeries(
+  #    inData = dataELT,
+  #    azmetStationGroup = input$azmetStationGroup,
+  #    stationVariable = input$stationVariable
+  #  )
+  #})
+  
   # Outputs -----
   
   output$nwsBottomText <- shiny::renderUI({
     fxn_nwsBottomText()
   })
+  
+  output$nwsDownloadButton <- shiny::renderUI({
+    shiny::req(dataETL)
+    shiny::downloadButton(
+      outputId = "downloadTSV", 
+      label = "Download .tsv", 
+      class = "btn btn-default btn-blue", 
+      type = "button"
+    )
+  })
+  
+  output$nwsDownloadHelpText <- shiny::renderUI({
+    nwsDownloadHelpText()
+  })
+  
+  output$downloadTSV <- shiny::downloadHandler(
+    filename = function() {
+      "AZMet-Data-Viewer-15-minute.tsv"
+    },
+    
+    content = function(file) {
+      vroom::vroom_write(
+        #x = dataFormat(), 
+        x = dataETL, 
+        file = file, 
+        delim = "\t"
+      )
+    }
+  )
   
   output$nwsTable <- reactable::renderReactable({
     fxn_nwsTable(inData = dataETL)

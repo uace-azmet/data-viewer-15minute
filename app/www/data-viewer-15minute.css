@@ -1,5 +1,18 @@
 /* class */
 
+.download-help-text {
+  color: #989898; 
+  font-style: italic;
+  padding-top: 48px;
+}
+
+.help-block {
+  color: #989898 !important;
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: normal;
+}
+
 .shiny-notification {
   background-color: rgba(30,82,136,0.8) !important; 
   border-radius: var(--bs-border-radius) !important;
@@ -11,4 +24,25 @@
   left: calc(50% - 150px) !important;
   position: fixed !important; 
   top: calc(50%) !important; 
+}
+
+/* id */
+
+#downloadTSV {
+  background-color: transparent; 
+  border-color: #001C48; 
+  color: #001C48; 
+  margin-bottom: 48px; 
+  margin-left: 0px;
+  margin-top: 1.5rem;
+}
+
+#downloadTSV:active {
+  background-color: #001C48; 
+  color: #fff;
+}
+
+#downloadTSV:hover {
+  background-color: #001C48; 
+  color: #fff;
 }
