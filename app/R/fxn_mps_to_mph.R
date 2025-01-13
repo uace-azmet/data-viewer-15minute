@@ -4,6 +4,6 @@
 
 
 fxn_mps_to_mph <- function(valueIn) {
-  valueOut <- valueIn * 2.237
+  valueOut <- round(valueIn * 2.237, digits = 1)
   return(valueOut)
 }

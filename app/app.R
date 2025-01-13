@@ -165,20 +165,15 @@ server <- function(input, output, session) {
   
   # Reactives -----
   
-  # Build download button help text
-  nwsDownloadHelpText <- shiny::eventReactive(dataETL, {
-    fxn_nwsDownloadHelpText()
+  # Filter and format 15-minute data for the most recent report from each station
+  nwsData <- shiny::eventReactive(dataETL, {
+    fxn_nwsData(inData = dataETL)
   })
   
-  #slsTimeSeries <- shiny::reactive({
-  #  fxn_dataETL()
-  #  
-  #  fxn_slsTimeSeries(
-  #    inData = dataELT,
-  #    azmetStationGroup = input$azmetStationGroup,
-  #    stationVariable = input$stationVariable
-  #  )
-  #})
+  # Build download button help text
+  nwsDownloadHelpText <- shiny::eventReactive(nwsData, {
+    fxn_nwsDownloadHelpText()
+  })
   
   # Outputs -----
   
@@ -187,7 +182,7 @@ server <- function(input, output, session) {
   })
   
   output$nwsDownloadButton <- shiny::renderUI({
-    shiny::req(dataETL)
+    shiny::req(nwsData)
     shiny::downloadButton(
       outputId = "downloadTSV", 
       label = "Download .tsv", 
@@ -207,8 +202,8 @@ server <- function(input, output, session) {
     
     content = function(file) {
       vroom::vroom_write(
-        #x = dataFormat(), 
-        x = dataETL, 
+        x = nwsData(),
+        #x = dataETL, 
         file = file, 
         delim = "\t"
       )
@@ -216,7 +211,7 @@ server <- function(input, output, session) {
   )
   
   output$nwsTable <- reactable::renderReactable({
-    fxn_nwsTable(inData = dataETL)
+    fxn_nwsTable(inData = nwsData())
   })
   
   output$nwsTableFooter <- shiny::renderUI({
@@ -236,7 +231,6 @@ server <- function(input, output, session) {
   })
   
   output$slsTimeSeries <- shiny::renderPlot({
-    #slsTimeSeries
     fxn_slsTimeSeries(
       inData = dataETL,
       azmetStationGroup = input$azmetStationGroup,
