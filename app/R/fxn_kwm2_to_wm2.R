@@ -4,6 +4,6 @@
 
 
 fxn_kwm2_to_wm2 <- function(valueIn) {
-  valueOut <- valueIn * 1000
+  valueOut <- round(valueIn * 1000, digits = 2)
   return(valueOut)
 }

@@ -4,6 +4,6 @@
 
 
 fxn_c_to_f <- function(valueIn) {
-  valueOut <- (valueIn * (9/5)) + 32
+  valueOut <- round((valueIn * (9/5)) + 32, digits = 1)
   return(valueOut)
 }

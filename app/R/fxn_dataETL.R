@@ -1,11 +1,11 @@
 #' `fxn_dataETL.R` Download AZMet 15-minute data, transform variables, and return to app
 #' 
-#' @return `dataETL` - Downloaded data and transformed variables over previous 48 hours
+#' @return `dataETL` - Downloaded data and transformed variables over previous 48 hours, tibble format
 
 
 fxn_dataETL <- function() {
   idRetrievingData <- shiny::showNotification(
-    ui = "Retrieving the latest 15-minute data . . .", 
+    ui = "Retrieving the latest data . . .", 
     action = NULL, 
     duration = NULL, 
     closeButton = FALSE,
@@ -90,7 +90,55 @@ fxn_dataETL <- function() {
       wind_2min_vector_dir_max_daily,
       wind_2min_spd_max_mph_hourly,
       wind_2min_vector_dir_max_hourly
-    )  |>
+    )   |>
+    
+    dplyr::mutate(
+      dplyr::across(
+        c(
+          "relative_humidity",
+          "wind_vector_dir",
+          "wind_2min_vector_dir",
+          "wind_2min_vector_dir_max_daily",
+          "wind_2min_vector_dir_max_hourly"
+        ),
+        \(x) round(x, digits = 0)
+      )
+    ) |>
+    
+    dplyr::mutate(
+      dplyr::across(
+        c(
+          "temp_airF",
+          "dwptF",
+          "temp_air_maxF",
+          "temp_air_minF",
+          "temp_panelF",
+          "temp_wetbulbF",
+          "temp_soil_10cmF",
+          "temp_soil_50cmF",
+          "wind_spd_mph",
+          "wind_spd_max_mph",
+          "wind_2min_spd_mean_mph",
+          "wind_2min_spd_max_mph_daily",
+          "wind_2min_spd_max_mph_hourly"
+        ),
+        \(x) round(x, digits = 1)
+      )
+    ) |>
+    
+    dplyr::mutate(
+      dplyr::across(
+        c(
+          "meta_bat_volt",
+          "precip_total_in",
+          "sol_rad_Wm2",
+          "vp_saturation",
+          "vp_actual",
+          "vp_deficit"
+        ),
+        \(x) round(x, digits = 2)
+      )
+    ) |>
     
     dplyr::arrange(meta_station_name)
   

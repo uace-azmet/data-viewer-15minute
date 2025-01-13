@@ -4,6 +4,6 @@
 
 
 fxn_mm_to_in <- function(valueIn) {
-  valueOut <- valueIn / 25.4
+  valueOut <- round(valueIn / 25.4, digits = 2)
   return(valueOut)
 }
