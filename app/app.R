@@ -72,6 +72,8 @@ ui <-
           #height = NULL
         ),
         
+        shiny::htmlOutput(outputId = "slsDownloadHelpText"),
+        shiny::uiOutput(outputId = "slsDownloadButton"),
         shiny::htmlOutput(outputId = "slsBottomText"),
         
         value = "station-level-summaries"
@@ -170,9 +172,14 @@ server <- function(input, output, session) {
     fxn_nwsData(inData = dataETL)
   })
   
-  # Build download button help text
+  # Build download button help text for network-wide summary table
   nwsDownloadHelpText <- shiny::eventReactive(nwsData, {
     fxn_nwsDownloadHelpText()
+  })
+  
+  # Build download button help text for station-level summaries
+  slsDownloadHelpText <- shiny::eventReactive(dataETL, {
+    fxn_slsDownloadHelpText()
   })
   
   # Outputs -----
@@ -184,7 +191,7 @@ server <- function(input, output, session) {
   output$nwsDownloadButton <- shiny::renderUI({
     shiny::req(nwsData)
     shiny::downloadButton(
-      outputId = "downloadTSV", 
+      outputId = "nwsDownloadTSV", 
       label = "Download .tsv", 
       class = "btn btn-default btn-blue", 
       type = "button"
@@ -195,15 +202,14 @@ server <- function(input, output, session) {
     nwsDownloadHelpText()
   })
   
-  output$downloadTSV <- shiny::downloadHandler(
+  output$nwsDownloadTSV <- shiny::downloadHandler(
     filename = function() {
-      "AZMet-Data-Viewer-15-minute.tsv"
+      "AZMet-15-minute-network-wide-summary.tsv"
     },
     
     content = function(file) {
       vroom::vroom_write(
         x = nwsData(),
-        #x = dataETL, 
         file = file, 
         delim = "\t"
       )
@@ -229,6 +235,34 @@ server <- function(input, output, session) {
   output$slsBottomText <- shiny::renderUI({
     fxn_slsBottomText()
   })
+  
+  output$slsDownloadButton <- shiny::renderUI({
+    shiny::req(dataETL)
+    shiny::downloadButton(
+      outputId = "slsDownloadTSV", 
+      label = "Download .tsv", 
+      class = "btn btn-default btn-blue", 
+      type = "button"
+    )
+  })
+  
+  output$slsDownloadHelpText <- shiny::renderUI({
+    slsDownloadHelpText()
+  })
+  
+  output$slsDownloadTSV <- shiny::downloadHandler(
+    filename = function() {
+      "AZMet-15-minute-station-level-summaries.tsv"
+    },
+    
+    content = function(file) {
+      vroom::vroom_write(
+        x = dataETL, 
+        file = file, 
+        delim = "\t"
+      )
+    }
+  )
   
   output$slsTimeSeries <- shiny::renderPlot({
     fxn_slsTimeSeries(
