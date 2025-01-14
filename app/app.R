@@ -30,12 +30,23 @@ ui <-
     filename = "azmet-shiny-template.html",
     
     #pageNavbar = bslib::page_navbar(
-    navsetTab = bslib::navset_tab(
+    #navsetTab = bslib::navset_tab(
     #navsetTab = bslib::navset_card_tab(
-      id = "navsetTab",
-      selected = "network-wide-summary",
-      header = NULL,
-      footer = NULL,    
+    #navsetTab = bslib::page_sidebar(
+      #title = NULL,
+      #sidebar = NULL,
+      #fillable = TRUE,
+      #fillable_mobile = FALSE,
+      #theme = theme, # `scr03_theme.R`
+      #lang = NULL,
+      #window_title = NA,
+    navsetTab = bslib::navset_card_tab(
+        
+      #id = "navsetTab",
+      #selected = "network-wide-summary",
+      #header = NULL,
+      #footer = NULL,    
+      
       #id = "navsetCardTab",
       #selected = "network-wide-summary",
       #title = NULL,
@@ -45,7 +56,16 @@ ui <-
       #height = 600,
       #full_screen = TRUE,
       #wrapper = card_body,
-      
+        id = "navsetCardTab",
+        selected = "network-wide-summary",
+        title = NULL,
+        sidebar = NULL,
+        header = NULL,
+        footer = NULL,
+        height = 600,
+        full_screen = TRUE,
+        #wrapper = card_body,
+        
       # Network-wide Summary (nws) -----
       
       bslib::nav_panel(
@@ -62,7 +82,7 @@ ui <-
         shiny::htmlOutput(outputId = "nwsBottomText"),
         
         value = "network-wide-summary"
-      ), 
+      ),
       
       # Station-level summaries (sls) -----
       
@@ -92,7 +112,7 @@ ui <-
         shiny::htmlOutput(outputId = "slsBottomText"),
         
         value = "station-level-summaries"
-      ),
+      )
       
       #title = NULL,
       #  collapsible = FALSE,
@@ -107,11 +127,7 @@ ui <-
       #underline = TRUE,
       #fluid = TRUE,
       #window_title = NULL
-    )  |>
-      htmltools::tagAppendAttributes(
-        #https://getbootstrap.com/docs/5.0/utilities/api/
-        class = "card-header-tabs"
-      )
+    )
   )
 
 
