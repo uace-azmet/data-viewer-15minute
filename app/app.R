@@ -29,7 +29,22 @@ ui <-
   htmltools::htmlTemplate(
     filename = "azmet-shiny-template.html",
     
-    pageNavbar = bslib::page_navbar(
+    #pageNavbar = bslib::page_navbar(
+    navsetTab = bslib::navset_tab(
+    #navsetTab = bslib::navset_card_tab(
+      id = "navsetTab",
+      selected = "network-wide-summary",
+      header = NULL,
+      footer = NULL,    
+      #id = "navsetCardTab",
+      #selected = "network-wide-summary",
+      #title = NULL,
+      #sidebar = NULL,
+      #header = NULL,
+      #footer = NULL,
+      #height = 600,
+      #full_screen = TRUE,
+      #wrapper = card_body,
       
       # Network-wide Summary (nws) -----
       
@@ -79,20 +94,24 @@ ui <-
         value = "station-level-summaries"
       ),
       
-      title = NULL,
+      #title = NULL,
       #  collapsible = FALSE,
       #  fillable = TRUE,
       #  fillable_mobile = FALSE,
       #  footer = shiny::htmlOutput(outputId = "reportPageText"),
-      id = "pageNavbar",
-      selected = "network-wide-summary",
-      sidebar = NULL#,
-      #  theme = theme, # `scr03_theme.R`,
+      #id = "pageNavbar",
+      #selected = "network-wide-summary",
+      #sidebar = NULL#,
+      #theme = theme, # `scr03_theme.R`,
       #title = "TITLE"
       #underline = TRUE,
       #fluid = TRUE,
       #window_title = NULL
-    )
+    )  |>
+      htmltools::tagAppendAttributes(
+        #https://getbootstrap.com/docs/5.0/utilities/api/
+        class = "card-header-tabs"
+      )
   )
 
 
