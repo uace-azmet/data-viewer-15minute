@@ -30,7 +30,7 @@ ui <-
     filename = "azmet-shiny-template.html",
     
     #pageNavbar = bslib::page_navbar(
-    #navsetTab = bslib::navset_tab(
+    navsetTab = bslib::navset_tab(
     #navsetTab = bslib::navset_card_tab(
     #navsetTab = bslib::page_sidebar(
       #title = NULL,
@@ -40,12 +40,12 @@ ui <-
       #theme = theme, # `scr03_theme.R`
       #lang = NULL,
       #window_title = NA,
-    navsetTab = bslib::navset_card_tab(
+    #navsetTab = bslib::navset_card_tab(
         
-      #id = "navsetTab",
-      #selected = "network-wide-summary",
-      #header = NULL,
-      #footer = NULL,    
+      id = "navsetTab",
+      selected = "network-wide-summary",
+      header = NULL,
+      footer = NULL,    
       
       #id = "navsetCardTab",
       #selected = "network-wide-summary",
@@ -56,14 +56,14 @@ ui <-
       #height = 600,
       #full_screen = TRUE,
       #wrapper = card_body,
-        id = "navsetCardTab",
-        selected = "network-wide-summary",
-        title = NULL,
-        sidebar = NULL,
-        header = NULL,
-        footer = NULL,
-        height = 600,
-        full_screen = TRUE,
+        #id = "navsetCardTab",
+        #selected = "network-wide-summary",
+        #title = NULL,
+        #sidebar = NULL,
+        #header = NULL,
+        #footer = NULL,
+        #height = 600,
+        #full_screen = TRUE,
         #wrapper = card_body,
         
       # Network-wide Summary (nws) -----

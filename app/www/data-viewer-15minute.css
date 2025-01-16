@@ -59,18 +59,30 @@
 
 
 
+.nav-tabs {
+  background-color: #FFFFFF !important;
+  border-bottom: 6px !important;
+  border-bottom-color: #E2E9EB !important;
+}
 
+.shiny-tab-input:active {
+  background-color: red !important;
+  border-color: #E2E9EB #E2E9EB #E2E9EB !important;
+  border-width: 1px 1px 1px 1px !important;
+  color: var(--bs-body-color) !important;
+  text-decoration: underline;
+}
 
-.card-header {
+/*   .card-header {
   background-color: #FFFFFF !important;
   border-bottom-color: #E2E9EB !important;
   border-bottom-width: 6px !important;
 }
     
-    .nav-item {
+ .nav-item {
       background-color: #FFFFFF !important;
     }
-    
+
     .nav-link {
       background-color: rgba(226, 233, 235, 0.3) !important;
       border-color: #E2E9EB #E2E9EB #E2E9EB !important;
@@ -99,5 +111,5 @@
     
     .tooltip-inner {
       background-color: rgba(30, 82, 136, 0.9) !important;
-    }
+    } */
     
