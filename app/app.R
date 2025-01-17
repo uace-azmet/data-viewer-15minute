@@ -29,104 +29,78 @@ ui <-
   htmltools::htmlTemplate(
     filename = "azmet-shiny-template.html",
     
+    # Apparent bug in `bslib`, see: https://github.com/rstudio/bslib/issues/834
     #pageNavbar = bslib::page_navbar(
-    navsetTab = bslib::navset_tab(
-    #navsetTab = bslib::navset_card_tab(
-    #navsetTab = bslib::page_sidebar(
-      #title = NULL,
-      #sidebar = NULL,
-      #fillable = TRUE,
-      #fillable_mobile = FALSE,
-      #theme = theme, # `scr03_theme.R`
-      #lang = NULL,
-      #window_title = NA,
-    #navsetTab = bslib::navset_card_tab(
-        
-      id = "navsetTab",
-      selected = "network-wide-summary",
-      header = NULL,
-      footer = NULL,    
+    #navsetTab = bslib::navset_tab(
+    #navsetCardTab = bslib::navset_card_tab(
+    
+    # Work-around by placing the navset in `bslib::page()`, which correctly renders tabs on webpage
+    navsetCardTab = bslib::page(
+      title = NULL,
+      theme = theme, # `scr03_theme.R`
+      #lang = "en",
       
-      #id = "navsetCardTab",
-      #selected = "network-wide-summary",
-      #title = NULL,
-      #sidebar = NULL,
-      #header = NULL,
-      #footer = NULL,
-      #height = 600,
-      #full_screen = TRUE,
-      #wrapper = card_body,
-        #id = "navsetCardTab",
-        #selected = "network-wide-summary",
-        #title = NULL,
-        #sidebar = NULL,
-        #header = NULL,
-        #footer = NULL,
+      bslib::navset_card_tab(
+        id = "navsetCardTab",
+        selected = "network-wide-summary",
+        title = NULL,
+        sidebar = NULL,
+        header = NULL,
+        footer = NULL,
         #height = 600,
-        #full_screen = TRUE,
-        #wrapper = card_body,
+        full_screen = TRUE,
+        wrapper = card_body,
         
-      # Network-wide Summary (nws) -----
-      
-      bslib::nav_panel(
-        title = nwsNavpanelTitle, # `_setup.R`
+        # Network-wide Summary (nws) -----
         
-        shiny::htmlOutput(outputId = "nwsTableTitle"),
-        shiny::htmlOutput(outputId = "nwsTableHelpText"),
-        
-        reactable::reactableOutput(outputId = "nwsTable"),
-        
-        shiny::htmlOutput(outputId = "nwsTableFooter"),
-        shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
-        shiny::uiOutput(outputId = "nwsDownloadButton"),
-        shiny::htmlOutput(outputId = "nwsBottomText"),
-        
-        value = "network-wide-summary"
-      ),
-      
-      # Station-level summaries (sls) -----
-      
-      bslib::nav_panel(
-        title = slsNavpanelTitle, # `_setup.R``
-        
-        bslib::layout_sidebar(
-          sidebar = slsSidebar, # `scr_slsSidebar.R`
+        bslib::nav_panel(
+          title = nwsNavpanelTitle, # `_setup.R`
           
-          shiny::plotOutput(outputId = "slsTimeSeries")
+          shiny::htmlOutput(outputId = "nwsTableTitle"),
+          shiny::htmlOutput(outputId = "nwsTableHelpText"),
           
-          # options ???
-          #fillable = TRUE,
-          #fill = TRUE,
-          #bg = NULL,
-          #fg = NULL,
-          #border = NULL,
-          #border_radius = NULL,
-          #border_color = NULL,
-          #padding = NULL,
-          #gap = NULL,
-          #height = NULL
+          reactable::reactableOutput(outputId = "nwsTable"),
+          
+          shiny::htmlOutput(outputId = "nwsTableFooter"),
+          shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
+          shiny::uiOutput(outputId = "nwsDownloadButton"),
+          #shiny::htmlOutput(outputId = "nwsBottomText"),
+          
+          value = "network-wide-summary"
         ),
         
-        shiny::htmlOutput(outputId = "slsDownloadHelpText"),
-        shiny::uiOutput(outputId = "slsDownloadButton"),
-        shiny::htmlOutput(outputId = "slsBottomText"),
+        # Station-level summaries (sls) -----
         
-        value = "station-level-summaries"
-      )
+        bslib::nav_panel(
+          title = slsNavpanelTitle, # `_setup.R``
+          
+          bslib::layout_sidebar(
+            sidebar = slsSidebar, # `scr_slsSidebar.R`
+            
+            shiny::plotOutput(outputId = "slsTimeSeries")
+            
+            # options ???
+            #fillable = TRUE,
+            #fill = TRUE,
+            #bg = NULL,
+            #fg = NULL,
+            #border = NULL,
+            #border_radius = NULL,
+            #border_color = NULL,
+            #padding = NULL,
+            #gap = NULL,
+            #height = NULL
+          ),
+          
+          shiny::htmlOutput(outputId = "slsDownloadHelpText"),
+          shiny::uiOutput(outputId = "slsDownloadButton"),
+          #shiny::htmlOutput(outputId = "slsBottomText"),
+          
+          value = "station-level-summaries"
+        )
+      ),
       
-      #title = NULL,
-      #  collapsible = FALSE,
-      #  fillable = TRUE,
-      #  fillable_mobile = FALSE,
-      #  footer = shiny::htmlOutput(outputId = "reportPageText"),
-      #id = "pageNavbar",
-      #selected = "network-wide-summary",
-      #sidebar = NULL#,
-      #theme = theme, # `scr03_theme.R`,
-      #title = "TITLE"
-      #underline = TRUE,
-      #fluid = TRUE,
-      #window_title = NULL
+      shiny::htmlOutput(outputId = "pageBottomText")
     )
   )
 
@@ -219,9 +193,9 @@ server <- function(input, output, session) {
   
   # Outputs -----
   
-  output$nwsBottomText <- shiny::renderUI({
-    fxn_nwsBottomText()
-  })
+  #output$nwsBottomText <- shiny::renderUI({
+  #  fxn_nwsBottomText()
+  #})
   
   output$nwsDownloadButton <- shiny::renderUI({
     shiny::req(nwsData)
@@ -267,9 +241,13 @@ server <- function(input, output, session) {
     fxn_nwsTableTitle()
   })
   
-  output$slsBottomText <- shiny::renderUI({
-    fxn_slsBottomText()
+  output$pageBottomText <- shiny::renderUI({
+    fxn_pageBottomText()
   })
+  
+  #output$slsBottomText <- shiny::renderUI({
+  #  fxn_slsBottomText()
+  #})
   
   output$slsDownloadButton <- shiny::renderUI({
     shiny::req(dataETL)

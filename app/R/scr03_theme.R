@@ -28,6 +28,11 @@ theme =
     "tooltip-bg" = rgb(red = 30/255, green = 82/255, blue = 136/255, alpha = 0.9)
   ) |>
   bslib::bs_add_rules("
+    .card-body {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+    
     .card-header {
       background-color: #FFFFFF !important;
       border-bottom-color: #E2E9EB !important;
@@ -43,10 +48,11 @@ theme =
       border-color: #E2E9EB #E2E9EB #E2E9EB !important;
       border-width: 1px 1px 1px 1px !important;
       color: #8B0015 !important;
+      padding-bottom: 0px;
       text-decoration: underline !important;
     }
     
-    .nav-link:hover {
+    .nav-link.active:hover .nav-link:hover {
       color: #3f0009 !important;
       text-decoration: underline;
     }
@@ -56,11 +62,6 @@ theme =
       border-color: #E2E9EB #E2E9EB #E2E9EB !important;
       border-width: 1px 1px 1px 1px !important;
       color: var(--bs-body-color) !important;
-      text-decoration: underline;
-    }
-    
-    .nav-link.active:hover {
-      color: #3f0009 !important;
       text-decoration: underline;
     }
     
