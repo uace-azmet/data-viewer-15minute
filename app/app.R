@@ -54,7 +54,8 @@ ui <-
         # Network-wide Summary (nws) -----
         
         bslib::nav_panel(
-          title = nwsNavpanelTitle, # `_setup.R`
+          #title = nwsNavpanelTitle, # `_setup.R`
+          title = "Network-wide Summary",
           
           shiny::htmlOutput(outputId = "nwsTableTitle"),
           shiny::htmlOutput(outputId = "nwsTableHelpText"),
@@ -64,6 +65,12 @@ ui <-
           shiny::htmlOutput(outputId = "nwsTableFooter"),
           shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
           shiny::uiOutput(outputId = "nwsDownloadButton"),
+          shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
+          shiny::actionButton(
+            inputId = "refreshData", 
+            label = "REFRESH DATA",
+            class = "btn btn-block btn-blue"
+          ),
           #shiny::htmlOutput(outputId = "nwsBottomText"),
           
           value = "network-wide-summary"
@@ -72,7 +79,8 @@ ui <-
         # Station-level summaries (sls) -----
         
         bslib::nav_panel(
-          title = slsNavpanelTitle, # `_setup.R``
+          #title = slsNavpanelTitle, # `_setup.R``
+          title = "Station-level Summaries",
           
           bslib::layout_sidebar(
             sidebar = slsSidebar, # `scr_slsSidebar.R`
@@ -94,11 +102,21 @@ ui <-
           
           shiny::htmlOutput(outputId = "slsDownloadHelpText"),
           shiny::uiOutput(outputId = "slsDownloadButton"),
+          shiny::htmlOutput(outputId = "slsDownloadHelpText"),
+          shiny::actionButton(
+            inputId = "refreshData", 
+            label = "REFRESH DATA",
+            class = "btn btn-block btn-blue"
+          ),
           #shiny::htmlOutput(outputId = "slsBottomText"),
           
           value = "station-level-summaries"
         )
-      ),
+      ) |>
+        htmltools::tagAppendAttributes(
+          #https://getbootstrap.com/docs/5.0/utilities/api/
+          class = "border-0 rounded-0 shadow-none"
+        ),
       
       shiny::htmlOutput(outputId = "pageBottomText")
     )
@@ -172,6 +190,11 @@ server <- function(input, output, session) {
           )
         )[1]
     )
+  })
+  
+  shiny::observeEvent(input$refreshData, {
+    shiny::req(dataETL)
+    fxn_dataETL()
   })
   
   # Reactives -----

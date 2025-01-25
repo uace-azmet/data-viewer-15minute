@@ -21,14 +21,14 @@ dataVariables <-
 
 nwsNavpanelTitle <- 
   htmltools::p(
-    tags$span(class = "lm-az"),
+    #tags$span(class = "lm-az"),
     #htmltools::HTML("&nbsp;"), 
     "Network-wide Summary"
   )
 
 slsNavpanelTitle <- 
   htmltools::p(
-    tags$span(class = "lm-icons-weatherstation"),
+    #tags$span(class = "lm-icons-weatherstation"),
     #htmltools::HTML("&nbsp;"), 
     "Station-level Summaries"
   )
