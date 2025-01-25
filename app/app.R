@@ -15,6 +15,7 @@ library(ggplot2)
 library(htmltools)
 library(reactable)
 library(shiny)
+library(shinyjs)
 
 # Functions. Loaded automatically at app start if in `R` folder
 #source("./R/fxn_functionName.R", local = TRUE)
@@ -29,6 +30,8 @@ ui <-
   htmltools::htmlTemplate(
     filename = "azmet-shiny-template.html",
     
+    #shinyjs::useShinyjs(),
+    
     # Apparent bug in `bslib`, see: https://github.com/rstudio/bslib/issues/834
     #pageNavbar = bslib::page_navbar(
     #navsetTab = bslib::navset_tab(
@@ -36,6 +39,12 @@ ui <-
     
     # Work-around by placing the navset in `bslib::page()`, which correctly renders tabs on webpage
     navsetCardTab = bslib::page(
+      
+      # https://stackoverflow.com/questions/38777741/observe-event-to-hide-action-button-in-shiny
+      # https://rdrr.io/cran/shinyjs/man/hidden.html
+      # https://github.com/rstudio/shiny/issues/3348
+      shinyjs::useShinyjs(),
+      
       title = NULL,
       theme = theme, # `scr03_theme.R`
       #lang = "en",
@@ -65,12 +74,11 @@ ui <-
           shiny::htmlOutput(outputId = "nwsTableFooter"),
           shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
           shiny::uiOutput(outputId = "nwsDownloadButton"),
-          shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
-          shiny::actionButton(
+          shinyjs::hidden(shiny::actionButton(
             inputId = "refreshData", 
             label = "REFRESH DATA",
             class = "btn btn-block btn-blue"
-          ),
+          )),
           #shiny::htmlOutput(outputId = "nwsBottomText"),
           
           value = "network-wide-summary"
@@ -102,7 +110,6 @@ ui <-
           
           shiny::htmlOutput(outputId = "slsDownloadHelpText"),
           shiny::uiOutput(outputId = "slsDownloadButton"),
-          shiny::htmlOutput(outputId = "slsDownloadHelpText"),
           shiny::actionButton(
             inputId = "refreshData", 
             label = "REFRESH DATA",
@@ -192,8 +199,19 @@ server <- function(input, output, session) {
     )
   })
   
+  #shiny::observe({
+  #  shinyjs::hide("refreshData")
+  #  
+  #  if (shiny::req(dataETL))
+  #    shinyjs::show("refreshData")
+  #})
+  
+  shiny::observeEvent(dataETL, {
+    shinyjs::show("refreshData")
+    fxn_pageBottomText()
+  })
+  
   shiny::observeEvent(input$refreshData, {
-    shiny::req(dataETL)
     fxn_dataETL()
   })
   
