@@ -1,9 +1,9 @@
-#' `fxn_slsBottomText.R` - Build supporting text for station-level summaries nav_panel
+#' `fxn_pageBottomText.R` - Build supporting text for page
 #' 
-#' @return `slsBottomText` - Supporting text for station-level summaries nav_panel
+#' @return `pageBottomText` - Supporting text for page
 
 
-fxn_slsBottomText <- function() {
+fxn_pageBottomText <- function() {
   # Define inputs -----
   
   apiURL <- a(
@@ -54,7 +54,7 @@ fxn_slsBottomText <- function() {
   
   # Build text -----
   
-  slsBottomText <- 
+  pageBottomText <- 
     htmltools::p(
       htmltools::HTML(
         paste0(
@@ -66,8 +66,8 @@ fxn_slsBottomText <- function() {
         )
       ),
       
-      class = "sls-bottom-text"
+      class = "page-bottom-text"
     )
   
-  return(slsBottomText)
+  return(pageBottomText)
 }

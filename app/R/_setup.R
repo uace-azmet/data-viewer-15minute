@@ -20,15 +20,15 @@ dataVariables <-
 # Set global variables --------------------
 
 nwsNavpanelTitle <- 
-  htmltools::h5(
-    tags$span(class = "lm-az"),
+  htmltools::p(
+    #tags$span(class = "lm-az"),
     #htmltools::HTML("&nbsp;"), 
     "Network-wide Summary"
   )
 
 slsNavpanelTitle <- 
-  htmltools::h5(
-    tags$span(class = "lm-icons-weatherstation"),
+  htmltools::p(
+    #tags$span(class = "lm-icons-weatherstation"),
     #htmltools::HTML("&nbsp;"), 
     "Station-level Summaries"
   )
