@@ -15,6 +15,7 @@ library(ggplot2)
 library(htmltools)
 library(reactable)
 library(shiny)
+#library(shinyjs)
 
 # Functions. Loaded automatically at app start if in `R` folder
 #source("./R/fxn_functionName.R", local = TRUE)
@@ -36,6 +37,7 @@ ui <-
     
     # Work-around by placing the navset in `bslib::page()`, which correctly renders tabs on webpage
     navsetCardTab = bslib::page(
+      
       title = NULL,
       theme = theme, # `scr03_theme.R`
       #lang = "en",
@@ -59,19 +61,12 @@ ui <-
           
           shiny::htmlOutput(outputId = "nwsTableTitle"),
           shiny::htmlOutput(outputId = "nwsTableHelpText"),
-          
           reactable::reactableOutput(outputId = "nwsTable"),
-          
           shiny::htmlOutput(outputId = "nwsTableFooter"),
           shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
           shiny::uiOutput(outputId = "nwsDownloadButton"),
-          shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
-          shiny::actionButton(
-            inputId = "refreshData", 
-            label = "REFRESH DATA",
-            class = "btn btn-block btn-blue"
-          ),
-          #shiny::htmlOutput(outputId = "nwsBottomText"),
+          shiny::htmlOutput(outputId = "nwsRefreshHelpText"),
+          shiny::uiOutput(outputId = "nwsRefreshData"),
           
           value = "network-wide-summary"
         ),
@@ -102,13 +97,8 @@ ui <-
           
           shiny::htmlOutput(outputId = "slsDownloadHelpText"),
           shiny::uiOutput(outputId = "slsDownloadButton"),
-          shiny::htmlOutput(outputId = "slsDownloadHelpText"),
-          shiny::actionButton(
-            inputId = "refreshData", 
-            label = "REFRESH DATA",
-            class = "btn btn-block btn-blue"
-          ),
-          #shiny::htmlOutput(outputId = "slsBottomText"),
+          shiny::htmlOutput(outputId = "slsRefreshHelpText"),
+          shiny::uiOutput(outputId = "slsRefreshData"),
           
           value = "station-level-summaries"
         )
@@ -131,7 +121,7 @@ server <- function(input, output, session) {
   # Observables -----
   
   shiny::observe({
-    if (shiny::req(input$pageNavbar) == "network-wide-summary") {
+    if (shiny::req(input$navsetCardTab) == "network-wide-summary") {
       message("network-wide-summary has been selected")
       
       #idRetrievingData <- shiny::showNotification(
@@ -146,7 +136,7 @@ server <- function(input, output, session) {
       #on.exit(shiny::removeNotification(id = idRetrievingData), add = TRUE)
     }
     
-    if (shiny::req(input$pageNavbar) == "station-level-summaries") {
+    if (shiny::req(input$navsetCardTab) == "station-level-summaries") {
       message("station-level-summaries has been selected")
       
       #idRetrievingData <- shiny::showNotification(
@@ -192,8 +182,11 @@ server <- function(input, output, session) {
     )
   })
   
-  shiny::observeEvent(input$refreshData, {
-    shiny::req(dataETL)
+  shiny::observeEvent(input$nwsRefreshData, {
+    fxn_dataETL()
+  })
+  
+  shiny::observeEvent(input$slsRefreshData, {
     fxn_dataETL()
   })
   
@@ -209,16 +202,22 @@ server <- function(input, output, session) {
     fxn_nwsDownloadHelpText()
   })
   
+  # Build help text for button to refresh data in network-wide summary table
+  nwsRefreshHelpText <- shiny::eventReactive(nwsData, {
+    fxn_nwsRefreshHelpText()
+  })
+  
   # Build download button help text for station-level summaries
   slsDownloadHelpText <- shiny::eventReactive(dataETL, {
     fxn_slsDownloadHelpText()
   })
   
-  # Outputs -----
+  # Build help text for button to refresh data in station-level summaries graph
+  slsRefreshHelpText <- shiny::eventReactive(nwsData, {
+    fxn_slsRefreshHelpText()
+  })
   
-  #output$nwsBottomText <- shiny::renderUI({
-  #  fxn_nwsBottomText()
-  #})
+  # Outputs -----
   
   output$nwsDownloadButton <- shiny::renderUI({
     shiny::req(nwsData)
@@ -248,6 +247,24 @@ server <- function(input, output, session) {
     }
   )
   
+  output$nwsRefreshData <- shiny::renderUI({
+    shiny::actionButton(
+      inputId = "nwsRefreshData", 
+      label = 
+        htmltools::HTML(
+          paste(
+            bsicons::bs_icon("arrow-clockwise"), "REFRESH DATA", 
+            sep = " "
+          )
+        ),
+      class = "btn btn-block btn-blue"
+    )
+  })
+  
+  output$nwsRefreshHelpText <- shiny::renderUI({
+    nwsRefreshHelpText()
+  })
+  
   output$nwsTable <- reactable::renderReactable({
     fxn_nwsTable(inData = nwsData())
   })
@@ -267,10 +284,6 @@ server <- function(input, output, session) {
   output$pageBottomText <- shiny::renderUI({
     fxn_pageBottomText()
   })
-  
-  #output$slsBottomText <- shiny::renderUI({
-  #  fxn_slsBottomText()
-  #})
   
   output$slsDownloadButton <- shiny::renderUI({
     shiny::req(dataETL)
@@ -299,6 +312,24 @@ server <- function(input, output, session) {
       )
     }
   )
+  
+  output$slsRefreshData <- shiny::renderUI({
+    shiny::actionButton(
+      inputId = "slsRefreshData", 
+      label = 
+        htmltools::HTML(
+          paste(
+            bsicons::bs_icon("arrow-clockwise"), "REFRESH DATA", 
+            sep = " "
+          )
+        ),
+      class = "btn btn-block btn-blue"
+    )
+  })
+  
+  output$slsRefreshHelpText <- shiny::renderUI({
+    slsRefreshHelpText()
+  })
   
   output$slsTimeSeries <- shiny::renderPlot({
     fxn_slsTimeSeries(
