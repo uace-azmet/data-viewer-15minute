@@ -33,6 +33,7 @@
 
 .download-help-text {
   color: #989898; 
+  font-size: 1rem;
   font-style: italic;
   padding-top: 40px;
 }
@@ -58,6 +59,12 @@
   font-weight: normal;
   padding-bottom: 4px;
   padding-top: 12px;
+}
+
+.refresh-help-text {
+  color: #989898; 
+  font-size: 1rem;
+  font-style: italic;
 }
 
 .shiny-notification {
