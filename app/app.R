@@ -15,7 +15,6 @@ library(ggplot2)
 library(htmltools)
 library(reactable)
 library(shiny)
-#library(shinyjs)
 
 # Functions. Loaded automatically at app start if in `R` folder
 #source("./R/fxn_functionName.R", local = TRUE)
@@ -80,6 +79,8 @@ ui <-
           bslib::layout_sidebar(
             sidebar = slsSidebar, # `scr_slsSidebar.R`
             
+            shiny::htmlOutput(outputId = "slsGraphTitle"),
+            shiny::htmlOutput(outputId = "slsGraphHelpText"),
             shiny::plotOutput(outputId = "slsTimeSeries")
             
             # options ???
@@ -313,6 +314,14 @@ server <- function(input, output, session) {
     }
   )
   
+  output$slsGraphHelpText <- shiny::renderUI({
+    fxn_slsGraphHelpText()
+  })
+  
+  output$slsGraphTitle <- shiny::renderUI({
+    fxn_slsGraphTitle()
+  })
+  
   output$slsRefreshData <- shiny::renderUI({
     shiny::actionButton(
       inputId = "slsRefreshData", 
@@ -338,6 +347,10 @@ server <- function(input, output, session) {
       stationVariable = input$stationVariable
     )
   }, res = 96)
+  
+  output$stationGroupsTable <- reactable::renderReactable({
+    stationGroupsTable
+  })
 }
 
 

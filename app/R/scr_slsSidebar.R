@@ -23,10 +23,10 @@ slsSidebar <-
       bslib::accordion_panel(
         title = "DATA DISPLAY",
         value = "dataDisplay",
-        icon = bsicons::bs_icon("graph-up"),
+        icon = bsicons::bs_icon("sliders"),
         
         shiny::helpText(shiny::em(
-          "Specify an AZMet station to highlight, and battery and weather variables to show in the graph."
+          "Specify a station group to highlight and variable to show in the graph."
         )),
         
         htmltools::br(),
@@ -47,7 +47,16 @@ slsSidebar <-
           choices = c("relative_humidity", "vp_actual"),
           selected = "relative_humidity"
           #selected = sort(colnames(inData))[1]
-        )
+        ),
+        
+        shiny::helpText(shiny::em(
+          "We group stations by general proximity, as listed below. Scroll over the table to view additional columns."
+        )),
+        
+        htmltools::br(),
+        
+        reactable::reactableOutput(outputId = "stationGroupsTable")
+        
       ) # bslib::accordion_panel()
     ), # bslib::accordion()
   ) # bslib::sidebar()
