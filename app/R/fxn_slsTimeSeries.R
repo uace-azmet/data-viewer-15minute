@@ -3,7 +3,7 @@
 #' @param inData - AZMet 15-minute data from `fxn_dataETL.R`
 #' @param azmetStation - user-specified AZMet station
 #' @param stationVariable - user-specified weather variable
-#' @return `slsTimeSeries` - time series graphs based on user input
+#' @return `slsTimeSeries` - time series graph based on user input
 
 # https://plotly-r.com/ 
 # https://plotly.com/r/reference/ 
@@ -16,125 +16,142 @@ fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
   inData <- inData |>
     dplyr::mutate(datetime = lubridate::ymd_hms(datetime))
   
-  #xAxisVariable <- dplyr::filter(dataVariables, name == "datetime")$variable
-  xAxisVariable <- "datetime"
-  xAxisUnits <- "ymd hms"
+  dataOtherGroups <- inData %>% 
+    dplyr::filter(meta_station_group != azmetStationGroup) %>% 
+    dplyr::group_by(meta_station_name)
   
-  yAxisVariable <- dplyr::filter(dataVariables, name == stationVariable)$variable
-  yAxisUnits <- dplyr::filter(dataVariables, name == stationVariable)$units
+  dataSelectedGroup <- inData %>% 
+    dplyr::filter(meta_station_group == azmetStationGroup) %>% 
+    dplyr::group_by(meta_station_name)
   
   slsTimeSeries <- 
-    ggplot2::ggplot() +
+    plotly::plot_ly( # Lines for `dataOtherGroups`
+      data = dataOtherGroups,
+      #data = dataSelectedGroup,
+      x = ~datetime,
+      y = ~.data[[stationVariable]],
+      type = "scatter",
+      mode = "lines+markers",
+      #color = "rgba(201, 201, 201, 1.0)",
+      #color = ~meta_station_name,
+      marker = list(
+        color = "rgba(201, 201, 201, 1.0)",
+        size = 3
+      ),
+      line = list(
+        color = "rgba(201, 201, 201, 1.0)", 
+        width = 1
+      ),
+      name = "other station data",
+      #name = ~meta_station_name,
+      hoverinfo = "text",
+      text = ~paste0(
+        "<br><b>", stationVariable, ":</b>  ", .data[[stationVariable]],
+        "<br><b>AZMet station:</b>  ", meta_station_name,
+        "<br><b>Measurement date:</b>  ", gsub(" 0", " ", format(datetime, "%b %d, %Y")),
+        "<br><b>Measurement time:</b>  ", format(datetime, "%H:%M:%S")
+      ),
+      showlegend = TRUE,
+      legendgroup = "dataOtherStations"
+      #legendgroup = NULL
+    ) %>% 
     
-    # Background data -----
+    plotly::add_trace( # Lines for `dataSelectedGroup`
+      data = dataSelectedGroup,
+      x = ~datetime,
+      y = ~.data[[stationVariable]],
+      type = "scatter",
+      #mode = "lines+markers",
+      mode = "lines",
+      #color = ~meta_station_name,
+      #marker = list(
+      #  color = ~meta_station_name,
+      #  size = 3
+      #),
+      line = list(
+        color = ~meta_station_name, 
+        width = 1.5
+      ),
+      name = ~meta_station_name,
+      showlegend = TRUE,
+      legendgroup = NULL
+    ) %>% 
     
-    ggplot2::geom_line(
-      data = dplyr::filter(inData, meta_station_group != azmetStationGroup),
-      mapping = 
-        ggplot2::aes(
-          x = datetime, 
-          y = .data[[stationVariable]], 
-          group = meta_station_name
-        ), 
-      color = "#c9c9c9",
-      lineend = "round",
-      linewidth = 0.3
-    ) +
-    ggplot2::geom_point(
-      data = dplyr::filter(inData, meta_station_group != azmetStationGroup),
-      mapping = ggplot2::aes(
-        x = datetime, 
-        y = .data[[stationVariable]]
+    plotly::config(
+      displaylogo = FALSE,
+      displayModeBar = TRUE,
+      modeBarButtonsToRemove = c(
+        "autoScale2d",
+        "hoverClosestCartesian", 
+        "hoverCompareCartesian", 
+        "lasso2d",
+        "select"
       ),
-      color = "#c9c9c9",
-      fill = "#c9c9c9",
-      shape = 21, 
-      size = 0.5,
-      stroke = 0.3
-    ) +
+      scrollZoom = FALSE,
+      toImageButtonOptions = list(
+        format = "png", # Either png, svg, jpeg, or webp
+        filename = "AZMet-data-viewer-15minute-station-level-summaries",
+        height = 500,
+        width = 700,
+        scale = 5
+      )
+    ) %>%
     
-    # Foreground data -----
-  
-    ggplot2::geom_line(
-      data = dplyr::filter(inData, meta_station_group == azmetStationGroup),
-      mapping = ggplot2::aes(
-        x = datetime, 
-        y = .data[[stationVariable]],
-        color = meta_station_name,
-        group = meta_station_name
+    plotly::layout(
+      legend = list(
+        orientation = "h",
+        traceorder = "reversed",
+        x = 0.00,
+        xanchor = "left",
+        xref = "container",
+        y = 1.05,
+        yanchor = "bottom",
+        yref = "container"
       ),
-      lineend = "round",
-      linewidth = 0.6
-    ) +
-    ggplot2::geom_point(
-      data = dplyr::filter(inData, meta_station_group == azmetStationGroup),
-      mapping = ggplot2::aes(
-        x = datetime, 
-        y = .data[[stationVariable]],
-        color = meta_station_name,
-        fill = meta_station_name
+      margin = list(
+        l = 0,
+        r = 50, # For space between plot and modebar
+        b = 80, # For space between x-axis title and caption or figure help text
+        t = 0,
+        pad = 0
       ),
-      shape = 21, 
-      size = 0.8,
-      stroke = 0.3
-    ) +
-    ggplot2::scale_color_brewer(type = "qual", palette = "Dark2") +
-    ggplot2::scale_fill_brewer(type = "qual", palette = "Dark2") +
-    
-    # Format -----
-    
-    ggplot2::labs(
-      x = paste0("\n", xAxisVariable, " (", xAxisUnits, ")"),
-      y = paste0(yAxisVariable, " (", yAxisUnits, ")", "\n")
-    ) +
-    ggplot2::scale_x_datetime(
-      breaks = seq(
-        from = 
-          lubridate::ymd_hms(
-            paste(
-              lubridate::date(min(inData$datetime)), "00:00:00", sep = " "
-            )
-          ),
-        to = 
-          lubridate::ymd_hms(
-            paste(
-              lubridate::date(max(inData$datetime)) + 1, "00:00:00", sep = " "
-            )
-          ), 
-        by = "12 hours"
+      modebar = list(
+        bgcolor = "#FFFFFF",
+        orientation = "v"
       ),
-      limits = c(
-        lubridate::ymd_hms(min(inData$datetime)),
-        lubridate::ymd_hms(max(inData$datetime))
+      xaxis = list(
+        title = list(
+          font = list(size = 13),
+          standoff = 25,
+          text = "Date and Time"
+        ),
+        zeroline = FALSE
       ),
-      expand = expansion(mult = 0.01, add = 0.0)
-    ) +
-    ggplot2::scale_y_continuous(expand = expansion(mult = 0.01, add = 0.0)) +
-    ggplot2::theme_minimal() +
-    ggplot2::theme( # https://ggplot2.tidyverse.org/reference/theme.html
-      axis.line.x.bottom = element_blank(),
-      axis.text = element_text(
-        color = "#606060", 
-        face = "plain", 
-        #family = "monospace",
-        size = 10
-      ),
-      axis.title = element_text(
-        color = "#606060", 
-        face = "plain", 
-        hjust = 0.0, 
-        margin = margin(t = 0.2, r = 0, b = 0, l = 0, unit = "cm"),
-        size = 10
-      ),
-      legend.background = element_rect(colour = NA, fill = "#FFFFFF"),
-      legend.direction = "horizontal",
-      legend.justification = "left",
-      legend.key.width = unit(3, "line"),
-      legend.margin = margin(t = 0.0, r = 0, b = 0.0, l = -0.3, unit = "cm"),
-      legend.position = "top",
-      legend.text = element_text(color = "#191919", size = 12),
-      legend.title = element_blank()
+      yaxis = list(
+        title = list(
+          font = list(size = 13),
+          standoff = 25,
+          text = stationVariable
+        ),
+        zeroline = FALSE
+      )
     )
+  
+  
+  
+  #xAxisVariable <- dplyr::filter(dataVariables, name == "datetime")$variable
+  #xAxisVariable <- "datetime"
+  #xAxisUnits <- "ymd hms"
+  
+  #yAxisVariable <- dplyr::filter(dataVariables, name == stationVariable)$variable
+  #yAxisUnits <- dplyr::filter(dataVariables, name == stationVariable)$units
+  
+  #ggplot2::labs(
+  #  x = paste0("\n", xAxisVariable, " (", xAxisUnits, ")"),
+  #  y = paste0(yAxisVariable, " (", yAxisUnits, ")", "\n")
+  #)
+  
+  
   
   return(slsTimeSeries)
 }

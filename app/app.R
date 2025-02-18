@@ -1,10 +1,9 @@
 # Tables and time series of 15-minute data to support QA/QC
 
+
 # Add code for the following
 # 
 # 'azmet-shiny-template.html': <!-- Google tag (gtag.js) -->
-# 'azmet-shiny-template.html': <!-- CSS specific to this AZMet Shiny app -->
-
 
 # Libraries
 library(azmetr)
@@ -13,6 +12,8 @@ library(bslib)
 library(dplyr)
 library(ggplot2)
 library(htmltools)
+library(plotly)
+library(RColorBrewer)
 library(reactable)
 library(shiny)
 
@@ -77,7 +78,8 @@ ui <-
             
             shiny::htmlOutput(outputId = "slsGraphTitle"),
             shiny::htmlOutput(outputId = "slsGraphHelpText"),
-            shiny::plotOutput(outputId = "slsTimeSeries")
+            plotly::plotlyOutput(outputId = "slsTimeSeries"),
+            shiny::htmlOutput(outputId = "slsTimeSeriesFooter"),
             
             # options ???
             #fillable = TRUE,
@@ -438,13 +440,17 @@ server <- function(input, output, session) {
     }
   })
   
-  output$slsTimeSeries <- shiny::renderPlot({
+  output$slsTimeSeries <- plotly::renderPlotly({
     fxn_slsTimeSeries(
       inData = dataETL,
       azmetStationGroup = input$azmetStationGroup,
       stationVariable = input$stationVariable
     )
-  }, res = 96)
+  })
+  
+  output$slsTimeSeriesFooter <- shiny::renderUI({
+    fxn_slsTimeSeriesFooter()
+  })
   
   output$stationGroupsTable <- reactable::renderReactable({
     stationGroupsTable
