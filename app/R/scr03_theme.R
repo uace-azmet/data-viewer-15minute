@@ -22,7 +22,7 @@ theme =
     heading_font = NULL,
     font_scale = NULL,
     bootswatch = NULL,
-    "bslib-spacer" = "0.5rem",
+    "bslib-spacer" = "1.0rem",
     "card-border-radius" = 0,
     "focus-ring-color" = rgb(0, 0, 0, 0.1),
     "focus-ring-width" = "0.1rem",
@@ -53,16 +53,21 @@ theme =
       text-decoration: underline !important;
     }
     
-    .nav-link.active:hover .nav-link:hover {
-      color: #3f0009 !important;
-      text-decoration: underline;
-    }
-    
     .nav-link.active {
       background-color: #E2E9EB !important;
       border-color: #E2E9EB #E2E9EB #E2E9EB !important;
       border-width: 1px 1px 1px 1px !important;
       color: var(--bs-body-color) !important;
+      text-decoration: underline;
+    }
+    
+    .nav-link.active:hover {
+      color: #3f0009 !important;
+      text-decoration: underline;
+    }
+    
+    .nav-link:hover {
+      color: #3f0009 !important;
       text-decoration: underline;
     }
     

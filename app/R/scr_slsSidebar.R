@@ -6,48 +6,45 @@ slsSidebar <-
     id = "sidebar",
     title = NULL,
     bg = "#FFFFFF",
-    fg = "#000000",
+    fg = "#191919", # https://www.color-hex.com/color-palette/1041718
     class = NULL,
     max_height_mobile = NULL,
     gap = NULL,
     padding = NULL,
     
-    bslib::accordion(
-      id = "accordion",
-      #open = "DATE SELECTION",
-      #multiple = TRUE,
-      class = NULL,
-      width = "auto",
-      height = "auto",
-      
-      bslib::accordion_panel(
-        title = "DATA DISPLAY",
-        value = "dataDisplay",
-        icon = bsicons::bs_icon("graph-up"),
-        
-        shiny::helpText(shiny::em(
-          "Specify an AZMet station to highlight, and battery and weather variables to show in the graph."
-        )),
-        
-        htmltools::br(),
-        
-        shiny::selectInput(
-          inputId = "azmetStationGroup", 
-          label = "AZMet Station Group",
-          #choices = sort(unique(azmetStations$stationGroup)),
-          choices = sort(unique(azmetStations$stationName)),
-          selected = "Group 1"
-        ),
-        
-        shiny::selectInput(
-          inputId = "stationVariable", 
-          label = "Station Variable",
-          #choices = sort(unique(dataVariablesDropdown$variable)),
-          #choices = shiny::reactive({sort(colnames(dataETL))}),
-          choices = c("relative_humidity", "vp_actual"),
-          selected = "relative_humidity"
-          #selected = sort(colnames(inData))[1]
-        )
-      ) # bslib::accordion_panel()
-    ), # bslib::accordion()
+    htmltools::p(
+      bsicons::bs_icon("sliders"), 
+      htmltools::HTML("&nbsp;"), 
+      "DATA DISPLAY"
+    ),
+    
+    shiny::helpText(shiny::em(
+      "Specify a station group to highlight and variable to show in the graph."
+    )),
+    
+    shiny::selectInput(
+      inputId = "azmetStationGroup", 
+      label = "AZMet Station Group",
+      #choices = sort(unique(azmetStations$stationGroup)),
+      choices = sort(unique(azmetStations$stationName)),
+      selected = "Group 1"
+    ),
+    
+    shiny::selectInput(
+      inputId = "stationVariable", 
+      label = "Station Variable",
+      #choices = sort(unique(dataVariablesDropdown$variable)),
+      #choices = shiny::reactive({sort(colnames(dataETL))}),
+      choices = c("relative_humidity", "vp_actual"),
+      selected = "relative_humidity"
+      #selected = sort(colnames(inData))[1]
+    ),
+    
+    htmltools::br(),
+    
+    shiny::helpText(shiny::em(
+      "We group stations by general proximity, as listed below. Scroll over the table to view additional columns."
+    )),
+    
+    reactable::reactableOutput(outputId = "stationGroupsTable")
   ) # bslib::sidebar()

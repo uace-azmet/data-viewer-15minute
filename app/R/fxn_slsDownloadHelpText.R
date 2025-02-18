@@ -7,7 +7,7 @@ fxn_slsDownloadHelpText <- function() {
   slsDownloadHelpText <- 
     htmltools::p(
       htmltools::HTML(
-        "Click or tap the button below to download a file of the above data with tab-separated values."
+        "Click or tap the buttons below to download a file of the above data with either comma- or tab-separated values."
       ), 
       
       class = "download-help-text"
