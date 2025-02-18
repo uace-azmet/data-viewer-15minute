@@ -38,7 +38,7 @@ ui <-
     navsetCardTab = bslib::page(
       
       title = NULL,
-      theme = theme, # `scr03_theme.R`
+      theme = theme, # `scr##_theme.R`
       #lang = "en",
       
       bslib::navset_card_tab(
@@ -63,7 +63,8 @@ ui <-
           reactable::reactableOutput(outputId = "nwsTable"),
           shiny::htmlOutput(outputId = "nwsTableFooter"),
           shiny::htmlOutput(outputId = "nwsDownloadHelpText"),
-          shiny::uiOutput(outputId = "nwsDownloadButton"),
+          #shiny::uiOutput(outputId = "nwsDownloadButtonCSV"),
+          #shiny::uiOutput(outputId = "nwsDownloadButtonTSV"),
           shiny::htmlOutput(outputId = "nwsRefreshHelpText"),
           shiny::uiOutput(outputId = "nwsRefreshData"),
           
@@ -97,7 +98,8 @@ ui <-
           ),
           
           shiny::htmlOutput(outputId = "slsDownloadHelpText"),
-          shiny::uiOutput(outputId = "slsDownloadButton"),
+          shiny::uiOutput(outputId = "slsDownloadButtonCSV"),
+          shiny::uiOutput(outputId = "slsDownloadButtonTSV"),
           shiny::htmlOutput(outputId = "slsRefreshHelpText"),
           shiny::uiOutput(outputId = "slsRefreshData"),
           
@@ -108,6 +110,9 @@ ui <-
           #https://getbootstrap.com/docs/5.0/utilities/api/
           class = "border-0 rounded-0 shadow-none"
         ),
+      
+      shiny::uiOutput(outputId = "nwsDownloadButtonCSV"),
+      shiny::uiOutput(outputId = "nwsDownloadButtonTSV"),
       
       shiny::htmlOutput(outputId = "pageBottomText")
     )
@@ -220,15 +225,39 @@ server <- function(input, output, session) {
   
   # Outputs -----
   
-  output$nwsDownloadButton <- shiny::renderUI({
+  output$nwsDownloadButtonCSV <- shiny::renderUI({
     shiny::req(nwsData)
     shiny::downloadButton(
-      outputId = "nwsDownloadTSV", 
+      "nwsDownloadCSV", 
+      label = "Download .csv", 
+      class = "btn btn-default btn-blue", 
+      type = "button"
+    )
+  })
+  
+  output$nwsDownloadButtonTSV <- shiny::renderUI({
+    shiny::req(nwsData)
+    shiny::downloadButton(
+      "nwsDownloadTSV", 
       label = "Download .tsv", 
       class = "btn btn-default btn-blue", 
       type = "button"
     )
   })
+  
+  output$nwsDownloadCSV <- shiny::downloadHandler(
+    filename = function() {
+      "AZMet-15-minute-network-wide-summary.csv"
+    },
+    
+    content = function(file) {
+      vroom::vroom_write(
+        x = nwsData(),
+        file = file, 
+        delim = ","
+      )
+    }
+  )
   
   output$nwsDownloadHelpText <- shiny::renderUI({
     nwsDownloadHelpText()
@@ -286,7 +315,17 @@ server <- function(input, output, session) {
     fxn_pageBottomText()
   })
   
-  output$slsDownloadButton <- shiny::renderUI({
+  output$slsDownloadButtonCSV <- shiny::renderUI({
+    shiny::req(dataETL)
+    shiny::downloadButton(
+      outputId = "slsDownloadCSV", 
+      label = "Download .csv", 
+      class = "btn btn-default btn-blue", 
+      type = "button"
+    )
+  })
+  
+  output$slsDownloadButtonTSV <- shiny::renderUI({
     shiny::req(dataETL)
     shiny::downloadButton(
       outputId = "slsDownloadTSV", 
@@ -299,6 +338,20 @@ server <- function(input, output, session) {
   output$slsDownloadHelpText <- shiny::renderUI({
     slsDownloadHelpText()
   })
+  
+  output$slsDownloadCSV <- shiny::downloadHandler(
+    filename = function() {
+      "AZMet-15-minute-station-level-summaries.csv"
+    },
+    
+    content = function(file) {
+      vroom::vroom_write(
+        x = dataETL, 
+        file = file, 
+        delim = ","
+      )
+    }
+  )
   
   output$slsDownloadTSV <- shiny::downloadHandler(
     filename = function() {

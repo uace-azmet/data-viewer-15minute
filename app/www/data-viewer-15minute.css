@@ -4,11 +4,11 @@
   background-color: #FFFFFF; 
   border-color: #001C48; 
   color: #001C48;
-  margin-bottom: 24px;
-  margin-left: 0px;
+  /* margin-bottom: 24px;
+  margin-left: 0px; */
   /* margin-top: 1.5rem; */
   margin-top: 4px;
-  width: 183.57px; /* from `data-preview-and-download` */
+  width: 200px; /* width: 183.57px; from `data-preview-and-download` */
 }
 
 .btn:active {
@@ -31,6 +31,18 @@
   color: #FFFFFF;
 }
 
+.card-body.bslib-gap-spacing.html-fill-item.html-fill-container {
+  padding-bottom: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 48px;
+}
+
+.control-label {
+  color: var(--bs-body-color); 
+  font-weight: bold;
+}
+
 .download-help-text {
   color: #989898; 
   font-size: 1rem;
@@ -43,6 +55,13 @@
   font-size: 1rem;
   font-style: italic;
   font-weight: normal;
+}
+
+.main.bslib-gap-spacing.html-fill-container {
+  padding-bottom: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 48px;
 }
 
 .nws-table-footer {
@@ -80,11 +99,98 @@
   top: calc(50%) !important; 
 }
 
+.sidebar-content.bslib-gap-spacing {
+  padding-bottom: 24px !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+  padding-top: 48px !important;
+}
+
 .sls-graph-help-text {
   color: #989898 !important;
   font-size: 1rem;
   font-style: italic;
   font-weight: normal;
-  padding-bottom: 4px;
-  padding-top: 12px;
+  padding-top: 4px;
+}
+
+
+/* id */
+
+#nwsDownloadCSV {
+  background-color: transparent; 
+  border-color: #001C48; 
+  color: #001C48; 
+  margin-bottom: 48px; 
+  margin-left: 0px;
+  margin-right: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+#nwsDownloadTSV {
+  background-color: transparent; 
+  border-color: #001C48; 
+  color: #001C48; 
+  margin-bottom: 48px; 
+  margin-left: 0px;
+  margin-top: 1.5rem;
+}
+
+#nwsDownloadCSV:active {
+  background-color: #001C48; 
+  color: #fff;
+}
+
+#nwsDownloadCSV:hover {
+  background-color: #001C48; 
+  color: #fff;
+}
+
+#nwsDownloadTSV:active {
+  background-color: #001C48; 
+  color: #fff;
+}
+
+#nwsDownloadTSV:hover {
+  background-color: #001C48; 
+  color: #fff;
+}
+
+#slsDownloadCSV {
+  background-color: transparent; 
+  border-color: #001C48; 
+  color: #001C48; 
+  margin-bottom: 48px; 
+  margin-left: 0px;
+  margin-right: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+#slsDownloadTSV {
+  background-color: transparent; 
+  border-color: #001C48; 
+  color: #001C48; 
+  margin-bottom: 48px; 
+  margin-left: 0px;
+  margin-top: 1.5rem;
+}
+
+#slsDownloadCSV:active {
+  background-color: #001C48; 
+  color: #fff;
+}
+
+#slsDownloadCSV:hover {
+  background-color: #001C48; 
+  color: #fff;
+}
+
+#slsDownloadTSV:active {
+  background-color: #001C48; 
+  color: #fff;
+}
+
+#slsDownloadTSV:hover {
+  background-color: #001C48; 
+  color: #fff;
 }

@@ -24,7 +24,7 @@ stationGroups <-
     group1 = c("Ft Mohave CA", "Mohave", "Mohave ETo", "Mohave-2", "Parker", "Parker-2"),
     group2 = c("Roll", "Wellton ETo", "Yuma N.Gila", "Yuma South", "Yuma Valley", "Yuma Valley ETo"),
     group3 = c("Aguila", "Buckeye", "Harquahala", "Paloma", "Salome", NA),
-    group4 = c("Desert Ridge", "Phoenix Encanto", "Phoenix Greenway", "Payson", NA, NA),
+    group4 = c("Desert Ridge", "Payson", "Phoenix Encanto", "Phoenix Greenway", NA, NA),
     group5 = c("Coolidge", "Maricopa", "Queen Creek", "Sahuarita", "Tucson", NA),
     group6 = c("Bonita", "Bowie", "Safford", "San Simon", "Willcox Bench", NA)
   )
@@ -131,7 +131,7 @@ stationGroupsTable <- stationGroups |>
     selection = NULL,
     defaultSelected = NULL,
     onClick = NULL,
-    highlight = TRUE,
+    highlight = FALSE,
     outlined = FALSE,
     bordered = TRUE,
     #borderless = FALSE,
@@ -148,7 +148,7 @@ stationGroupsTable <- stationGroups |>
     #rowStyle = NULL,
     fullWidth = TRUE,
     width = "auto",
-    height = 400,
+    height = "auto",
     theme = 
       reactable::reactableTheme(
         color = NULL,
@@ -160,7 +160,7 @@ stationGroupsTable <- stationGroups |>
         cellPadding = NULL,
         style = NULL,
         tableStyle = NULL,
-        headerStyle = NULL,
+        headerStyle = list(color = "#606060", fontFamily = "monospace", fontSize = "0.8rem"),
         groupHeaderStyle = NULL,
         tableBodyStyle = NULL,
         rowGroupStyle = NULL,
@@ -168,7 +168,7 @@ stationGroupsTable <- stationGroups |>
         rowStripedStyle = NULL,
         rowHighlightStyle = NULL,
         rowSelectedStyle = NULL,
-        #cellStyle = list(fontFamily = "monospace", fontSize = "0.8rem"),
+        cellStyle = list(color = "#606060", fontFamily = "monospace", fontSize = "0.8rem"),
         footerStyle = NULL,
         inputStyle = NULL,
         filterInputStyle = NULL,
