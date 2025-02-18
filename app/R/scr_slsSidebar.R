@@ -15,7 +15,7 @@ slsSidebar <-
     htmltools::p(
       bsicons::bs_icon("sliders"), 
       htmltools::HTML("&nbsp;"), 
-      "DATA OPTIONS"
+      "DATA DISPLAY"
     ),
     
     shiny::helpText(shiny::em(

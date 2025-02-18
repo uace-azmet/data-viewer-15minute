@@ -47,7 +47,7 @@
   color: #989898; 
   font-size: 1rem;
   font-style: italic;
-  padding-top: 40px;
+  padding-top: 32px;
 }
 
 .help-block {
@@ -124,7 +124,7 @@
   margin-bottom: 48px; 
   margin-left: 0px;
   margin-right: 1.5rem;
-  margin-top: 1.5rem;
+  margin-top: 0rem;
 }
 
 #nwsDownloadTSV {
@@ -133,7 +133,7 @@
   color: #001C48; 
   margin-bottom: 48px; 
   margin-left: 0px;
-  margin-top: 1.5rem;
+  margin-top: 0rem;
 }
 
 #nwsDownloadCSV:active {
@@ -163,7 +163,7 @@
   margin-bottom: 48px; 
   margin-left: 0px;
   margin-right: 1.5rem;
-  margin-top: 1.5rem;
+  margin-top: 0rem;
 }
 
 #slsDownloadTSV {
@@ -172,7 +172,7 @@
   color: #001C48; 
   margin-bottom: 48px; 
   margin-left: 0px;
-  margin-top: 1.5rem;
+  margin-top: 0rem;
 }
 
 #slsDownloadCSV:active {
