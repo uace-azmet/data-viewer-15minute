@@ -78,8 +78,8 @@ ui <-
             
             shiny::htmlOutput(outputId = "slsGraphTitle"),
             shiny::htmlOutput(outputId = "slsGraphHelpText"),
-            plotly::plotlyOutput(outputId = "slsTimeSeries"),
-            shiny::htmlOutput(outputId = "slsTimeSeriesFooter"),
+            plotly::plotlyOutput(outputId = "slsGraph"),
+            shiny::htmlOutput(outputId = "slsGraphFooter"),
             
             # options ???
             #fillable = TRUE,
@@ -440,16 +440,16 @@ server <- function(input, output, session) {
     }
   })
   
-  output$slsTimeSeries <- plotly::renderPlotly({
-    fxn_slsTimeSeries(
+  output$slsGraph <- plotly::renderPlotly({
+    fxn_slsGraph(
       inData = dataETL,
       azmetStationGroup = input$azmetStationGroup,
       stationVariable = input$stationVariable
     )
   })
   
-  output$slsTimeSeriesFooter <- shiny::renderUI({
-    fxn_slsTimeSeriesFooter()
+  output$slsGraphFooter <- shiny::renderUI({
+    fxn_slsGraphFooter()
   })
   
   output$stationGroupsTable <- reactable::renderReactable({

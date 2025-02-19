@@ -10,7 +10,7 @@ fxn_nwsRefreshHelpText <- function() {
         "Click or tap the button below to refresh the above table with the latest 15-minute data."
       ), 
       
-      class = "refresh-help-text"
+      class = "nws-refresh-help-text"
     )
   
   return(nwsRefreshHelpText)

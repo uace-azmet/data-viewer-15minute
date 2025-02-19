@@ -10,7 +10,7 @@ fxn_slsRefreshHelpText <- function() {
         "Click or tap the button below to refresh the above graph with the latest 15-minute data."
       ), 
       
-      class = "refresh-help-text"
+      class = "sls-refresh-help-text"
     )
   
   return(slsRefreshHelpText)

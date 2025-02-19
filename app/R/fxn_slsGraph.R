@@ -1,9 +1,9 @@
-#' `fxn_slsTimeSeries.R` Generate time series graph based on user input
+#' `fxn_slsGraph.R` Generate time series graph based on user input
 #' 
 #' @param inData - AZMet 15-minute data from `fxn_dataETL.R`
 #' @param azmetStation - user-specified AZMet station
 #' @param stationVariable - user-specified weather variable
-#' @return `slsTimeSeries` - time series graph based on user input
+#' @return `slsGraph` - time series graph based on user input
 
 # https://plotly-r.com/ 
 # https://plotly.com/r/reference/ 
@@ -12,7 +12,7 @@
 # https://www.color-hex.com/color-palette/1041718
 
 
-fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
+fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
   inData <- inData |>
     dplyr::mutate(datetime = lubridate::ymd_hms(datetime))
   
@@ -24,16 +24,14 @@ fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
     dplyr::filter(meta_station_group == azmetStationGroup) %>% 
     dplyr::group_by(meta_station_name)
   
-  slsTimeSeries <- 
-    plotly::plot_ly( # Lines for `dataOtherGroups`
+  slsGraph <- 
+    plotly::plot_ly( # Lines and points for `dataOtherGroups`
       data = dataOtherGroups,
-      #data = dataSelectedGroup,
       x = ~datetime,
       y = ~.data[[stationVariable]],
       type = "scatter",
       mode = "lines+markers",
       #color = "rgba(201, 201, 201, 1.0)",
-      #color = ~meta_station_name,
       marker = list(
         color = "rgba(201, 201, 201, 1.0)",
         size = 3
@@ -42,37 +40,42 @@ fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
         color = "rgba(201, 201, 201, 1.0)", 
         width = 1
       ),
-      name = "other station data",
-      #name = ~meta_station_name,
+      name = "other stations",
       hoverinfo = "text",
       text = ~paste0(
         "<br><b>", stationVariable, ":</b>  ", .data[[stationVariable]],
         "<br><b>AZMet station:</b>  ", meta_station_name,
-        "<br><b>Measurement date:</b>  ", gsub(" 0", " ", format(datetime, "%b %d, %Y")),
-        "<br><b>Measurement time:</b>  ", format(datetime, "%H:%M:%S")
+        "<br><b>Date:</b>  ", gsub(" 0", " ", format(datetime, "%b %d, %Y")),
+        "<br><b>Time:</b>  ", format(datetime, "%H:%M:%S")
       ),
       showlegend = TRUE,
       legendgroup = "dataOtherStations"
-      #legendgroup = NULL
     ) %>% 
     
-    plotly::add_trace( # Lines for `dataSelectedGroup`
+    plotly::add_trace( # Lines and points for `dataSelectedGroup`
+      inherit = FALSE,
       data = dataSelectedGroup,
       x = ~datetime,
       y = ~.data[[stationVariable]],
       type = "scatter",
-      #mode = "lines+markers",
-      mode = "lines",
+      mode = "lines+markers",
       #color = ~meta_station_name,
-      #marker = list(
-      #  color = ~meta_station_name,
-      #  size = 3
-      #),
+      marker = list(
+        #color = ~meta_station_name,
+        size = 3
+      ),
       line = list(
         color = ~meta_station_name, 
         width = 1.5
       ),
       name = ~meta_station_name,
+      hoverinfo = "text",
+      text = ~paste0(
+        "<br><b>", stationVariable, ":</b>  ", .data[[stationVariable]],
+        "<br><b>AZMet station:</b>  ", meta_station_name,
+        "<br><b>Date:</b>  ", gsub(" 0", " ", format(datetime, "%b %d, %Y")),
+        "<br><b>Time:</b>  ", format(datetime, "%H:%M:%S")
+      ),
       showlegend = TRUE,
       legendgroup = NULL
     ) %>% 
@@ -138,7 +141,6 @@ fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
     )
   
   
-  
   #xAxisVariable <- dplyr::filter(dataVariables, name == "datetime")$variable
   #xAxisVariable <- "datetime"
   #xAxisUnits <- "ymd hms"
@@ -152,6 +154,5 @@ fxn_slsTimeSeries <- function(inData, azmetStationGroup, stationVariable) {
   #)
   
   
-  
-  return(slsTimeSeries)
+  return(slsGraph)
 }
