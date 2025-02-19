@@ -43,7 +43,7 @@ slsSidebar <-
     htmltools::br(),
     
     shiny::helpText(shiny::em(
-      "We group stations by general proximity, as listed below. Scroll over the table to view additional columns."
+      "We group stations by general proximity, as listed below. Scroll or swipe over the table to view additional columns."
     )),
     
     reactable::reactableOutput(outputId = "stationGroupsTable")
