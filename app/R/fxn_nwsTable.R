@@ -30,15 +30,15 @@ fxn_nwsTable <- function(inData) {
           #filterInput = NULL,
           html = TRUE,
           na = "NA",
-          rowHeader = TRUE,
+          rowHeader = FALSE,
           #minWidth = 100,
           #maxWidth = NULL,
           #width = NULL,
           #align = NULL,
           #vAlign = NULL,
           #headerVAlign = NULL,
-          sticky = "left"
-          #class = NULL,
+          sticky = "left",
+          class = "table-reactable-column-station",
           #style = NULL,
           #headerClass = NULL,
           #headerStyle = NULL,
@@ -48,7 +48,7 @@ fxn_nwsTable <- function(inData) {
         datetime = reactable::colDef(
           name = "Latest Update",
           html = TRUE,
-          minWidth = 150,
+          minWidth = 180,
           na = "NA",
           rowHeader = TRUE
         ),
@@ -414,7 +414,7 @@ fxn_nwsTable <- function(inData) {
       #wrap = TRUE,
       #showSortIcon = TRUE,
       #showSortable = FALSE,
-      #class = NULL,
+      class = "table-reactable",
       #style = NULL,
       #style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.875rem"),
       #style = list(fontFamily = "monospace", fontSize = "0.875rem"),
@@ -434,7 +434,13 @@ fxn_nwsTable <- function(inData) {
           cellPadding = NULL,
           style = NULL,
           tableStyle = NULL,
-          headerStyle = list(color = "#191919", fontFamily = "monospace", fontSize = "0.8rem"),
+          headerStyle = 
+            list(
+              color = "#191919", 
+              fontFamily = "monospace", 
+              fontSize = "0.9rem",
+              borderBottomColor = rgb(180/255, 180/255, 180/255, 1.0)
+            ),
           groupHeaderStyle = NULL,
           tableBodyStyle = NULL,
           rowGroupStyle = NULL,
