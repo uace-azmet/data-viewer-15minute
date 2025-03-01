@@ -63,14 +63,14 @@
 }
 
 .download-help-text {
-  color: #989898; 
+  color: purple; 
   font-size: 1rem;
   font-style: italic;
   padding-top: 24px;
 }
 
 .help-block {
-  color: #989898 !important;
+  color: #989898!important;
   font-size: 1rem;
   font-style: italic;
   font-weight: normal;
@@ -149,15 +149,25 @@
 
 
 
-.table-reactable-column-station {
-  box-shadow: 6px 0px 0px 0px rgb(180, 180, 180, 0.5);
+
+/* .rt-th .rt-sticky .rt-align-left {
+  border-right-color: rgb(180, 0, 180, 1.0) !important;
+  border-right-width: "4px";
+} */
+
+.rt-tr:hover .rt-td {
+  background: rgb(0, 0, 0, 0.08);
 }
 
-.table-reactable thead > tr > th:nth-of-type(1) {
-  border-bottom-color: rgb(180, 180, 180, 1.0) !important;
-  border-bottom-width: 1px !important;
-  box-shadow: 4px 0px 0px 0px rgb(0, 180, 180, 1.0) !important;
+.table-reactable-column-station {
+  box-shadow: 2px 0px 0px 0px rgb(180, 180, 180, 0.5);
 }
+
+/* .table-reactable thead > tr > th:nth-of-type(1) {
+  border-bottom-color: rgb(180, 0, 180, 1.0) !important;
+  border-bottom-width: 1px !important;
+  box-shadow: 0px 2px 0px 0px rgb(180, 180, 0, 0.5) !important;
+} */
 
 
 

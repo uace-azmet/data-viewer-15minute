@@ -192,10 +192,12 @@ server <- function(input, output, session) {
   })
   
   shiny::observeEvent(input$nwsRefreshData, {
+    dataETL <- NULL
     dataETL <- fxn_dataETL()
   })
   
   shiny::observeEvent(input$slsRefreshData, {
+    dataETL <- NULL
     dataETL <- fxn_dataETL()
   })
   
@@ -324,6 +326,7 @@ server <- function(input, output, session) {
   output$nwsTable <- reactable::renderReactable({
     #input$nwsRefreshData
     #shiny::invalidateLater(1000, session)
+    #shiny::req(nwsData)
     fxn_nwsTable(inData = nwsData())
   })
   
@@ -444,6 +447,9 @@ server <- function(input, output, session) {
   })
   
   output$slsGraph <- plotly::renderPlotly({
+    #input$nwsRefreshData
+    #shiny::invalidateLater(1000, session)
+    #shiny::req(nwsData)
     fxn_slsGraph(
       inData = dataETL,
       azmetStationGroup = input$azmetStationGroup,
