@@ -101,6 +101,16 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
     ) %>%
     
     plotly::layout(
+      font = list(
+        color = "#191919",
+        family = "proxima-nova, calibri, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        size = 13
+      ),
+      hoverlabel = list(
+        color = "#191919",
+        family = "proxima-nova, calibri, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        size = 13
+      ),
       legend = list(
         orientation = "h",
         traceorder = "reversed",
@@ -124,7 +134,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
       ),
       xaxis = list(
         title = list(
-          font = list(size = 13),
+          font = list(size = 14),
           standoff = 25,
           text = "Date and Time"
         ),
@@ -132,7 +142,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
       ),
       yaxis = list(
         title = list(
-          font = list(size = 13),
+          font = list(size = 14),
           standoff = 25,
           text = stationVariable
         ),

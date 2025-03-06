@@ -124,6 +124,7 @@ ui <-
 # Server --------------------
 
 server <- function(input, output, session) {
+  # Download AZMet data at initial loading of page
   dataETL <- fxn_dataETL()
   
   # Observables -----
@@ -191,11 +192,13 @@ server <- function(input, output, session) {
   })
   
   shiny::observeEvent(input$nwsRefreshData, {
-    fxn_dataETL()
+    dataETL <- NULL
+    dataETL <- fxn_dataETL()
   })
   
   shiny::observeEvent(input$slsRefreshData, {
-    fxn_dataETL()
+    dataETL <- NULL
+    dataETL <- fxn_dataETL()
   })
   
   # Reactives -----
@@ -221,7 +224,7 @@ server <- function(input, output, session) {
   })
   
   # Build help text for button to refresh data in station-level summaries graph
-  slsRefreshHelpText <- shiny::eventReactive(nwsData, {
+  slsRefreshHelpText <- shiny::eventReactive(dataETL, {
     fxn_slsRefreshHelpText()
   })
   
@@ -321,6 +324,9 @@ server <- function(input, output, session) {
   })
   
   output$nwsTable <- reactable::renderReactable({
+    #input$nwsRefreshData
+    #shiny::invalidateLater(1000, session)
+    #shiny::req(nwsData)
     fxn_nwsTable(inData = nwsData())
   })
   
@@ -441,6 +447,9 @@ server <- function(input, output, session) {
   })
   
   output$slsGraph <- plotly::renderPlotly({
+    #input$nwsRefreshData
+    #shiny::invalidateLater(1000, session)
+    #shiny::req(nwsData)
     fxn_slsGraph(
       inData = dataETL,
       azmetStationGroup = input$azmetStationGroup,

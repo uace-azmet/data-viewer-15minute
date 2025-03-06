@@ -7,7 +7,7 @@ fxn_nwsTableHelpText <- function() {
   nwsTableHelpText <- 
     htmltools::p(
       htmltools::HTML(
-        "Scroll over the table to view additional rows and columns."
+        "Scroll or swipe over the table to view additional rows and columns."
       ), 
       
       class = "nws-table-help-text"
