@@ -39,9 +39,15 @@ fxn_nwsTable <- function(inData) {
           #headerVAlign = NULL,
           sticky = "left",
           class = "table-reactable-column-station",
-          #style = NULL,
+          style = list(
+            borderRight = "1px solid #989898",
+            boxShadow = "1px 0px 0px 0px #e3e3e3"
+          ),
           #headerClass = NULL,
-          #headerStyle = NULL,
+          headerStyle = list(
+            borderRight = "1px solid #989898",
+            boxShadow = "1px 1px 0px 0px #e3e3e3"
+          ),
           #footerClass = NULL,
           #footerStyle = NULL
         ), 
@@ -407,14 +413,14 @@ fxn_nwsTable <- function(inData) {
       onClick = NULL,
       highlight = TRUE,
       outlined = FALSE,
-      bordered = TRUE,
-      #borderless = FALSE,
+      bordered = FALSE,
+      borderless = TRUE,
       striped = TRUE,
       compact = TRUE,
       #wrap = TRUE,
       #showSortIcon = TRUE,
       #showSortable = FALSE,
-      class = "table-reactable",
+      class = "nws-table",
       #style = NULL,
       #style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.875rem"),
       #style = list(fontFamily = "monospace", fontSize = "0.875rem"),
@@ -429,8 +435,8 @@ fxn_nwsTable <- function(inData) {
           backgroundColor = "#FFFFFF",
           borderColor = "#dee2e6",
           borderWidth = "2px",
-          stripedColor = NULL,#"green",#NULL,#rgb(red = 0/255, green = 0/255, blue = 0/255, 0.04),
-          highlightColor = NULL,#"red",#NULL,#rgb(red = 0/255, green = 0/255, blue = 0/255, 0.08),
+          stripedColor = NULL,#rgb(red = 0/255, green = 0/255, blue = 0/255, 0.04),
+          highlightColor = NULL,#rgb(red = 0/255, green = 0/255, blue = 0/255, 0.08),
           cellPadding = NULL,
           style = NULL,
           tableStyle = NULL,
@@ -438,9 +444,10 @@ fxn_nwsTable <- function(inData) {
             list(
               color = "#191919", 
               fontFamily = "monospace", 
-              fontSize = "0.9rem",
+              fontSize = "0.8rem",
               borderBottomColor = rgb(180/255, 180/255, 180/255, 1.0),
-              boxShadow = "0px 1px 0px 0px rgb(180, 180, 180, 0.5)"
+              borderBottomWidth = "1px",
+              boxShadow = "0px 1px 0px 0px #e3e3e3"
             ),
           groupHeaderStyle = NULL,
           tableBodyStyle = NULL,

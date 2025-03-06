@@ -23,7 +23,7 @@ stationGroupsTable <- stationGroups |>
         #filterInput = NULL,
         html = TRUE,
         na = "",
-        rowHeader = TRUE
+        rowHeader = TRUE,
         #minWidth = 100,
         #maxWidth = NULL,
         #width = NULL,
