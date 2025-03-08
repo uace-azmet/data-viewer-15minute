@@ -130,20 +130,71 @@ server <- function(input, output, session) {
   
   # Download AZMet data at initial loading of page
   #dataETL <- fxn_dataETL()
-  dataETL <- shiny::eventReactive(
-    list(input$nwsRefreshData, input$slsRefreshData),
-    ignoreNULL = FALSE,
-    ignoreInit = TRUE, {
-      fxn_dataETL()
-    }
-  )
+  #dataETL <- shiny::eventReactive(
+  #  list(input$nwsRefreshData, input$slsRefreshData),
+  #  ignoreNULL = FALSE,
+  #  ignoreInit = TRUE, {
+  #    fxn_dataETL()
+  #  }
+  #)
+  #refreshData <- reactive({
+  #  list(input$nwsRefreshData, input$slsRefreshData) # events
+  #})
+  
   #dataETL <- reactive({
   #  fxn_dataETL()
-  #}) %>%
-  #  shiny::bindEvent(
-  #    list(input$nwsRefreshData, input$slsRefreshData),
-  #    ignoreNULL = FALSE
-  #  )
+  #})
+  
+  #observeEvent(input$nwsRefreshData, {
+  #  dataETL <- NULL
+  #  dataETL <- fxn_dataETL()
+  #},
+  #  ignoreNULL = FALSE,
+  #  ignoreInit = TRUE
+  #)
+  
+  #reactive({bindEvent(list(input$nwsRefreshData, input$slsRefreshData), {
+  #  dataETL()
+  #})
+    #dataETL,
+     # events
+  #)
+  
+  
+  # If page load is initial, then
+  dataETL <- reactive({
+    fxn_dataETL()
+  })# %>%
+    #shiny::bindEvent(
+      #fxn_dataETL(),
+    #  list(input$nwsRefreshData, input$slsRefreshData), # events
+      #refreshData(),
+    #  ignoreNULL = FALSE, 
+    #  ignoreInit = TRUE
+    #)
+  
+  # Else
+  dataETL <- shiny::eventReactive(input$nwsRefreshData, {
+    fxn_dataETL()
+  })
+  
+  #dataETL <- reactive({
+  #  if (shiny::req(input$nwsRefreshData) == 0) {
+  #    dataETL <- fxn_dataETL()
+  #  } else {
+  #    dataETL <- fxn_dataETL() %>%
+  #      shiny::bindEvent(
+  #        list(input$nwsRefreshData, input$slsRefreshData), # events
+  #        ignoreNULL = FALSE, 
+  #        ignoreInit = TRUE
+  #      )
+  #  }
+  #})
+  
+  
+  
+  
+  
   
   
   # Observables -----
@@ -310,16 +361,13 @@ server <- function(input, output, session) {
   )
   
   output$nwsRefreshData <- shiny::renderUI({
+    #shiny::req(nwsData())
+    
     if (input$navsetCardTab == "network-wide-summary") {
       shiny::actionButton(
-        inputId = "nwsRefreshData", 
-        label = 
-          htmltools::HTML(
-            paste(
-              bsicons::bs_icon("arrow-clockwise"), "REFRESH DATA", 
-              sep = " "
-            )
-          ),
+        "nwsRefreshData", 
+        label = "REFRESH DATA",
+        icon = shiny::icon(name = "rotate-right", lib = "font-awesome"),
         class = "btn btn-block btn-blue"
       )
     } else {
