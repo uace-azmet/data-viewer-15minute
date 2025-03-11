@@ -128,73 +128,23 @@ ui <-
 
 server <- function(input, output, session) {
   
-  # Download AZMet data at initial loading of page
-  #dataETL <- fxn_dataETL()
-  #dataETL <- shiny::eventReactive(
-  #  list(input$nwsRefreshData, input$slsRefreshData),
-  #  ignoreNULL = FALSE,
-  #  ignoreInit = TRUE, {
-  #    fxn_dataETL()
-  #  }
-  #)
-  #refreshData <- reactive({
-  #  list(input$nwsRefreshData, input$slsRefreshData) # events
+  
+  #toListen <- reactive({
+  #  list(input$nwsRefreshData, input$slsRefreshData)
   #})
   
+  # Download AZMet data at initial loading of page
+  dataETL <- fxn_dataETL()
+  #dataETL <- shiny::eventReactive(
+  #  list(input$nwsRefreshData, input$slsRefreshData),
+  #  toListen(),
+  #  ignoreNULL = FALSE,
+  #  ignoreInit = FALSE, {
+  #    fxn_dataETL()
+  #  })
   #dataETL <- reactive({
   #  fxn_dataETL()
   #})
-  
-  #observeEvent(input$nwsRefreshData, {
-  #  dataETL <- NULL
-  #  dataETL <- fxn_dataETL()
-  #},
-  #  ignoreNULL = FALSE,
-  #  ignoreInit = TRUE
-  #)
-  
-  #reactive({bindEvent(list(input$nwsRefreshData, input$slsRefreshData), {
-  #  dataETL()
-  #})
-    #dataETL,
-     # events
-  #)
-  
-  
-  # If page load is initial, then
-  dataETL <- reactive({
-    fxn_dataETL()
-  })# %>%
-    #shiny::bindEvent(
-      #fxn_dataETL(),
-    #  list(input$nwsRefreshData, input$slsRefreshData), # events
-      #refreshData(),
-    #  ignoreNULL = FALSE, 
-    #  ignoreInit = TRUE
-    #)
-  
-  # Else
-  dataETL <- shiny::eventReactive(input$nwsRefreshData, {
-    fxn_dataETL()
-  })
-  
-  #dataETL <- reactive({
-  #  if (shiny::req(input$nwsRefreshData) == 0) {
-  #    dataETL <- fxn_dataETL()
-  #  } else {
-  #    dataETL <- fxn_dataETL() %>%
-  #      shiny::bindEvent(
-  #        list(input$nwsRefreshData, input$slsRefreshData), # events
-  #        ignoreNULL = FALSE, 
-  #        ignoreInit = TRUE
-  #      )
-  #  }
-  #})
-  
-  
-  
-  
-  
   
   
   # Observables -----
@@ -229,6 +179,36 @@ server <- function(input, output, session) {
       
       #on.exit(shiny::removeNotification(id = idRetrievingData), add = TRUE)
     }
+  })
+  
+  shiny::observeEvent(dataETL, {
+    shiny::updateSelectInput(
+      inputId = "azmetStationGroup",
+      label = "AZMet Station Group",
+      choices = sort(unique(dataETL$meta_station_group)),
+      selected = sort(unique(dataETL$meta_station_group))[1]
+    )
+    
+    shiny::updateSelectInput(
+      inputId = "stationVariable",
+      label = "Station Variable",
+      choices = 
+        sort(
+          colnames(
+            dplyr::select(
+              dataETL, !c(datetime, meta_station_group, meta_station_name)
+            )
+          )
+        ),
+      selected = 
+        sort(
+          colnames(
+            dplyr::select(
+              dataETL, !c(datetime, meta_station_group, meta_station_name)
+            )
+          )
+        )[1]
+    )
   })
   
   # Does not refresh displays, download files
@@ -276,9 +256,18 @@ server <- function(input, output, session) {
   
   # Reactives -----
   
+  
+  
+  #dataETLRefresh <- shiny::eventReactive({
+  #  fxn_dataETL()
+  #})
+  
+  
+  
+  
   # Filter and format 15-minute data for the most recent report from each station
-  nwsData <- shiny::eventReactive(dataETL(), {
-    fxn_nwsData(inData = dataETL())
+  nwsData <- shiny::eventReactive(dataETL, {
+    fxn_nwsData(inData = dataETL)
   })
   
   # Build download button help text for network-wide summary table
@@ -289,6 +278,16 @@ server <- function(input, output, session) {
   # Build help text for button to refresh data in network-wide summary table
   nwsRefreshHelpText <- shiny::eventReactive(nwsData(), {
     fxn_nwsRefreshHelpText()
+  })
+  
+  # Build download button help text for station-level summaries
+  slsDownloadHelpText <- shiny::eventReactive(dataETL, {
+    fxn_slsDownloadHelpText()
+  })
+  
+  # Build help text for button to refresh data in station-level summaries graph
+  slsRefreshHelpText <- shiny::eventReactive(dataETL, {
+    fxn_slsRefreshHelpText()
   })
   
   # Outputs -----
@@ -310,7 +309,7 @@ server <- function(input, output, session) {
   })
   
   output$nwsDownloadButtonTSV <- shiny::renderUI({
-    shiny::req(nwsData())
+    shiny::req(nwsData)
     
     if (input$navsetCardTab == "network-wide-summary") {
       shiny::downloadButton(
@@ -361,13 +360,16 @@ server <- function(input, output, session) {
   )
   
   output$nwsRefreshData <- shiny::renderUI({
-    #shiny::req(nwsData())
-    
     if (input$navsetCardTab == "network-wide-summary") {
       shiny::actionButton(
-        "nwsRefreshData", 
-        label = "REFRESH DATA",
-        icon = shiny::icon(name = "rotate-right", lib = "font-awesome"),
+        inputId = "nwsRefreshData", 
+        label = 
+          htmltools::HTML(
+            paste(
+              bsicons::bs_icon("arrow-clockwise"), "REFRESH DATA", 
+              sep = " "
+            )
+          ),
         class = "btn btn-block btn-blue"
       )
     } else {
@@ -384,7 +386,140 @@ server <- function(input, output, session) {
   })
   
   output$nwsTable <- reactable::renderReactable({
+    #input$nwsRefreshData
+    #shiny::invalidateLater(1000, session)
+    #shiny::req(nwsData)
     fxn_nwsTable(inData = nwsData())
+  })
+  
+  output$nwsTableFooter <- shiny::renderUI({
+    fxn_nwsTableFooter()
+  })
+  
+  output$nwsTableHelpText <- shiny::renderUI({
+    fxn_nwsTableHelpText()
+  })
+  
+  output$nwsTableTitle <- shiny::renderUI({
+    fxn_nwsTableTitle()
+  })
+  
+  output$pageBottomText <- shiny::renderUI({
+    fxn_pageBottomText()
+  })
+  
+  output$slsDownloadButtonCSV <- shiny::renderUI({
+    shiny::req(dataETL)
+    
+    if (input$navsetCardTab == "station-level-summaries") {
+      shiny::downloadButton(
+        outputId = "slsDownloadCSV", 
+        label = "Download .csv", 
+        class = "btn btn-default btn-blue", 
+        type = "button"
+      )
+    } else {
+      return(NULL)
+    }
+  })
+  
+  output$slsDownloadButtonTSV <- shiny::renderUI({
+    shiny::req(dataETL)
+    
+    if (input$navsetCardTab == "station-level-summaries") {
+      shiny::downloadButton(
+        outputId = "slsDownloadTSV", 
+        label = "Download .tsv", 
+        class = "btn btn-default btn-blue", 
+        type = "button"
+      )
+    } else {
+      return(NULL)
+    }
+  })
+  
+  output$slsDownloadCSV <- shiny::downloadHandler(
+    filename = function() {
+      "AZMet-15-minute-station-level-summaries.csv"
+    },
+    
+    content = function(file) {
+      vroom::vroom_write(
+        x = dataETL, 
+        file = file, 
+        delim = ","
+      )
+    }
+  )
+  
+  output$slsDownloadHelpText <- shiny::renderUI({
+    if (input$navsetCardTab == "station-level-summaries") {
+      slsDownloadHelpText()
+    } else {
+      return(NULL)
+    }
+  })
+  
+  output$slsDownloadTSV <- shiny::downloadHandler(
+    filename = function() {
+      "AZMet-15-minute-station-level-summaries.tsv"
+    },
+    
+    content = function(file) {
+      vroom::vroom_write(
+        x = dataETL, 
+        file = file, 
+        delim = "\t"
+      )
+    }
+  )
+  
+  output$slsGraph <- plotly::renderPlotly({
+    #input$slsRefreshData
+    #shiny::invalidateLater(1000, session)
+    fxn_slsGraph(
+      inData = dataETL,
+      azmetStationGroup = input$azmetStationGroup,
+      stationVariable = input$stationVariable
+    )
+  })
+  
+  output$slsGraphFooter <- shiny::renderUI({
+    fxn_slsGraphFooter()
+  })
+  
+  output$slsGraphHelpText <- shiny::renderUI({
+    fxn_slsGraphHelpText()
+  })
+  
+  output$slsGraphTitle <- shiny::renderUI({
+    fxn_slsGraphTitle()
+  })
+  
+  output$slsRefreshData <- shiny::renderUI({
+    if (input$navsetCardTab == "station-level-summaries") {
+      shiny::actionButton(
+        inputId = "slsRefreshData", 
+        label = 
+          htmltools::HTML(
+            paste(
+              bsicons::bs_icon("arrow-clockwise"), "REFRESH DATA", 
+              sep = " "
+            )
+          ),
+        class = "btn btn-block btn-blue"
+      )
+    } else {
+      return(NULL)
+    }
+  })
+  
+  output$slsRefreshHelpText <- shiny::renderUI({
+    if (input$navsetCardTab == "station-level-summaries") {
+      slsRefreshHelpText()
+    } else {
+      return(NULL)
+    }
   })
   
   output$stationGroupsTable <- reactable::renderReactable({
