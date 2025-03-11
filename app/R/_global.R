@@ -1,3 +1,6 @@
+shiny::addResourcePath("shinyjs", system.file("srcjs", package = "shinyjs"))
+
+
 # Load auxilliary files --------------------
 
 azmetStations <- 
@@ -25,6 +28,6 @@ stationGroups <-
     group2 = c("Roll", "Wellton ETo", "Yuma N.Gila", "Yuma South", "Yuma Valley", "Yuma Valley ETo"),
     group3 = c("Aguila", "Buckeye", "Harquahala", "Paloma", "Salome", NA),
     group4 = c("Desert Ridge", "Payson", "Phoenix Encanto", "Phoenix Greenway", NA, NA),
-    group5 = c("Coolidge", "Maricopa", "Queen Creek", "Sahuarita", "Tucson", NA),
+    group5 = c("Coolidge", "Maricopa", "Queen Creek", "Sahuarita", "Test", "Tucson"),
     group6 = c("Bonita", "Bowie", "Safford", "San Simon", "Willcox Bench", NA)
   )
