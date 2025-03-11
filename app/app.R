@@ -15,7 +15,6 @@ library(htmltools)
 library(plotly)
 library(RColorBrewer)
 library(reactable)
-library(reactlog)
 library(shiny)
 
 # Functions. Loaded automatically at app start if in `R` folder
@@ -23,8 +22,6 @@ library(shiny)
 
 # Scripts. Loaded automatically at app start if in `R` folder
 #source("./R/scr_scriptName.R", local = TRUE)
-
-reactlog::reactlog_enable()
 
 
 # UI --------------------
