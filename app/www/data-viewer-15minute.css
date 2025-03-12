@@ -59,7 +59,7 @@
   font-weight: bold;
 }
 
-.download-help-text {
+.data-download-help-text {
   color: #989898; 
   font-size: 1rem;
   font-style: italic;
@@ -96,7 +96,7 @@
   padding-top: 12px;
 }
 
-.nws-refresh-help-text {
+.refresh-data-help-text {
   color: #989898; 
   font-size: 1rem;
   font-style: italic;
@@ -160,14 +160,7 @@
   padding-top: 4px;
 }
 
-.sls-refresh-help-text {
-  color: #989898; 
-  font-size: 1rem;
-  font-style: italic;
-  padding-top: 24px;
-}
-
-.nws-table .rt-tr-group .rt-tr:hover {
+nws-table .rt-tr-group .rt-tr:hover {
   background-color: #e2e9eb;
 }
 
