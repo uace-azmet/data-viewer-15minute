@@ -421,8 +421,6 @@ fxn_nwsTable <- function(inData) {
       #showSortable = FALSE,
       class = "nws-table",
       #style = NULL,
-      #style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.875rem"),
-      #style = list(fontFamily = "monospace", fontSize = "0.875rem"),
       #rowClass = NULL,
       #rowStyle = NULL,
       fullWidth = TRUE,
@@ -434,8 +432,8 @@ fxn_nwsTable <- function(inData) {
           backgroundColor = "#FFFFFF",
           borderColor = "#dee2e6",
           borderWidth = "2px",
-          stripedColor = NULL,#rgb(red = 0/255, green = 0/255, blue = 0/255, 0.04),
-          highlightColor = NULL,#rgb(red = 0/255, green = 0/255, blue = 0/255, 0.08),
+          stripedColor = NULL,
+          highlightColor = NULL,
           cellPadding = NULL,
           style = NULL,
           tableStyle = NULL,
@@ -452,8 +450,8 @@ fxn_nwsTable <- function(inData) {
           tableBodyStyle = NULL,
           rowGroupStyle = NULL,
           rowStyle = NULL,
-          rowStripedStyle = NULL,#list(color = rgb(red = 0/255, green = 0/255, blue = 0/255, 0.04)),
-          rowHighlightStyle = NULL,#list(color = rgb(red = 0/255, green = 0/255, blue = 0/255, 0.08)),
+          rowStripedStyle = NULL,
+          rowHighlightStyle = NULL,
           rowSelectedStyle = NULL,
           cellStyle = list(color = "#191919", fontFamily = "monospace", fontSize = "0.8rem"),
           footerStyle = NULL,
@@ -470,7 +468,7 @@ fxn_nwsTable <- function(inData) {
       #language = getOption("reactable.language"),
       #meta = NULL,
       #elementId = NULL,
-      #  static = getOption("reactable.static", FALSE)
+      #static = getOption("reactable.static", FALSE),
       #selectionId = NULL
     )
   

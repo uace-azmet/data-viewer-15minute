@@ -1,6 +1,6 @@
 #' `fxn_dataETL.R` Download AZMet 15-minute data, transform variables, and return to app
 #' 
-#' @return `dataETL` - Downloaded data and transformed variables over previous 48 hours, tibble format
+#' @return `dataETL` - Downloaded 15-minute data and transformed variables over previous 48 hours, tibble format
 
 
 fxn_dataETL <- function() {

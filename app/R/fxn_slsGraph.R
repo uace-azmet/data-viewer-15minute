@@ -133,7 +133,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
         orientation = "v"
       ),
       xaxis = list(
-        range = list(~(min(datetime) - 3000), ~(max(datetime) + 3000)),
+        range = list(~(min(datetime) - 3000), ~(max(datetime) + 3000)), # unix timestamp values
         title = list(
           font = list(size = 14),
           standoff = 25,

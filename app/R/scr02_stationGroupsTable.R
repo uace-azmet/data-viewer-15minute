@@ -3,7 +3,6 @@ stationGroupsTable <- stationGroups |>
     columns = list(
       group1 = reactable::colDef(
         name = "Group 1",
-        minWidth = 150,
         #aggregate = NULL,
         #sortable = NULL,
         #resizable = NULL,
@@ -24,7 +23,7 @@ stationGroupsTable <- stationGroups |>
         html = TRUE,
         na = "",
         rowHeader = TRUE,
-        #minWidth = 100,
+        minWidth = 150,
         #maxWidth = NULL,
         #width = NULL,
         #align = NULL,
@@ -111,8 +110,6 @@ stationGroupsTable <- stationGroups |>
     #showSortable = FALSE,
     #class = NULL,
     #style = NULL,
-    #style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.875rem"),
-    #style = list(fontFamily = "monospace", fontSize = "0.875rem"),
     #rowClass = NULL,
     #rowStyle = NULL,
     fullWidth = TRUE,
@@ -159,6 +156,6 @@ stationGroupsTable <- stationGroups |>
     #language = getOption("reactable.language"),
     #meta = NULL,
     #elementId = NULL,
-    #  static = getOption("reactable.static", FALSE)
+    #static = getOption("reactable.static", FALSE),
     #selectionId = NULL
   )

@@ -25,19 +25,15 @@ slsSidebar <-
     shiny::selectInput(
       inputId = "azmetStationGroup", 
       label = "AZMet Station Group",
-      #choices = sort(unique(azmetStations$stationGroup)),
-      choices = sort(unique(azmetStations$stationName)),
-      selected = "Group 1"
+      choices = NULL, # see `app.R`, shiny::updateSelectInput(inputId = "azmetStationGroup")
+      selected = NULL # see `app.R`, shiny::updateSelectInput(inputId = "azmetStationGroup")
     ),
     
     shiny::selectInput(
       inputId = "stationVariable", 
       label = "Station Variable",
-      #choices = sort(unique(dataVariablesDropdown$variable)),
-      #choices = shiny::reactive({sort(colnames(dataETL))}),
-      choices = c("relative_humidity", "vp_actual"),
-      selected = "relative_humidity"
-      #selected = sort(colnames(inData))[1]
+      choices = NULL, # see `app.R`, shiny::updateSelectInput(inputId = "stationVariable")
+      selected = NULL # see `app.R`, shiny::updateSelectInput(inputId = "stationVariable")
     ),
     
     htmltools::br(),
