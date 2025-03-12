@@ -10,7 +10,6 @@ fxn_nwsTable <- function(inData) {
       columns = list(
         meta_station_name = reactable::colDef(
           name = "Station",
-          minWidth = 150,
           #aggregate = NULL,
           #sortable = NULL,
           #resizable = NULL,
@@ -31,7 +30,7 @@ fxn_nwsTable <- function(inData) {
           html = TRUE,
           na = "NA",
           rowHeader = FALSE,
-          #minWidth = 100,
+          minWidth = 150,
           #maxWidth = NULL,
           #width = NULL,
           #align = NULL,

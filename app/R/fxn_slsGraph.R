@@ -94,7 +94,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
       toImageButtonOptions = list(
         format = "png", # Either png, svg, jpeg, or webp
         filename = "AZMet-data-viewer-15minute-station-level-summaries",
-        height = 500,
+        height = 400,
         width = 700,
         scale = 5
       )
