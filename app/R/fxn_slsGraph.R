@@ -133,6 +133,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
         orientation = "v"
       ),
       xaxis = list(
+        range = list(~(min(datetime) - 3000), ~(max(datetime) + 3000)),
         title = list(
           font = list(size = 14),
           standoff = 25,
@@ -149,20 +150,6 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
         zeroline = FALSE
       )
     )
-  
-  
-  #xAxisVariable <- dplyr::filter(dataVariables, name == "datetime")$variable
-  #xAxisVariable <- "datetime"
-  #xAxisUnits <- "ymd hms"
-  
-  #yAxisVariable <- dplyr::filter(dataVariables, name == stationVariable)$variable
-  #yAxisUnits <- dplyr::filter(dataVariables, name == stationVariable)$units
-  
-  #ggplot2::labs(
-  #  x = paste0("\n", xAxisVariable, " (", xAxisUnits, ")"),
-  #  y = paste0(yAxisVariable, " (", yAxisUnits, ")", "\n")
-  #)
-  
   
   return(slsGraph)
 }
