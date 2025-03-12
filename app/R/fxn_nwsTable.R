@@ -124,19 +124,6 @@ fxn_nwsTable <- function(inData) {
           na = "NA",
           rowHeader = TRUE
         ),
-        dwptF = reactable::colDef(
-          name = 
-            htmltools::HTML(
-              paste0(
-                "T<sub>dew point</sub><br>", 
-                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(°F)")
-              )
-            ),
-          format = reactable::colFormat(digits = 1),
-          html = TRUE,
-          na = "NA",
-          rowHeader = TRUE
-        ),
         temp_air_maxF = reactable::colDef(
           name = 
             htmltools::HTML(
@@ -172,6 +159,19 @@ fxn_nwsTable <- function(inData) {
             htmltools::HTML(
               paste0(
                 "T<sub>panel</sub><br>", 
+                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(°F)")
+              )
+            ),
+          format = reactable::colFormat(digits = 1),
+          html = TRUE,
+          na = "NA",
+          rowHeader = TRUE
+        ),
+        dwptF = reactable::colDef(
+          name = 
+            htmltools::HTML(
+              paste0(
+                "T<sub>dew point</sub><br>", 
                 tags$span(style = "font-weight: normal; font-size: 0.8rem", "(°F)")
               )
             ),
@@ -219,19 +219,6 @@ fxn_nwsTable <- function(inData) {
           na = "NA",
           rowHeader = TRUE
         ),
-        vp_saturation = reactable::colDef(
-          name = 
-            htmltools::HTML(
-              paste0(
-                "VP<sub>saturation</sub><br>", 
-                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(kPa)")
-              )
-            ),
-          format = reactable::colFormat(digits = 2),
-          html = TRUE,
-          na = "NA",
-          rowHeader = TRUE
-        ),
         vp_actual = reactable::colDef(
           name = 
             htmltools::HTML(
@@ -258,14 +245,15 @@ fxn_nwsTable <- function(inData) {
           na = "NA",
           rowHeader = TRUE
         ),
-        wind_spd_mph = reactable::colDef(
+        vp_saturation = reactable::colDef(
           name = 
             htmltools::HTML(
               paste0(
-                "WS<br>", tags$span(style = "font-weight: normal; font-size: 0.8rem", "(mph)")
+                "VP<sub>saturation</sub><br>", 
+                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(kPa)")
               )
             ),
-          format = reactable::colFormat(digits = 1),
+          format = reactable::colFormat(digits = 2),
           html = TRUE,
           na = "NA",
           rowHeader = TRUE
@@ -278,6 +266,61 @@ fxn_nwsTable <- function(inData) {
               )
             ),
           format = reactable::colFormat(digits = 0),
+          html = TRUE,
+          na = "NA",
+          rowHeader = TRUE
+        ),
+        wind_2min_vector_dir = reactable::colDef(
+          name = 
+            htmltools::HTML(
+              paste0(
+                "WD<sub>2-min</sub><br>", 
+                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(deg)")
+              )
+            ),
+          format = reactable::colFormat(digits = 0),
+          html = TRUE,
+          na = "NA",
+          rowHeader = TRUE
+        ),
+        wind_2min_vector_dir_max_daily = reactable::colDef(
+          name = 
+            htmltools::HTML(
+              paste0(
+                "WD<sub>2-min max</sub><sup>", 
+                tags$span(style = "font-weight: normal", "1"),
+                "</sup><br>", 
+                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(deg)")
+              )
+            ),
+          format = reactable::colFormat(digits = 0),
+          html = TRUE,
+          na = "NA",
+          rowHeader = TRUE
+        ),
+        wind_2min_vector_dir_max_hourly = reactable::colDef(
+          name = 
+            htmltools::HTML(
+              paste0(
+                "WD<sub>2-min max</sub><sup>", 
+                tags$span(style = "font-weight: normal", "2"),
+                "</sup><br>", 
+                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(deg)")
+              )
+            ),
+          format = reactable::colFormat(digits = 0),
+          html = TRUE,
+          na = "NA",
+          rowHeader = TRUE
+        ),
+        wind_spd_mph = reactable::colDef(
+          name = 
+            htmltools::HTML(
+              paste0(
+                "WS<br>", tags$span(style = "font-weight: normal; font-size: 0.8rem", "(mph)")
+              )
+            ),
+          format = reactable::colFormat(digits = 1),
           html = TRUE,
           na = "NA",
           rowHeader = TRUE
@@ -310,19 +353,6 @@ fxn_nwsTable <- function(inData) {
           na = "NA",
           rowHeader = TRUE
         ),
-        wind_2min_vector_dir = reactable::colDef(
-          name = 
-            htmltools::HTML(
-              paste0(
-                "WD<sub>2-min</sub><br>", 
-                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(deg)")
-              )
-            ),
-          format = reactable::colFormat(digits = 0),
-          html = TRUE,
-          na = "NA",
-          rowHeader = TRUE
-        ),
         wind_2min_spd_max_mph_daily = reactable::colDef(
           name = 
             htmltools::HTML(
@@ -338,21 +368,6 @@ fxn_nwsTable <- function(inData) {
           na = "NA",
           rowHeader = TRUE
         ),
-        wind_2min_vector_dir_max_daily = reactable::colDef(
-          name = 
-            htmltools::HTML(
-              paste0(
-                "WD<sub>2-min max</sub><sup>", 
-                tags$span(style = "font-weight: normal", "1"),
-                "</sup><br>", 
-                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(deg)")
-              )
-            ),
-          format = reactable::colFormat(digits = 0),
-          html = TRUE,
-          na = "NA",
-          rowHeader = TRUE
-        ),
         wind_2min_spd_max_mph_hourly = reactable::colDef(
           name = 
             htmltools::HTML(
@@ -364,21 +379,6 @@ fxn_nwsTable <- function(inData) {
               )
             ),
           format = reactable::colFormat(digits = 1),
-          html = TRUE,
-          na = "NA",
-          rowHeader = TRUE
-        ),
-        wind_2min_vector_dir_max_hourly = reactable::colDef(
-          name = 
-            htmltools::HTML(
-              paste0(
-                "WD<sub>2-min max</sub><sup>", 
-                tags$span(style = "font-weight: normal", "2"),
-                "</sup><br>", 
-                tags$span(style = "font-weight: normal; font-size: 0.8rem", "(deg)")
-              )
-            ),
-          format = reactable::colFormat(digits = 0),
           html = TRUE,
           na = "NA",
           rowHeader = TRUE
