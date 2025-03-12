@@ -1,9 +1,5 @@
-# Tables and time series of 15-minute data to support QA/QC
+# Tabular and graphical summaries of recent 15-minute data to support QA/QC
 
-
-# Add code for the following
-# 
-# 'azmet-shiny-template.html': <!-- Google tag (gtag.js) -->
 
 # Libraries
 library(azmetr)
@@ -57,7 +53,6 @@ ui <-
         # Network-wide Summary (nws) -----
         
         bslib::nav_panel(
-          #title = nwsNavpanelTitle, # `_setup.R`
           title = "Network-wide Summary",
           
           shiny::htmlOutput(outputId = "nwsTableTitle"),
@@ -71,18 +66,16 @@ ui <-
         # Station-level summaries (sls) -----
         
         bslib::nav_panel(
-          #title = slsNavpanelTitle, # `_setup.R``
           title = "Station-level Summaries",
           
           bslib::layout_sidebar(
-            sidebar = slsSidebar, # `scr_slsSidebar.R`
+            sidebar = slsSidebar, # `scr##_slsSidebar.R`
             
             shiny::htmlOutput(outputId = "slsGraphTitle"),
             shiny::htmlOutput(outputId = "slsGraphHelpText"),
             plotly::plotlyOutput(outputId = "slsGraph"),
             shiny::htmlOutput(outputId = "slsGraphFooter"),
             
-            # options ???
             #fillable = TRUE,
             #fill = TRUE,
             #bg = NULL,
@@ -103,7 +96,6 @@ ui <-
           class = "border-0 rounded-0 shadow-none"
         ),
       
-      # common, regardless of card tab
       shiny::htmlOutput(outputId = "refreshDataHelpText"), # Common, regardless of card tab
       shiny::uiOutput(outputId = "refreshDataButton"), # Common, regardless of card tab
       shiny::htmlOutput(outputId = "dataDownloadHelpText"), # Common, regardless of card tab

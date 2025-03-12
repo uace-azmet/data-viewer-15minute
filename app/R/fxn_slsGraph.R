@@ -94,7 +94,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
       toImageButtonOptions = list(
         format = "png", # Either png, svg, jpeg, or webp
         filename = "AZMet-data-viewer-15minute-station-level-summaries",
-        height = 500,
+        height = 400,
         width = 700,
         scale = 5
       )
@@ -133,7 +133,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
         orientation = "v"
       ),
       xaxis = list(
-        range = list(~(min(datetime) - 3000), ~(max(datetime) + 3000)),
+        range = list(~(min(datetime) - 3000), ~(max(datetime) + 3000)), # unix timestamp values
         title = list(
           font = list(size = 14),
           standoff = 25,

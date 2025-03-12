@@ -1,7 +1,7 @@
 shiny::addResourcePath("shinyjs", system.file("srcjs", package = "shinyjs"))
 
 
-# Load auxilliary files --------------------
+# Files --------------------
 
 azmetStations <- 
   vroom::vroom(
@@ -11,16 +11,8 @@ azmetStations <-
     show_col_types = FALSE
   )
 
-dataVariables <- 
-  vroom::vroom(
-    file = "aux-files/azmet-data-variables-15minute.csv", 
-    delim = ",", 
-    col_names = TRUE, 
-    show_col_types = FALSE
-  )
 
-
-# Set global variables --------------------
+# Variables --------------------
 
 stationGroups <- 
   tibble::tibble(

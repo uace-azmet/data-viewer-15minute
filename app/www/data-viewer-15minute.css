@@ -81,7 +81,7 @@
 }
 
 .nws-table-footer {
-  color: #191919; 
+  color: #606060; 
   font-size: 0.85rem;
   font-style: normal;
   margin-top: 0.25rem;
@@ -96,10 +96,17 @@
   padding-top: 12px;
 }
 
-.refresh-data-help-text {
+.refresh-data-help-text-nws {
   color: #989898; 
   font-size: 1rem;
   font-style: italic;
+}
+
+.refresh-data-help-text-sls {
+  color: #989898; 
+  font-size: 1rem;
+  font-style: italic;
+  padding-top: 24px;
 }
 
 .selectize-dropdown .active {
@@ -146,7 +153,7 @@
 }
 
 .sls-graph-footer {
-  color: #191919; 
+  color: #606060; 
   font-size: 0.85rem;
   font-style: normal;
   margin-top: 0.25rem;
@@ -160,8 +167,8 @@
   padding-top: 4px;
 }
 
-nws-table .rt-tr-group .rt-tr:hover {
-  background-color: #e2e9eb;
+.nws-table .rt-tr-group .rt-tr:hover {
+  background-color: #e2e9eb !important;
 }
 
 

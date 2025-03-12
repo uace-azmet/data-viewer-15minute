@@ -1,6 +1,6 @@
 #' `fxn_dataETL.R` Download AZMet 15-minute data, transform variables, and return to app
 #' 
-#' @return `dataETL` - Downloaded data and transformed variables over previous 48 hours, tibble format
+#' @return `dataETL` - Downloaded 15-minute data and transformed variables over previous 48 hours, tibble format
 
 
 fxn_dataETL <- function() {
@@ -78,9 +78,9 @@ fxn_dataETL <- function() {
       temp_wetbulbF,
       temp_soil_10cmF,
       temp_soil_50cmF,
-      vp_saturation,
       vp_actual,
       vp_deficit,
+      vp_saturation,
       wind_spd_mph,
       wind_vector_dir,
       wind_spd_max_mph,
