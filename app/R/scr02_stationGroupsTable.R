@@ -128,8 +128,15 @@ stationGroupsTable <- stationGroups |>
         highlightColor = NULL,
         cellPadding = NULL,
         style = NULL,
-        tableStyle = NULL,
-        headerStyle = list(color = "#606060", fontFamily = "monospace", fontSize = "0.8rem"),
+        tableStyle = list(borderColor = "#CCCCCC"),
+        headerStyle = 
+          list(
+            color = "#606060", 
+            fontFamily = "monospace", 
+            fontSize = "0.8rem",
+            borderBottomColor = "#CCCCCC",
+            borderBottomWidth = "1px"
+          ),
         groupHeaderStyle = NULL,
         tableBodyStyle = NULL,
         rowGroupStyle = NULL,

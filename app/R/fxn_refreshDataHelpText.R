@@ -12,7 +12,7 @@ fxn_refreshDataHelpText <- function(activeTab) {
           "Click or tap the button below to refresh the above table with the latest 15-minute data."
         ), 
         
-        class = "refresh-data-help-text"
+        class = "refresh-data-help-text-nws"
       )
   } else if (activeTab == "station-level-summaries") {
     refreshDataHelpText <- 
@@ -21,7 +21,7 @@ fxn_refreshDataHelpText <- function(activeTab) {
           "Click or tap the button below to refresh the above graph with the latest 15-minute data."
         ), 
         
-        class = "refresh-data-help-text"
+        class = "refresh-data-help-text-sls"
       )
   }
   
