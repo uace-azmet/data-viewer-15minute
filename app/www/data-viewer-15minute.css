@@ -96,6 +96,10 @@
   padding-top: 12px;
 }
 
+.page-bottom-text {
+  color: #191919;
+}
+
 .refresh-data-help-text-nws {
   color: #989898; 
   font-size: 1rem;
