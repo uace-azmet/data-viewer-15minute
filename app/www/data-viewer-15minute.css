@@ -80,6 +80,10 @@
   padding-top: 48px;
 }
 
+.modebar-container {
+  top: -8px !important;
+}
+
 .nws-table-footer {
   color: #606060; 
   font-size: 0.85rem;
