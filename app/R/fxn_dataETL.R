@@ -49,7 +49,7 @@ fxn_dataETL <- function() {
             meta_station_name %in% c("Aguila", "Buckeye", "Harquahala", "Paloma", "Salome"),
             "Group 3",
             dplyr::if_else(
-              meta_station_name %in% c("Desert Ridge", "Payson", "Phoenix Encanto", "Phoenix Greenway"),
+              meta_station_name %in% c("Chino Valley", "Desert Ridge", "Payson", "Phoenix Encanto", "Phoenix Greenway"),
               "Group 4",
               dplyr::if_else(
                 meta_station_name %in% c("Coolidge", "Maricopa", "Queen Creek", "Sahuarita", "Test", "Tucson"),
