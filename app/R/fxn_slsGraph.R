@@ -22,6 +22,8 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
   
   dataSelectedGroup <- inData %>% 
     dplyr::filter(meta_station_group == azmetStationGroup) %>% 
+    #dplyr::arrange(dplyr::desc(meta_station_name)) %>% 
+    #dplyr::mutate(meta_station_name = as.factor(meta_station_name)) %>% 
     dplyr::group_by(meta_station_name)
   
   slsGraph <- 
@@ -44,7 +46,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
       hoverinfo = "text",
       text = ~paste0(
         "<br><b>", stationVariable, ":</b>  ", .data[[stationVariable]],
-        "<br><b>AZMet station:</b>  ", meta_station_name,
+        "<br><b>AZMet Station:</b>  ", meta_station_name,
         "<br><b>Date:</b>  ", gsub(" 0", " ", format(datetime, "%b %d, %Y")),
         "<br><b>Time:</b>  ", format(datetime, "%H:%M:%S")
       ),
@@ -72,12 +74,12 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
       hoverinfo = "text",
       text = ~paste0(
         "<br><b>", stationVariable, ":</b>  ", .data[[stationVariable]],
-        "<br><b>AZMet station:</b>  ", meta_station_name,
+        "<br><b>AZMet Station:</b>  ", meta_station_name,
         "<br><b>Date:</b>  ", gsub(" 0", " ", format(datetime, "%b %d, %Y")),
         "<br><b>Time:</b>  ", format(datetime, "%H:%M:%S")
       ),
       showlegend = TRUE,
-      legendgroup = NULL
+      legendgroup = "metaStationName"
     ) %>% 
     
     plotly::config(
