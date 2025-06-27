@@ -21,5 +21,5 @@ stationGroups <-
     group3 = c("Aguila", "Buckeye", "Harquahala", "Paloma", "Salome", NA),
     group4 = c("Chino Valley", "Desert Ridge", "Payson", "Phoenix Encanto", "Phoenix Greenway", NA),
     group5 = c("Coolidge", "Maricopa", "Queen Creek", "Sahuarita", "Test", "Tucson"),
-    group6 = c("Bonita", "Bowie", "Safford", "San Simon", "Willcox Bench", NA)
+    group6 = c("Bonita", "Bowie", "Elgin", "Safford", "San Simon", "Willcox Bench")
   )
