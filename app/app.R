@@ -157,55 +157,7 @@ server <- function(input, output, session) {
   
   output$downloadButtonsDiv <- shiny::renderUI({
     # shiny::req(dataETL())
-    if (input$navsetCardTab == "network-wide-summary") {
-      htmltools::div(
-        shiny::downloadButton(
-          "nwsDownloadCSV", 
-          label = "Download .csv", 
-          class = "btn btn-default btn-blue", 
-          type = "button"
-        ),
-        shiny::downloadButton(
-          "nwsDownloadTSV", 
-          label = "Download .tsv", 
-          class = "btn btn-default btn-blue", 
-          type = "button"
-        ),
-        htmltools::HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
-        bslib::tooltip(
-          bsicons::bs_icon("info-circle"),
-          "Click or tap to download a file of the above data with either comma- or tab-separated values.",
-          id = "nwsDownloadInfo",
-          placement = "right"
-        ),
-        
-        style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling
-      )
-    } else if (input$navsetCardTab == "station-level-summaries") {
-      htmltools::div(
-        shiny::downloadButton(
-          outputId = "slsDownloadCSV", 
-          label = "Download .csv", 
-          class = "btn btn-default btn-blue", 
-          type = "button"
-        ),
-        shiny::downloadButton(
-          outputId = "slsDownloadTSV", 
-          label = "Download .tsv", 
-          class = "btn btn-default btn-blue", 
-          type = "button"
-        ),
-        htmltools::HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
-        bslib::tooltip(
-          bsicons::bs_icon("info-circle"),
-          "Click or tap to download a file of the above data with either comma- or tab-separated values.",
-          id = "slsDownloadInfo",
-          placement = "right"
-        ),
-        
-        style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling
-      )
-    }
+    fxn_downloadButtonsDiv(activeTab = input$navsetCardTab)
   })
   
   output$nwsDownloadCSV <- shiny::downloadHandler(
