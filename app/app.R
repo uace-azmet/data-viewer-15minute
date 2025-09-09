@@ -76,7 +76,7 @@ ui <-
       
       htmltools::div(
         shiny::uiOutput(outputId = "refreshDataButton"), # Common, regardless of card tab
-        htmltools::HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
+        htmltools::HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
         shiny::uiOutput(outputId = "refreshDataInfo"), # Common, regardless of card tab
         
         style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling

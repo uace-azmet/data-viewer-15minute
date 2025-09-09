@@ -28,6 +28,7 @@ fxn_downloadButtonsDiv <- function(activeTab) {
           placement = "right"
         ),
         
+        class = "download-buttons-div",
         style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling
       )
   } else if (activeTab == "station-level-summaries") {
@@ -53,6 +54,7 @@ fxn_downloadButtonsDiv <- function(activeTab) {
           placement = "right"
         ),
         
+        class = "download-buttons-div",
         style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling
       )
   }
