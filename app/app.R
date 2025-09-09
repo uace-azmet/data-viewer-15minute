@@ -1,25 +1,6 @@
 # Tabular and graphical summaries of recent 15-minute data to support QA/QC
 
 
-# Libraries
-library(azmetr)
-library(bsicons)
-library(bslib)
-library(dplyr)
-library(htmltools)
-library(plotly)
-library(RColorBrewer)
-library(reactable)
-library(shiny)
-library(shinyjs)
-
-# Functions. Loaded automatically at app start if in `R` folder
-#source("./R/fxn_functionName.R", local = TRUE)
-
-# Scripts. Loaded automatically at app start if in `R` folder
-#source("./R/scr_scriptName.R", local = TRUE)
-
-
 # UI --------------------
 
 ui <- 
@@ -55,7 +36,6 @@ ui <-
           title = "Network-wide Summary",
           
           shiny::htmlOutput(outputId = "nwsTableTitle"),
-          shiny::htmlOutput(outputId = "nwsTableHelpText"),
           reactable::reactableOutput(outputId = "nwsTable"),
           shiny::htmlOutput(outputId = "nwsTableFooter"),
           
@@ -71,7 +51,6 @@ ui <-
             sidebar = slsSidebar, # `scr##_slsSidebar.R`
             
             shiny::htmlOutput(outputId = "slsGraphTitle"),
-            shiny::htmlOutput(outputId = "slsGraphHelpText"),
             plotly::plotlyOutput(outputId = "slsGraph"),
             shiny::htmlOutput(outputId = "slsGraphFooter"),
             
@@ -95,13 +74,15 @@ ui <-
           class = "border-0 rounded-0 shadow-none"
         ),
       
-      shiny::htmlOutput(outputId = "refreshDataHelpText"), # Common, regardless of card tab
-      shiny::uiOutput(outputId = "refreshDataButton"), # Common, regardless of card tab
-      shiny::htmlOutput(outputId = "dataDownloadHelpText"), # Common, regardless of card tab
-      shiny::uiOutput(outputId = "nwsDownloadButtonCSV"), # if (input$navsetCardTab == "network-wide-summary")
-      shiny::uiOutput(outputId = "nwsDownloadButtonTSV"), # if (input$navsetCardTab == "network-wide-summary")
-      shiny::uiOutput(outputId = "slsDownloadButtonCSV"), # if (input$navsetCardTab == "station-level-summaries")
-      shiny::uiOutput(outputId = "slsDownloadButtonTSV"), # if (input$navsetCardTab == "station-level-summaries")
+      htmltools::div(
+        shiny::uiOutput(outputId = "refreshDataButton"), # Common, regardless of card tab
+        htmltools::HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
+        shiny::uiOutput(outputId = "refreshDataInfo"), # Common, regardless of card tab
+        
+        style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling
+      ),
+      
+      shiny::htmlOutput(outputId = "downloadButtonsDiv"),
       shiny::htmlOutput(outputId = "pageBottomText") # Common, regardless of card tab
     )
   )
@@ -111,27 +92,19 @@ ui <-
 
 server <- function(input, output, session) {
   shinyjs::useShinyjs(html = TRUE)
-  shinyjs::hideElement("dataDownloadHelpText")
-  shinyjs::hideElement("nwsDownloadButtonCSV")
-  shinyjs::hideElement("nwsDownloadButtonTSV")
+  shinyjs::hideElement("downloadButtonsDiv")
   shinyjs::hideElement("pageBottomText")
   shinyjs::hideElement("refreshDataButton") # Needs to be 'present' on page for `dataETL <- shiny::reactive({})` statement to work on initial page load
-  shinyjs::hideElement("refreshDataHelpText")
-  shinyjs::hideElement("slsDownloadButtonCSV")
-  shinyjs::hideElement("slsDownloadButtonTSV")
+  shinyjs::hideElement("refreshDataInfo")
   
   
   # Observables -----
   
   shiny::observeEvent(dataETL(), {
-    shinyjs::showElement("dataDownloadHelpText")
-    shinyjs::showElement("nwsDownloadButtonCSV")
-    shinyjs::showElement("nwsDownloadButtonTSV")
+    shinyjs::showElement("downloadButtonsDiv")
     shinyjs::showElement("pageBottomText")
     shinyjs::showElement("refreshDataButton")
-    shinyjs::showElement("refreshDataHelpText")
-    shinyjs::showElement("slsDownloadButtonCSV")
-    shinyjs::showElement("slsDownloadButtonTSV")
+    shinyjs::showElement("refreshDataInfo")
     
     shiny::updateSelectInput(
       inputId = "azmetStationGroup",
@@ -182,37 +155,9 @@ server <- function(input, output, session) {
   
   # Outputs -----
   
-  output$dataDownloadHelpText <- shiny::renderUI({
-    #shiny::req(dataETL())
-    fxn_dataDownloadHelpText()
-  })
-  
-  output$nwsDownloadButtonCSV <- shiny::renderUI({
-    #shiny::req(dataETL())
-    if (input$navsetCardTab == "network-wide-summary") {
-      shiny::downloadButton(
-        "nwsDownloadCSV", 
-        label = "Download .csv", 
-        class = "btn btn-default btn-blue", 
-        type = "button"
-      )
-    } else {
-      return(NULL)
-    }
-  })
-  
-  output$nwsDownloadButtonTSV <- shiny::renderUI({
-    #shiny::req(dataETL())
-    if (input$navsetCardTab == "network-wide-summary") {
-      shiny::downloadButton(
-        "nwsDownloadTSV", 
-        label = "Download .tsv", 
-        class = "btn btn-default btn-blue", 
-        type = "button"
-      )
-    } else {
-      return(NULL)
-    }
+  output$downloadButtonsDiv <- shiny::renderUI({
+    # shiny::req(dataETL())
+    fxn_downloadButtonsDiv(activeTab = input$navsetCardTab)
   })
   
   output$nwsDownloadCSV <- shiny::downloadHandler(
@@ -222,7 +167,7 @@ server <- function(input, output, session) {
     }
   )
   
-  output$nwsDownloadTSV <- shiny::downloadHandler(
+ output$nwsDownloadTSV <- shiny::downloadHandler(
     filename = function() {"AZMet-15-minute-network-wide-summary.tsv"},
     content = function(file) {
       vroom::vroom_write(x = nwsData(), file = file, delim = "\t")
@@ -236,11 +181,6 @@ server <- function(input, output, session) {
   output$nwsTableFooter <- shiny::renderUI({
     shiny::req(dataETL())
     fxn_nwsTableFooter()
-  })
-  
-  output$nwsTableHelpText <- shiny::renderUI({
-    shiny::req(dataETL())
-    fxn_nwsTableHelpText()
   })
   
   output$nwsTableTitle <- shiny::renderUI({
@@ -263,37 +203,14 @@ server <- function(input, output, session) {
     )
   })
   
-  output$refreshDataHelpText <- shiny::renderUI({
-    #shiny::req(dataETL())
-    fxn_refreshDataHelpText(activeTab = input$navsetCardTab)
-  })
-  
-  output$slsDownloadButtonCSV <- shiny::renderUI({
-    #shiny::req(dataETL())
-    if (input$navsetCardTab == "station-level-summaries") {
-      shiny::downloadButton(
-        outputId = "slsDownloadCSV", 
-        label = "Download .csv", 
-        class = "btn btn-default btn-blue", 
-        type = "button"
-      )
-    } else {
-      return(NULL)
-    }
-  })
-  
-  output$slsDownloadButtonTSV <- shiny::renderUI({
-    #shiny::req(dataETL())
-    if (input$navsetCardTab == "station-level-summaries") {
-      shiny::downloadButton(
-        outputId = "slsDownloadTSV", 
-        label = "Download .tsv", 
-        class = "btn btn-default btn-blue", 
-        type = "button"
-      )
-    } else {
-      return(NULL)
-    }
+  output$refreshDataInfo <- shiny::renderUI({
+    #req(dataETL())
+    bslib::tooltip(
+      bsicons::bs_icon("info-circle"),
+      fxn_refreshDataHelpText(activeTab = input$navsetCardTab),
+      id = "refreshDataInfo",
+      placement = "right"
+    )
   })
   
   output$slsDownloadCSV <- shiny::downloadHandler(
@@ -321,11 +238,6 @@ server <- function(input, output, session) {
   output$slsGraphFooter <- shiny::renderUI({
     shiny::req(dataETL())
     fxn_slsGraphFooter()
-  })
-  
-  output$slsGraphHelpText <- shiny::renderUI({
-    shiny::req(dataETL())
-    fxn_slsGraphHelpText()
   })
   
   output$slsGraphTitle <- shiny::renderUI({

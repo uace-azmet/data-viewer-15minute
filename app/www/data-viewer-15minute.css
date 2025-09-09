@@ -48,7 +48,7 @@
 }
 
 .card-body.bslib-gap-spacing.html-fill-item.html-fill-container {
-  padding-bottom: 24px;
+  padding-bottom: 0px;
   padding-left: 24px;
   padding-right: 24px;
   padding-top: 48px;
@@ -59,18 +59,8 @@
   font-weight: bold;
 }
 
-.data-download-help-text {
-  color: #989898; 
-  font-size: 1rem;
-  font-style: italic;
-  padding-top: 24px;
-}
-
-.help-block {
-  color: #989898 !important;
-  font-size: 1rem;
-  font-style: italic;
-  font-weight: normal;
+.download-buttons-div {
+  padding-top: 3rem;
 }
 
 .main.bslib-gap-spacing.html-fill-container {
@@ -82,6 +72,10 @@
 
 .modebar-container {
   top: -8px !important;
+}
+
+.nws-table .rt-tr-group .rt-tr:hover {
+  background-color: #e2e9eb !important;
 }
 
 .nws-table-footer {
@@ -100,24 +94,15 @@
   padding-top: 12px;
 }
 
+.nws-table-title {
+  padding-bottom: 1rem;
+}
+
 .page-bottom-text {
   color: #191919;
 }
 
-.refresh-data-help-text-nws {
-  color: #989898; 
-  font-size: 1rem;
-  font-style: italic;
-}
-
-.refresh-data-help-text-sls {
-  color: #989898; 
-  font-size: 1rem;
-  font-style: italic;
-  padding-top: 24px;
-}
-
-.selectize-dropdown .active {
+selectize-dropdown .active {
   background-color: rgb(226, 233, 235); 
   color: var(--bs-body-color);
 }
@@ -160,6 +145,10 @@
   padding-top: 48px !important;
 }
 
+.sls-data-display-title {
+  padding-bottom: 0.5rem !important;
+}
+
 .sls-graph-footer {
   color: #606060; 
   font-size: 0.85rem;
@@ -167,16 +156,18 @@
   margin-top: 0.25rem;
 }
 
-.sls-graph-help-text {
-  color: #989898 !important;
-  font-size: 1rem;
-  font-style: italic;
-  font-weight: normal;
-  padding-top: 4px;
+.sls-graph-title {
+  padding-bottom: 0.2rem !important;
 }
 
-.nws-table .rt-tr-group .rt-tr:hover {
-  background-color: #e2e9eb !important;
+.station-groups-title {
+  color: #606060;
+  padding-bottom: 0.5rem;
+  padding-top: 3rem;
+}
+
+.tab-content.html-fill-item.html-fill-container {
+  padding-bottom: 24px;
 }
 
 
