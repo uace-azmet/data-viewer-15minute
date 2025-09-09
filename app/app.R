@@ -1,25 +1,6 @@
 # Tabular and graphical summaries of recent 15-minute data to support QA/QC
 
 
-# Libraries
-library(azmetr)
-library(bsicons)
-library(bslib)
-library(dplyr)
-library(htmltools)
-library(plotly)
-library(RColorBrewer)
-library(reactable)
-library(shiny)
-library(shinyjs)
-
-# Functions. Loaded automatically at app start if in `R` folder
-#source("./R/fxn_functionName.R", local = TRUE)
-
-# Scripts. Loaded automatically at app start if in `R` folder
-#source("./R/scr_scriptName.R", local = TRUE)
-
-
 # UI --------------------
 
 ui <- 
@@ -55,7 +36,6 @@ ui <-
           title = "Network-wide Summary",
           
           shiny::htmlOutput(outputId = "nwsTableTitle"),
-          shiny::htmlOutput(outputId = "nwsTableHelpText"),
           reactable::reactableOutput(outputId = "nwsTable"),
           shiny::htmlOutput(outputId = "nwsTableFooter"),
           
@@ -236,11 +216,6 @@ server <- function(input, output, session) {
   output$nwsTableFooter <- shiny::renderUI({
     shiny::req(dataETL())
     fxn_nwsTableFooter()
-  })
-  
-  output$nwsTableHelpText <- shiny::renderUI({
-    shiny::req(dataETL())
-    fxn_nwsTableHelpText()
   })
   
   output$nwsTableTitle <- shiny::renderUI({
