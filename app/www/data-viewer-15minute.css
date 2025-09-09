@@ -84,6 +84,10 @@
   top: -8px !important;
 }
 
+.nws-table .rt-tr-group .rt-tr:hover {
+  background-color: #e2e9eb !important;
+}
+
 .nws-table-footer {
   color: #606060; 
   font-size: 0.85rem;
@@ -164,6 +168,10 @@
   padding-top: 48px !important;
 }
 
+.sls-data-display-title {
+  padding-bottom: 1rem !important;
+}
+
 .sls-graph-footer {
   color: #606060; 
   font-size: 0.85rem;
@@ -179,8 +187,10 @@
   padding-top: 4px;
 }
 
-.nws-table .rt-tr-group .rt-tr:hover {
-  background-color: #e2e9eb !important;
+.station-groups-title {
+  color: #606060;
+  padding-bottom: 1rem;
+  padding-top: 3rem;
 }
 
 
