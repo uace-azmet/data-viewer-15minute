@@ -22,9 +22,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
   
   dataSelectedGroup <- inData %>% 
     dplyr::filter(meta_station_group == azmetStationGroup) %>% 
-    #dplyr::arrange(dplyr::desc(meta_station_name)) %>% 
-    #dplyr::mutate(meta_station_name = as.factor(meta_station_name)) %>% 
-    dplyr::group_by(meta_station_name)
+    dplyr::arrange(meta_station_name)
   
   slsGraph <- 
     plotly::plot_ly( # Lines and points for `dataOtherGroups`
@@ -51,7 +49,8 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
         "<br><b>Time:</b>  ", format(datetime, "%H:%M:%S")
       ),
       showlegend = TRUE,
-      legendgroup = "dataOtherStations"
+      legendgroup = "dataOtherStations",
+      legendrank = 2
     ) %>% 
     
     plotly::add_trace( # Lines and points for `dataSelectedGroup`
@@ -79,7 +78,8 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
         "<br><b>Time:</b>  ", format(datetime, "%H:%M:%S")
       ),
       showlegend = TRUE,
-      legendgroup = "metaStationName"
+      legendgroup = "metaStationName",
+      legendrank = 1
     ) %>% 
     
     plotly::config(
@@ -115,8 +115,9 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
         )
       ),
       legend = list(
+        groupclick = "toggleitem",
         orientation = "h",
-        traceorder = "reversed",
+        traceorder = "normal",
         x = 0.00,
         xanchor = "left",
         xref = "container",
