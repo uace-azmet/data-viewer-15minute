@@ -20,6 +20,19 @@ fxn_dataETL <- function() {
     ) |>
     
     dplyr::mutate(
+      temp_soil_10cmC = dplyr::if_else(
+        meta_station_name == "Test",
+        NA_real_,
+        temp_soil_10cmC
+      ),
+      temp_soil_50cmC = dplyr::if_else(
+        meta_station_name == "Test",
+        NA_real_,
+        temp_soil_50cmC
+      )
+    ) |>
+    
+    dplyr::mutate(
       datetime = format(datetime, format = "%Y-%m-%d %H:%M:%S"),
       dwptF = fxn_c_to_f(dwpt),
       precip_total_in = fxn_mm_to_in(precip_total_mm),

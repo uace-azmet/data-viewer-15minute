@@ -3,6 +3,7 @@
 
 # UI --------------------
 
+
 ui <- 
   htmltools::htmlTemplate(
     filename = "azmet-shiny-template.html",
@@ -30,6 +31,7 @@ ui <-
         full_screen = TRUE,
         wrapper = card_body,
         
+        
         # Network-wide Summary (nws) -----
         
         bslib::nav_panel(
@@ -41,6 +43,7 @@ ui <-
           
           value = "network-wide-summary"
         ),
+        
         
         # Station-level summaries (sls) -----
         
@@ -89,6 +92,7 @@ ui <-
 
 
 # Server --------------------
+
 
 server <- function(input, output, session) {
   shinyjs::useShinyjs(html = TRUE)
@@ -252,5 +256,6 @@ server <- function(input, output, session) {
 
 
 # Run --------------------
+
 
 shinyApp(ui, server)
