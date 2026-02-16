@@ -1,6 +1,18 @@
 # Tabular and graphical summaries of recent 15-minute data to support QA/QC
 
 
+# PROCESS FOR PWA -----
+
+# dir.create("app/www/pwa")
+# Copy `azmet-pwa-icon-192x192.png` to `app/www/pwa/`
+# Copy `azmet-pwa-icon-512x512.png` to `app/www/pwa/`
+# Copy `azmet-pwa-icon.svg` to `app/www/pwa/`
+# Copy `pwa-service-worker.js` to `app/www/pwa/`
+# Copy `pwa.html` to `app/www/pwa/`
+# Copy `manifest.webmanifest` to `app/www/`
+# Add `htmltools::tags$head(includeHTML("www/pwa/pwa.html"))` to `app.R`
+
+
 # UI --------------------
 
 
@@ -19,6 +31,8 @@ ui <-
       title = NULL,
       theme = theme, # `scr##_theme.R`
       #lang = "en",
+      
+      htmltools::tags$head(htmltools::includeHTML("www/pwa/pwa.html")),
       
       bslib::navset_card_tab(
         id = "navsetCardTab",
