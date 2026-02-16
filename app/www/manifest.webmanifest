@@ -1,7 +1,7 @@
 {
   "name": "AZMet 15-minute",
-  "short_name": "AZMet:15min",
-  "start_url": "/",
+  "short_name": "AZMet 15-minute",
+  "start_url": "./",
   "display": "standalone",
   "icons": [
     {
