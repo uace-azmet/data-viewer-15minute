@@ -26,5 +26,5 @@
   "background_color": "#add8e6",
   "theme_color": "#343a40",
   "description": "Tabular and graphical summaries of the latest 15-minute data from stations across the network",
-  "orientation": "natural"
+  "orientation": "any"
 }
