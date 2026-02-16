@@ -1,6 +1,6 @@
 {
-  "name": "AZMet in Real-time",
-  "short_name": "AZMetRT",
+  "name": "AZMet 15-minute",
+  "short_name": "AZMet:15min",
   "start_url": "./",
   "display": "standalone",
   "icons": [
@@ -26,5 +26,5 @@
   "background_color": "#add8e6",
   "theme_color": "#343a40",
   "description": "Tabular and graphical summaries of the latest 15-minute data from stations across the network",
-  "orientation": "any"
+  "orientation": "natural"
 }
