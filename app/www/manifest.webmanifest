@@ -1,7 +1,7 @@
 {
   "name": "AZMet 15-minute",
   "short_name": "AZMet:15min",
-  "start_url": "https://viz.datascience.arizona.edu/azmet/data-viewer-15minute/",
+  "start_url": "/",
   "display": "standalone",
   "icons": [
     {
