@@ -1,31 +1,32 @@
 {
-  "name": "AZMet 15-minute",
+  "name": "AZMet 15-minute Data Viewer",
   "short_name": "AZMet 15-minute",
-  "id": "https://viz.datascience.arizona.edu/azmet/data-viewer-15minute/v1",
+  "scope": "https://viz.datascience.arizona.edu/azmet/data-viewer-15minute/",
   "start_url": "https://viz.datascience.arizona.edu/azmet/data-viewer-15minute/",
+  "id": "https://viz.datascience.arizona.edu/azmet/data-viewer-15minute/v1",
+  "background_color": "#add8e6",
+  "description": "Tabular and graphical summaries of the latest 15-minute data from stations across the network",
   "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#343a40",
   "icons": [
     {
       "src": "pwa/azmet-pwa-icon-clock15.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
       "src": "pwa/azmet-pwa-icon-clock15-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
       "src": "pwa/azmet-pwa-icon-clock15-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
-  ],
-  "background_color": "#add8e6",
-  "theme_color": "#343a40",
-  "description": "Tabular and graphical summaries of the latest 15-minute data from stations across the network",
-  "orientation": "any"
+  ]
 }
