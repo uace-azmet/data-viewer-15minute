@@ -1,7 +1,6 @@
 {
   "name": "AZMet 15-minute Data Viewer",
   "short_name": "AZMet 15-minute",
-  "scope": "https://viz.datascience.arizona.edu/azmet/data-viewer-15minute/",
   "start_url": "https://viz.datascience.arizona.edu/azmet/data-viewer-15minute/",
   "id": "https://viz.datascience.arizona.edu/azmet/data-viewer-15minute/v1",
   "background_color": "#add8e6",
@@ -14,7 +13,7 @@
       "src": "pwa/azmet-pwa-icon-clock15.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "maskable"
     },
     {
       "src": "pwa/azmet-pwa-icon-clock15-512x512.png",

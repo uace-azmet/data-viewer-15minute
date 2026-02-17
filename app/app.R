@@ -32,7 +32,7 @@ ui <-
       theme = theme, # `scr##_theme.R`
       #lang = "en",
       
-      htmltools::tags$head(htmltools::includeHTML("pwa/pwa.html")),
+      htmltools::tags$head(htmltools::includeHTML("www/pwa/pwa.html")),
       
       bslib::navset_card_tab(
         id = "navsetCardTab",

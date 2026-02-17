@@ -1,8 +1,8 @@
 <!-- register service worker -->
 <script>
     if ('serviceWorker'in navigator) {
-        navigator.serviceWorker.register('/pwa/pwa-service-worker.js', {
-            scope: '/pwa/'
+        navigator.serviceWorker.register('/azmet/data-viewer-15minute/pwa/pwa-service-worker.js', {
+            scope: '/azmet/data-viewer-15minute/pwa/'
         }).then(function() {
             console.log('Service Worker Registered');
         });
