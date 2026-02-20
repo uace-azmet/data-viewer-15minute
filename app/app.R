@@ -6,6 +6,7 @@
 # dir.create("app/www/pwa")
 # Copy `azmet-pwa-icon-###-192x192.png` to `app/www/pwa/`
 # Copy `azmet-pwa-icon-###-512x512.png` to `app/www/pwa/`
+# Copy `azmet-pwa-icon-###.svg` to `app/www/pwa/`
 # Copy `pwa-service-worker.js` to `app/www/pwa/`
 # Copy `pwa.html` to `app/www/pwa/`
 # Copy `manifest.webmanifest` to `app/www/`
