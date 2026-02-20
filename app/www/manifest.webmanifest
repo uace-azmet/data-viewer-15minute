@@ -10,10 +10,16 @@
   "theme_color": "#343a40",
   "icons": [
     {
-      "src": "/azmet/data-viewer-15minute/pwa/azmet-pwa-icon-clock15.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "src": "/azmet/data-viewer-15minute/pwa/azmet-pwa-icon-clock15-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/azmet/data-viewer-15minute/pwa/azmet-pwa-icon-clock15-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
