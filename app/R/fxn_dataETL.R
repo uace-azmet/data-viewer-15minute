@@ -59,13 +59,13 @@ fxn_dataETL <- function() {
           meta_station_name %in% c("Roll", "Wellton ETo", "Yuma N.Gila", "Yuma South", "Yuma Valley", "Yuma Valley ETo"),
           "Group 2",
           dplyr::if_else(
-            meta_station_name %in% c("Aguila", "Buckeye", "Harquahala", "Paloma", "Salome"),
+            meta_station_name %in% c("Aguila", "Buckeye", "Harquahala", "Maricopa", "Paloma", "Salome"),
             "Group 3",
             dplyr::if_else(
               meta_station_name %in% c("Chino Valley", "Desert Ridge", "Payson", "Phoenix Encanto", "Phoenix Greenway"),
               "Group 4",
               dplyr::if_else(
-                meta_station_name %in% c("Coolidge", "Maricopa", "Queen Creek", "Sahuarita", "Test", "Tucson"),
+                meta_station_name %in% c("Coolidge", "Elgin", "Maricopa", "Queen Creek", "Sahuarita", "Test", "Tucson"),
                 "Group 5",
                 "Group 6"
               )
