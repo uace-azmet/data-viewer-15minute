@@ -14,7 +14,7 @@ slsSidebar <-
     
     htmltools::p(
       bsicons::bs_icon("sliders", class = "bolder-icon"), 
-      htmltools::HTML("&nbsp;<strong>DATA OPTIONS</strong>&nbsp;"),
+      htmltools::HTML("&nbsp;<strong>DATA DISPLAY</strong>&nbsp;"),
       bslib::tooltip(
         bsicons::bs_icon("info-circle"),
         "Specify a station group to highlight and variable to show in the graph.",
