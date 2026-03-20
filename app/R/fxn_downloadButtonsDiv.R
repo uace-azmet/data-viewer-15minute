@@ -20,7 +20,7 @@ fxn_downloadButtonsDiv <- function(activeTab) {
           class = "btn btn-default btn-blue", 
           type = "button"
         ),
-        htmltools::HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
+        htmltools::HTML("&nbsp;&nbsp;"),
         bslib::tooltip(
           bsicons::bs_icon("info-circle"),
           "Click or tap to download a file of the above data with either comma- or tab-separated values.",
@@ -46,7 +46,7 @@ fxn_downloadButtonsDiv <- function(activeTab) {
           class = "btn btn-default btn-blue", 
           type = "button"
         ),
-        htmltools::HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
+        htmltools::HTML("&nbsp;&nbsp;"),
         bslib::tooltip(
           bsicons::bs_icon("info-circle"),
           "Click or tap to download a file of the above data with either comma- or tab-separated values.",
