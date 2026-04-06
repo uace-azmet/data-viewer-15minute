@@ -1,7 +1,5 @@
-shiny::addResourcePath("shinyjs", system.file("srcjs", package = "shinyjs"))
-
-
 # Libraries --------------------
+
 
 library(azmetr)
 library(bsicons)
@@ -28,14 +26,19 @@ library(vroom)
 # Variables --------------------
 
 azmetStationMetadata <- azmetr::station_info |>
-  dplyr::mutate(end_date = NA) |> # Placeholder until inactive stations are in API and `azmetr`
-  dplyr::mutate(
-    end_date = dplyr::if_else(
-      status == "active",
-      lubridate::today(tzone = "America/Phoenix") - 1,
-      end_date
-    )
-  )
+  dplyr::mutate(end_date = NA) #|> # Placeholder until inactive stations are in API and `azmetr`
+  # dplyr::mutate(
+  #   end_date = dplyr::if_else(
+  #     condition = status == "active",
+  #     true = lubridate::today(tzone = "America/Phoenix") - 1,
+  #     false = end_date
+  #   )
+  # )
+
+az15minStartDate <- lubridate::now(tzone = "America/Phoenix") - lubridate::ddays(x = 14)
+
+showNavsetCardTab <- reactiveVal(FALSE)
+showPageBottomText <- reactiveVal(FALSE)
 
 stationGroups <- 
   tibble::tibble(
@@ -46,3 +49,9 @@ stationGroups <-
     group5 = c("Coolidge", "Elgin", "Queen Creek", "Sahuarita", "Test", "Tucson"),
     group6 = c("Bonita", "Bowie", "Duncan", "Safford", "San Simon", "Willcox Bench")
   )
+
+
+# Other --------------------
+
+
+shiny::addResourcePath("shinyjs", system.file("srcjs", package = "shinyjs"))

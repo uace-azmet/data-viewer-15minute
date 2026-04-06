@@ -3,7 +3,7 @@ slsSidebar <-
     width = 300,
     position = "left",
     open = list(desktop = "open", mobile = "always-above"),
-    id = "sidebar",
+    id = "slsSidebar",
     title = NULL,
     bg = "#FFFFFF",
     fg = "#191919", # https://www.color-hex.com/color-palette/1041718

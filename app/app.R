@@ -21,97 +21,41 @@ ui <-
   htmltools::htmlTemplate(
     filename = "azmet-shiny-template.html",
     
-    # Apparent bug in `bslib`, see: https://github.com/rstudio/bslib/issues/834
-    #pageNavbar = bslib::page_navbar(
-    #navsetTab = bslib::navset_tab(
-    #navsetCardTab = bslib::navset_card_tab(
-    
-    # Work-around by placing the navset in `bslib::page()`, which correctly renders tabs on webpage
-    navsetCardTab = bslib::page(
-      
-      title = NULL,
-      theme = theme, # `scr##_theme.R`
-      #lang = "en",
-      
-      htmltools::tags$head(htmltools::includeHTML("www/pwa/pwa.html")),
-      
-      bslib::navset_card_tab(
-        id = "navsetCardTab",
-        selected = "network-wide-summary",
+    pageDataViewer15Minute = 
+      bslib::page(
         title = NULL,
-        sidebar = NULL,
-        header = NULL,
-        footer = NULL,
-        #height = 600,
-        full_screen = TRUE,
-        wrapper = card_body,
+        theme = theme, # `scr##_theme.R`
         
+        htmltools::tags$head(htmltools::includeHTML("www/pwa/pwa.html")),
         
-        # Network-wide Summary (nws) -----
-        
-        bslib::nav_panel(
-          title = "Network-wide Summary",
-          
-          shiny::htmlOutput(outputId = "nwsTableTitle"),
-          reactable::reactableOutput(outputId = "nwsTable"),
-          shiny::htmlOutput(outputId = "nwsTableFooter"),
-          
-          value = "network-wide-summary"
+        bslib::layout_sidebar(
+          sidebar = pageSidebar, # `scr##_slsSidebar.R`
+          shiny::uiOutput(outputId = "navsetCardTab")
         ),
         
-        
-        # Station-level summaries (sls) -----
-        
-        bslib::nav_panel(
-          title = "Station-level Summaries",
-          
-          bslib::layout_sidebar(
-            sidebar = slsSidebar, # `scr##_slsSidebar.R`
-            
-            shiny::htmlOutput(outputId = "slsGraphTitle"),
-            plotly::plotlyOutput(outputId = "slsGraph"),
-            shiny::htmlOutput(outputId = "slsGraphFooter"),
-            
-            #fillable = TRUE,
-            #fill = TRUE,
-            #bg = NULL,
-            #fg = NULL,
-            #border = NULL,
-            #border_radius = NULL,
-            #border_color = NULL,
-            #padding = NULL,
-            #gap = NULL,
-            #height = NULL
-          ),
-          
-          value = "station-level-summaries"
-        )
-      ) |>
-        htmltools::tagAppendAttributes(
-          #https://getbootstrap.com/docs/5.0/utilities/api/
-          class = "border-0 rounded-0 shadow-none"
-        ),
-      
-      htmltools::div(
-        shiny::uiOutput(outputId = "refreshDataButton"), # Common, regardless of card tab
-        htmltools::HTML("&nbsp;&nbsp;"),
-        shiny::uiOutput(outputId = "refreshDataInfo"), # Common, regardless of card tab
-        
-        style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling
-      ),
-      
-      shiny::htmlOutput(outputId = "downloadButtonsDiv"),
-      shiny::htmlOutput(outputId = "pageBottomText") # Common, regardless of card tab
-    )
-  )
+        htmltools::div(
+          shiny::uiOutput(outputId = "refreshDataButton"), # Common, regardless of card tab
+          htmltools::HTML("&nbsp;&nbsp;"),
+          shiny::uiOutput(outputId = "refreshDataInfo"), # Common, regardless of card tab
 
+          style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling
+        ),
+        
+        shiny::htmlOutput(outputId = "downloadButtonsDiv"),
+        shiny::htmlOutput(outputId = "pageBottomText") # Common, regardless of card tab
+      )
+  )
+    
 
 # Server --------------------
 
 
 server <- function(input, output, session) {
+  
   shinyjs::useShinyjs(html = TRUE)
+  
   shinyjs::hideElement("downloadButtonsDiv")
+  shinyjs::hideElement("navsetCardTab")
   shinyjs::hideElement("pageBottomText")
   shinyjs::hideElement("refreshDataButton") # Needs to be 'present' on page for `dataETL <- shiny::reactive({})` statement to work on initial page load
   shinyjs::hideElement("refreshDataInfo")
@@ -120,10 +64,14 @@ server <- function(input, output, session) {
   # Observables -----
   
   shiny::observeEvent(dataETL(), {
+    
     shinyjs::showElement("downloadButtonsDiv")
+    shinyjs::showElement("navsetCardTab")
     shinyjs::showElement("pageBottomText")
     shinyjs::showElement("refreshDataButton")
     shinyjs::showElement("refreshDataInfo")
+    showNavsetCardTab(TRUE)
+    showPageBottomText(TRUE)
     
     shiny::updateSelectInput(
       inputId = "azmetStationGroup",
@@ -173,6 +121,12 @@ server <- function(input, output, session) {
   
   
   # Outputs -----
+  
+  output$navsetCardTab <- 
+    shiny::renderUI({
+      shiny::req(showNavsetCardTab())
+      navsetCardTab # `scr##_navsetCardTab.R`
+    })
   
   output$downloadButtonsDiv <- shiny::renderUI({
     # shiny::req(dataETL())
