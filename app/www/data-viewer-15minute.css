@@ -26,6 +26,10 @@
   stroke: currentColor; /* Inherits the 'color' property of the parent */
 }
 
+.bslib-sidebar-layout {
+  padding-bottom: 16px;
+}
+
 /* https://stackoverflow.com/questions/77114751/is-it-possible-to-modify-the-arrow-that-collapses-the-sidebar */
 .bslib-sidebar-layout > .collapse-toggle > .collapse-icon {
   fill: #989898 !important;

@@ -68,12 +68,6 @@ server <- function(input, output, session) {
     showPageBottomText(TRUE)
   })
   
-  # Observe change in tabset panel
-  observeEvent(input$navsetCardTab, {
-    # Print tab ID to console
-    cat("Active Tab: ", input$navsetCardTab, "\n")
-  })
-  
    
   # Reactives -----
   
@@ -107,10 +101,22 @@ server <- function(input, output, session) {
       )
   })
   
-  # Filter and format 15-minute data for the most recent report from each station
   nwsData <- 
     shiny::eventReactive(az15min(), {
       fxn_nwsData(inData = az15min())
+    })
+  
+  nwsTableTitle <- 
+    shiny::eventReactive(az15min(), {
+      fxn_nwsTableTitle(endDate = input$endDate)
+    })
+  
+  slsGraphTitle <- 
+    shiny::eventReactive(az15min(), {
+      fxn_slsGraphTitle(
+        startDate = input$startDate,
+        endDate = input$endDate
+      )
     })
   
   
@@ -156,8 +162,7 @@ server <- function(input, output, session) {
   
   output$nwsTableTitle <- 
     shiny::renderUI({
-      shiny::req(az15min())
-      fxn_nwsTableTitle()
+      nwsTableTitle()
     })
   
   output$pageBottomText <- 
@@ -200,7 +205,7 @@ server <- function(input, output, session) {
   output$slsGraphTitle <- 
     shiny::renderUI({
       shiny::req(az15min())
-      fxn_slsGraphTitle()
+      slsGraphTitle()
     })
   
   output$stationGroupsTable <- 

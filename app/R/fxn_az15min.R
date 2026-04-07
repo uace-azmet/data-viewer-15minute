@@ -22,11 +22,6 @@ fxn_az15min <- function(startDate, endDate) {
   }
   
   az15min <- az15min |>
-    # azmetr::az_15min(
-    #   # start_date_time = paste(startDate, "01"),
-    #   # end_date_time = endDate
-    # ) |>
-    
     dplyr::mutate(
       temp_soil_10cmC = dplyr::if_else(
         meta_station_name == "Test",

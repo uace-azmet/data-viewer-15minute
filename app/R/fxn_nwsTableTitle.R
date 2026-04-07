@@ -1,9 +1,10 @@
 #' `fxn_nwsTableTitle.R` - Build title for network-wide summary table
 #' 
+#' @param endDate - End date of period of interest
 #' @return `nwsTableTitle` - Title for network-wide summary table
 
 
-fxn_nwsTableTitle <- function() {
+fxn_nwsTableTitle <- function(endDate) {
   nwsTableTitle <- 
     htmltools::p(
       htmltools::HTML(
@@ -11,7 +12,11 @@ fxn_nwsTableTitle <- function() {
           bsicons::bs_icon("table"), 
           htmltools::HTML("&nbsp;&nbsp;"),
           htmltools::HTML(
-            toupper("<strong>The latest 15-minute data from across the network</strong>")
+            toupper(
+              paste0(
+                "<strong>The latest 15-minute data on ", gsub(" 0", " ", format(endDate, "%B %d, %Y")), " from across the network</strong>"
+              )
+            )
           )
         )
       ),
