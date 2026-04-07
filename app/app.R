@@ -95,10 +95,7 @@ server <- function(input, output, session) {
         add = TRUE
       )
       
-      fxn_az15min(
-        startDate = input$startDate,
-        endDate = input$endDate
-      )
+      fxn_az15min(startDate = input$startDate, endDate = input$endDate)
   })
   
   nwsData <- 
@@ -113,10 +110,7 @@ server <- function(input, output, session) {
   
   slsGraphTitle <- 
     shiny::eventReactive(az15min(), {
-      fxn_slsGraphTitle(
-        startDate = input$startDate,
-        endDate = input$endDate
-      )
+      fxn_slsGraphTitle(startDate = input$startDate, endDate = input$endDate)
     })
   
   
@@ -167,7 +161,6 @@ server <- function(input, output, session) {
   
   output$pageBottomText <- 
     shiny::renderUI({
-      #shiny::req(az15min())
       fxn_pageBottomText()
     })
   
