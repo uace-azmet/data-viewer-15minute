@@ -3,7 +3,7 @@ pageSidebar <-
     width = 300,
     position = "left",
     open = list(desktop = "open", mobile = "always-above"),
-    id = "pageSidebar",
+    id = "sidebar",
     title = NULL,
     bg = "#FFFFFF",
     fg = "#191919",

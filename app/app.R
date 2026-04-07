@@ -33,14 +33,6 @@ ui <-
           shiny::uiOutput(outputId = "navsetCardTab")
         ),
         
-        htmltools::div(
-          shiny::uiOutput(outputId = "refreshDataButton"), # Common, regardless of card tab
-          htmltools::HTML("&nbsp;&nbsp;"),
-          shiny::uiOutput(outputId = "refreshDataInfo"), # Common, regardless of card tab
-
-          style = "display: flex; align-items: top; gap: 0px;", # Flexbox styling
-        ),
-        
         shiny::htmlOutput(outputId = "downloadButtonsDiv"),
         shiny::htmlOutput(outputId = "pageBottomText") # Common, regardless of card tab
       )
@@ -57,8 +49,6 @@ server <- function(input, output, session) {
   shinyjs::hideElement("downloadButtonsDiv")
   shinyjs::hideElement("navsetCardTab")
   shinyjs::hideElement("pageBottomText")
-  shinyjs::hideElement("refreshDataButton") # Needs to be 'present' on page for `dataETL <- shiny::reactive({})` statement to work on initial page load
-  shinyjs::hideElement("refreshDataInfo")
   
   
   # Observables -----
@@ -73,39 +63,15 @@ server <- function(input, output, session) {
     shinyjs::showElement("downloadButtonsDiv")
     shinyjs::showElement("navsetCardTab")
     shinyjs::showElement("pageBottomText")
-    shinyjs::showElement("refreshDataButton")
-    shinyjs::showElement("refreshDataInfo")
     
     showNavsetCardTab(TRUE)
     showPageBottomText(TRUE)
-    
-    shiny::updateSelectInput(
-      inputId = "azmetStationGroup",
-      label = "AZMet Station Group",
-      choices = sort(unique(az15min()$meta_station_group)),
-      selected = sort(unique(az15min()$meta_station_group))[1]
-    )
-    
-    shiny::updateSelectInput(
-      inputId = "stationVariable",
-      label = "Station Variable",
-      choices = 
-        sort(
-          colnames(
-            dplyr::select(
-              az15min(), !c(datetime, meta_station_group, meta_station_name)
-            )
-          )
-        ),
-      selected = 
-        sort(
-          colnames(
-            dplyr::select(
-              az15min(), !c(datetime, meta_station_group, meta_station_name)
-            )
-          )
-        )[1]
-    )
+  })
+  
+  # Observe change in tabset panel
+  observeEvent(input$navsetCardTab, {
+    # Print tab ID to console
+    cat("Active Tab: ", input$navsetCardTab, "\n")
   })
   
    
@@ -150,15 +116,15 @@ server <- function(input, output, session) {
   
   # Outputs -----
   
+  output$downloadButtonsDiv <- 
+    shiny::renderUI({
+      fxn_downloadButtonsDiv(activeTab = input$navsetCardTab)
+    })
+  
   output$navsetCardTab <- 
     shiny::renderUI({
       shiny::req(showNavsetCardTab())
       navsetCardTab # `scr##_navsetCardTab.R`
-    })
-  
-  output$downloadButtonsDiv <- 
-    shiny::renderUI({
-      fxn_downloadButtonsDiv(activeTab = input$navsetCardTab)
     })
   
   output$nwsDownloadCSV <- 
@@ -200,28 +166,6 @@ server <- function(input, output, session) {
       fxn_pageBottomText()
     })
   
-  # output$refreshDataButton <- 
-  #   shiny::renderUI({
-  #     #shiny::req(az15min())
-  #     shiny::actionButton(
-  #       inputId = "refreshDataButton", 
-  #       label = "REFRESH DATA",
-  #       icon = shiny::icon(name = "rotate-right", lib = "font-awesome"),
-  #       class = "btn btn-block btn-blue"
-  #     )
-  #   })
-  # 
-  # output$refreshDataInfo <- 
-  #   shiny::renderUI({
-  #     #req(az15min())
-  #     bslib::tooltip(
-  #       bsicons::bs_icon("info-circle"),
-  #       fxn_refreshDataHelpText(activeTab = input$navsetCardTab),
-  #       id = "refreshDataInfo",
-  #       placement = "right"
-  #     )
-  #   })
-  
   output$slsDownloadCSV <- 
     shiny::downloadHandler(
       filename = function() {"AZMet-15-minute-station-level-summaries.csv"},
@@ -242,7 +186,7 @@ server <- function(input, output, session) {
     plotly::renderPlotly({
       fxn_slsGraph(
         inData = az15min(),
-        azmetStationGroup = input$azmetStationGroup,
+        stationGroup = input$stationGroup,
         stationVariable = input$stationVariable
       )
     })

@@ -15,12 +15,11 @@ navsetCardTab <-
     
     bslib::nav_panel(
       title = "Network-wide Summary",
+      value = "network-wide-summary",
       
       shiny::htmlOutput(outputId = "nwsTableTitle"),
       reactable::reactableOutput(outputId = "nwsTable"),
-      shiny::htmlOutput(outputId = "nwsTableFooter"),
-      
-      value = "network-wide-summary"
+      shiny::htmlOutput(outputId = "nwsTableFooter")
     ),
     
     
@@ -28,6 +27,7 @@ navsetCardTab <-
     
     bslib::nav_panel(
       title = "Station-level Summaries",
+      value = "station-level-summaries",
       
       bslib::layout_sidebar(
         sidebar = slsSidebar, # `scr##_slsSidebar.R`
@@ -35,9 +35,7 @@ navsetCardTab <-
         shiny::htmlOutput(outputId = "slsGraphTitle"),
         plotly::plotlyOutput(outputId = "slsGraph"),
         shiny::htmlOutput(outputId = "slsGraphFooter")
-      ),
-      
-      value = "station-level-summaries"
+      )
     ) 
   ) |>
     htmltools::tagAppendAttributes(

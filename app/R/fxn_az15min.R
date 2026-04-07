@@ -7,11 +7,25 @@
 
 fxn_az15min <- function(startDate, endDate) {
   
-  az15min <- 
-    azmetr::az_15min(
-      start_date_time = 
-        lubridate::now(tzone = "America/Phoenix") - lubridate::hours(50)
-    ) |>
+  if (endDate == lubridate::today(tzone = "America/Phoenix")) {
+    az15min <- 
+      azmetr::az_15min(
+        start_date_time = paste(startDate, "00"),
+        end_date_time = endDate
+      )
+  } else {
+    az15min <- 
+      azmetr::az_15min(
+        start_date_time = paste(startDate, "00"),
+        end_date_time = paste(endDate, "24")
+      )
+  }
+  
+  az15min <- az15min |>
+    # azmetr::az_15min(
+    #   # start_date_time = paste(startDate, "01"),
+    #   # end_date_time = endDate
+    # ) |>
     
     dplyr::mutate(
       temp_soil_10cmC = dplyr::if_else(

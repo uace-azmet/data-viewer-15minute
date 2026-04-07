@@ -5,6 +5,14 @@
 
 
 fxn_downloadButtonsDiv <- function(activeTab) {
+  
+  # To address initial loading error message
+  if (is.null(activeTab)) {
+    activeTab <- "network-wide-summary"
+  } else {
+    activeTab <- activeTab
+  }
+  
   if (activeTab == "network-wide-summary") {
     downloadButtonsDiv <- 
       htmltools::div(

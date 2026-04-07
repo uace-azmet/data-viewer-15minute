@@ -12,7 +12,7 @@
 # https://www.color-hex.com/color-palette/1041718
 
 
-fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
+fxn_slsGraph <- function(inData, stationGroup, stationVariable) {
   
   
   # Input variables -----
@@ -21,14 +21,13 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
     dplyr::mutate(datetime = lubridate::ymd_hms(datetime))
   
   dataOtherGroups <- inData %>% 
-    dplyr::filter(meta_station_group != azmetStationGroup) %>% 
+    dplyr::filter(meta_station_group != stationGroup) %>% 
     dplyr::group_by(meta_station_name)
   
   dataSelectedGroup <- inData %>% 
-    dplyr::filter(meta_station_group == azmetStationGroup) %>% 
+    dplyr::filter(meta_station_group == stationGroup) %>% 
     dplyr::arrange(meta_station_name)
   
-  hoverlabelFontColor = "#191919"
   hoverlabelFontSize = 14
   layoutFontColor = "#191919"
   layoutFontFamily = "proxima-nova, calibri, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
@@ -110,7 +109,7 @@ fxn_slsGraph <- function(inData, azmetStationGroup, stationVariable) {
     plotly::layout(
       font = list(color = layoutFontColor, family = layoutFontFamily, size = layoutFontSize),
       hoverlabel = list(
-        font = list(color = hoverlabelFontColor, family = layoutFontFamily, size = hoverlabelFontSize)
+        font = list(family = layoutFontFamily, size = hoverlabelFontSize)
       ),
       legend = 
         list(

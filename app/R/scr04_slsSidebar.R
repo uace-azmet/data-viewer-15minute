@@ -3,7 +3,7 @@ slsSidebar <-
     width = 300,
     position = "left",
     open = list(desktop = "open", mobile = "always-above"),
-    id = "slsSidebar",
+    id = "sidebar",
     title = NULL,
     bg = "#FFFFFF",
     fg = "#191919", # https://www.color-hex.com/color-palette/1041718
@@ -37,17 +37,17 @@ slsSidebar <-
       ),
       
       shiny::selectInput(
-        inputId = "azmetStationGroup", 
+        inputId = "stationGroup", 
         label = "Station Group",
-        choices = NULL, # see `app.R`, shiny::updateSelectInput(inputId = "azmetStationGroup")
-        selected = NULL # see `app.R`, shiny::updateSelectInput(inputId = "azmetStationGroup")
+        choices = c("Group 1", "Group 2", "Group 3", "Group 4", "Group 5", "Group 6"),
+        selected = c("Group 1", "Group 2", "Group 3", "Group 4", "Group 5", "Group 6")[1]
       ),
       
       shiny::selectInput(
         inputId = "stationVariable", 
         label = "Station Variable",
-        choices = NULL, # see `app.R`, shiny::updateSelectInput(inputId = "stationVariable")
-        selected = NULL # see `app.R`, shiny::updateSelectInput(inputId = "stationVariable")
+        choices = az15minStationVariables,
+        selected = az15minStationVariables[1]
       ),
       
       htmltools::p(
