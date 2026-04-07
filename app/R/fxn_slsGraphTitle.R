@@ -10,7 +10,7 @@ fxn_slsGraphTitle <- function() {
         paste0(
           bsicons::bs_icon("graph-up", class = "bolder-icon"),
           htmltools::HTML("&nbsp;&nbsp;"),
-          toupper("<strong>15-minute data over the past 48 hours from across the network</strong>"),
+          toupper("<strong>15-minute data over the period of interest from across the network</strong>"),
           htmltools::HTML("&nbsp;")
         )
       ),

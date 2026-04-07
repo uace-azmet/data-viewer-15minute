@@ -98,10 +98,6 @@
   font-weight: bold;
 }
 
-.data-display-title {
-  padding-bottom: 1rem !important;
-}
-
 .data-options-title {
   padding-bottom: 1rem !important;
 }
@@ -367,18 +363,18 @@
 }
 
 .selectize-dropdown .active {
-  background-color: rgb(226, 233, 235); 
-  color: var(--bs-body-color);
+  background-color: rgb(226, 233, 235) !important; 
+  color: var(--bs-body-color) !important;
 }
 
 .selectize-dropdown .active:not(.selected) {
-  background-color: rgb(226, 233, 235); 
-  color: var(--bs-body-color);
+  background-color: rgb(226, 233, 235) !important; 
+  color: var(--bs-body-color) !important;
 }
 
 .selectize-dropdown .selected:not(.active) {
-  background-color: var(--bs-body-bg); 
-  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg) !important; 
+  color: var(--bs-body-color) !important;
 }
 
 .selectize-input {
@@ -386,7 +382,7 @@
 }
 
 .selectize-input.items.full.has-options.has-items {
-  border-radius: 0px;
+  border-radius: 0px !important;
 }
 
 .shiny-notification {
@@ -410,7 +406,7 @@
 } */
 
 .sls-data-display-title {
-  padding-bottom: 0.5rem !important;
+  padding-bottom: 1rem !important;
 }
 
 .sls-graph-footer {
@@ -422,6 +418,7 @@
 
 .sls-graph-title {
   padding-bottom: 0.2rem !important;
+  padding-top: 24px;
 }
 
 .station-groups-title {
@@ -500,26 +497,6 @@
    margin-top: 0px !important;
 }
 
-/* #nwsDownloadCSV:active {
-   background-color: #001C48; 
-   color: #fff;
- }
-
-#nwsDownloadCSV:hover {
-  background-color: #001C48; 
-  color: #fff;
-}
-
-#nwsDownloadTSV:active {
-  background-color: #001C48; 
-  color: #fff;
-}
-
-#nwsDownloadTSV:hover {
-  background-color: #001C48; 
-  color: #fff;
-} */
-
 #slsDownloadCSV {
   margin-right: 1.5rem;
   margin-top: 0px !important;
@@ -528,33 +505,6 @@
 #slsDownloadTSV {
   margin-top: 0px !important;
 }
-
-/* #slsDownloadCSV:active {
-  background-color: #001C48; 
-  color: #fff;
-}
-
-#slsDownloadCSV:hover {
-  background-color: #001C48; 
-  color: #fff;
-}
-
-#slsDownloadTSV:active {
-  background-color: #001C48; 
-  color: #fff;
-}
-
-#slsDownloadTSV:hover {
-  background-color: #001C48; 
-  color: #fff;
-}
-
-/* #slsSidebar {
-  padding-top: 48px;
-  padding-right: 24px;
-  padding-bottom: 24px;
-  padding-left: 24px;
-} */
 
 #startDate {
   margin-top: 32px;

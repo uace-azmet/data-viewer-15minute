@@ -3,7 +3,7 @@ pageSidebar <-
     width = 300,
     position = "left",
     open = list(desktop = "open", mobile = "always-above"),
-    id = "sidebar",
+    id = "pageSidebar",
     title = NULL,
     bg = "#FFFFFF",
     fg = "#191919",
@@ -66,9 +66,8 @@ pageSidebar <-
         autoclose = TRUE
       ),
       
-      #selectInput("dataset", label = "Dataset", choices = ls("package:datasets")),
       shiny::actionButton(
-        inputId = "retrieve15minData",
+        inputId = "retrieve15minuteData",
         label = "RETRIEVE 15-minute DATA",
         class = "btn btn-block btn-blue"
       )

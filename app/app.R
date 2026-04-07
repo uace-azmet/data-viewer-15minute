@@ -63,21 +63,27 @@ server <- function(input, output, session) {
   
   # Observables -----
   
-  shiny::observeEvent(dataETL(), {
-    
+  shiny::observeEvent(input$retrieve15minuteData, {
+    if (input$startDate > input$endDate) {
+      shiny::showModal(datepickerErrorModal) # `scr##_datepickerErrorModal.R`
+    }
+  })
+  
+  shiny::observeEvent(az15min(), {
     shinyjs::showElement("downloadButtonsDiv")
     shinyjs::showElement("navsetCardTab")
     shinyjs::showElement("pageBottomText")
     shinyjs::showElement("refreshDataButton")
     shinyjs::showElement("refreshDataInfo")
+    
     showNavsetCardTab(TRUE)
     showPageBottomText(TRUE)
     
     shiny::updateSelectInput(
       inputId = "azmetStationGroup",
       label = "AZMet Station Group",
-      choices = sort(unique(dataETL()$meta_station_group)),
-      selected = sort(unique(dataETL()$meta_station_group))[1]
+      choices = sort(unique(az15min()$meta_station_group)),
+      selected = sort(unique(az15min()$meta_station_group))[1]
     )
     
     shiny::updateSelectInput(
@@ -87,7 +93,7 @@ server <- function(input, output, session) {
         sort(
           colnames(
             dplyr::select(
-              dataETL(), !c(datetime, meta_station_group, meta_station_name)
+              az15min(), !c(datetime, meta_station_group, meta_station_name)
             )
           )
         ),
@@ -95,29 +101,51 @@ server <- function(input, output, session) {
         sort(
           colnames(
             dplyr::select(
-              dataETL(), !c(datetime, meta_station_group, meta_station_name)
+              az15min(), !c(datetime, meta_station_group, meta_station_name)
             )
           )
         )[1]
     )
   })
   
-  
+   
   # Reactives -----
   
-  dataETL <- shiny::reactive({
-    fxn_dataETL()
-  }) %>% 
-    shiny::bindEvent(
-      input$refreshDataButton,
-      ignoreNULL = FALSE,
-      ignoreInit = TRUE
-    )
+  az15min <- 
+    shiny::eventReactive(input$retrieve15minuteData, {
+      shiny::validate(
+        shiny::need(
+          expr = input$startDate <= input$endDate,
+          message = FALSE # Failing validation test
+        )
+      )
+      
+      idRetrieving15minuteData <- 
+        shiny::showNotification(
+          ui = "Retrieving 15-minute data . . .", 
+          action = NULL, 
+          duration = NULL, 
+          closeButton = FALSE,
+          id = "idRetrieving15minuteData",
+          type = "message"
+        )
+      
+      on.exit(
+        shiny::removeNotification(id = idRetrieving15minuteData), 
+        add = TRUE
+      )
+      
+      fxn_az15min(
+        startDate = input$startDate,
+        endDate = input$endDate
+      )
+  })
   
   # Filter and format 15-minute data for the most recent report from each station
-  nwsData <- shiny::eventReactive(dataETL(), {
-    fxn_nwsData(inData = dataETL())
-  })
+  nwsData <- 
+    shiny::eventReactive(az15min(), {
+      fxn_nwsData(inData = az15min())
+    })
   
   
   # Outputs -----
@@ -128,99 +156,113 @@ server <- function(input, output, session) {
       navsetCardTab # `scr##_navsetCardTab.R`
     })
   
-  output$downloadButtonsDiv <- shiny::renderUI({
-    # shiny::req(dataETL())
-    fxn_downloadButtonsDiv(activeTab = input$navsetCardTab)
-  })
+  output$downloadButtonsDiv <- 
+    shiny::renderUI({
+      fxn_downloadButtonsDiv(activeTab = input$navsetCardTab)
+    })
   
-  output$nwsDownloadCSV <- shiny::downloadHandler(
-    filename = function() {"AZMet-15-minute-network-wide-summary.csv"},
-    content = function(file) {
-      vroom::vroom_write(x = nwsData(), file = file, delim = ",")
-    }
-  )
-  
- output$nwsDownloadTSV <- shiny::downloadHandler(
-    filename = function() {"AZMet-15-minute-network-wide-summary.tsv"},
-    content = function(file) {
-      vroom::vroom_write(x = nwsData(), file = file, delim = "\t")
-    }
-  )
-  
-  output$nwsTable <- reactable::renderReactable({
-    fxn_nwsTable(inData = nwsData())
-  })
-  
-  output$nwsTableFooter <- shiny::renderUI({
-    shiny::req(dataETL())
-    fxn_nwsTableFooter()
-  })
-  
-  output$nwsTableTitle <- shiny::renderUI({
-    shiny::req(dataETL())
-    fxn_nwsTableTitle()
-  })
-  
-  output$pageBottomText <- shiny::renderUI({
-    #shiny::req(dataETL())
-    fxn_pageBottomText()
-  })
-  
-  output$refreshDataButton <- shiny::renderUI({
-    #shiny::req(dataETL())
-    shiny::actionButton(
-      inputId = "refreshDataButton", 
-      label = "REFRESH DATA",
-      icon = shiny::icon(name = "rotate-right", lib = "font-awesome"),
-      class = "btn btn-block btn-blue"
+  output$nwsDownloadCSV <- 
+    shiny::downloadHandler(
+      filename = function() {"AZMet-15-minute-network-wide-summary.csv"},
+      content = function(file) {
+        vroom::vroom_write(x = nwsData(), file = file, delim = ",")
+      }
     )
-  })
   
-  output$refreshDataInfo <- shiny::renderUI({
-    #req(dataETL())
-    bslib::tooltip(
-      bsicons::bs_icon("info-circle"),
-      fxn_refreshDataHelpText(activeTab = input$navsetCardTab),
-      id = "refreshDataInfo",
-      placement = "right"
+ output$nwsDownloadTSV <- 
+   shiny::downloadHandler(
+      filename = function() {"AZMet-15-minute-network-wide-summary.tsv"},
+      content = function(file) {
+        vroom::vroom_write(x = nwsData(), file = file, delim = "\t")
+      }
     )
-  })
   
-  output$slsDownloadCSV <- shiny::downloadHandler(
-    filename = function() {"AZMet-15-minute-station-level-summaries.csv"},
-    content = function(file) {
-      vroom::vroom_write(x = dataETL(), file = file, delim = ",")
-    }
-  )
+  output$nwsTable <- 
+    reactable::renderReactable({
+      fxn_nwsTable(inData = nwsData())
+    })
   
-  output$slsDownloadTSV <- shiny::downloadHandler(
-    filename = function() {"AZMet-15-minute-station-level-summaries.tsv"},
-    content = function(file) {
-      vroom::vroom_write(x = dataETL(), file = file, delim = "\t")
-    }
-  )
+  output$nwsTableFooter <- 
+    shiny::renderUI({
+      shiny::req(az15min())
+      fxn_nwsTableFooter()
+    })
   
-  output$slsGraph <- plotly::renderPlotly({
-    fxn_slsGraph(
-      inData = dataETL(),
-      azmetStationGroup = input$azmetStationGroup,
-      stationVariable = input$stationVariable
+  output$nwsTableTitle <- 
+    shiny::renderUI({
+      shiny::req(az15min())
+      fxn_nwsTableTitle()
+    })
+  
+  output$pageBottomText <- 
+    shiny::renderUI({
+      #shiny::req(az15min())
+      fxn_pageBottomText()
+    })
+  
+  # output$refreshDataButton <- 
+  #   shiny::renderUI({
+  #     #shiny::req(az15min())
+  #     shiny::actionButton(
+  #       inputId = "refreshDataButton", 
+  #       label = "REFRESH DATA",
+  #       icon = shiny::icon(name = "rotate-right", lib = "font-awesome"),
+  #       class = "btn btn-block btn-blue"
+  #     )
+  #   })
+  # 
+  # output$refreshDataInfo <- 
+  #   shiny::renderUI({
+  #     #req(az15min())
+  #     bslib::tooltip(
+  #       bsicons::bs_icon("info-circle"),
+  #       fxn_refreshDataHelpText(activeTab = input$navsetCardTab),
+  #       id = "refreshDataInfo",
+  #       placement = "right"
+  #     )
+  #   })
+  
+  output$slsDownloadCSV <- 
+    shiny::downloadHandler(
+      filename = function() {"AZMet-15-minute-station-level-summaries.csv"},
+      content = function(file) {
+        vroom::vroom_write(x = az15min(), file = file, delim = ",")
+      }
     )
-  })
   
-  output$slsGraphFooter <- shiny::renderUI({
-    shiny::req(dataETL())
-    fxn_slsGraphFooter()
-  })
+  output$slsDownloadTSV <- 
+    shiny::downloadHandler(
+      filename = function() {"AZMet-15-minute-station-level-summaries.tsv"},
+      content = function(file) {
+        vroom::vroom_write(x = az15min(), file = file, delim = "\t")
+      }
+    )
   
-  output$slsGraphTitle <- shiny::renderUI({
-    shiny::req(dataETL())
-    fxn_slsGraphTitle()
-  })
+  output$slsGraph <- 
+    plotly::renderPlotly({
+      fxn_slsGraph(
+        inData = az15min(),
+        azmetStationGroup = input$azmetStationGroup,
+        stationVariable = input$stationVariable
+      )
+    })
   
-  output$stationGroupsTable <- reactable::renderReactable({
-    stationGroupsTable
-  })
+  output$slsGraphFooter <- 
+    shiny::renderUI({
+      shiny::req(az15min())
+      fxn_slsGraphFooter()
+    })
+  
+  output$slsGraphTitle <- 
+    shiny::renderUI({
+      shiny::req(az15min())
+      fxn_slsGraphTitle()
+    })
+  
+  output$stationGroupsTable <- 
+    reactable::renderReactable({
+      stationGroupsTable
+    })
 }
 
 
