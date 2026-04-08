@@ -1,24 +1,27 @@
-#' `fxn_dataETL.R` Download AZMet 15-minute data, transform variables, and return to app
+#' `fxn_az15min.R` Download AZMet 15-minute data, transform variables, and return to app
 #' 
-#' @return `dataETL` - Downloaded 15-minute data and transformed variables over previous 48 hours, tibble format
+#' @param startDate - Start date of period of interest
+#' @param endDate - End date of period of interest
+#' @return `az15min` - Downloaded 15-minute data and transformed variables over period of interest, tibble format
 
 
-fxn_dataETL <- function() {
-  idRetrievingData <- shiny::showNotification(
-    ui = "Retrieving the latest data . . .", 
-    action = NULL, 
-    duration = NULL, 
-    closeButton = FALSE,
-    id = "idRetrievingData",
-    type = "message"
-  )
+fxn_az15min <- function(startDate, endDate) {
   
-  dataETL <- 
-    azmetr::az_15min(
-      start_date_time = 
-        lubridate::now(tzone = "America/Phoenix") - lubridate::hours(50)
-    ) |>
-    
+  if (endDate == lubridate::today(tzone = "America/Phoenix")) {
+    az15min <- 
+      azmetr::az_15min(
+        start_date_time = paste(startDate, "00"),
+        end_date_time = endDate
+      )
+  } else {
+    az15min <- 
+      azmetr::az_15min(
+        start_date_time = paste(startDate, "00"),
+        end_date_time = paste(endDate, "24")
+      )
+  }
+  
+  az15min <- az15min |>
     dplyr::mutate(
       temp_soil_10cmC = dplyr::if_else(
         meta_station_name == "Test",
@@ -155,7 +158,5 @@ fxn_dataETL <- function() {
     
     dplyr::arrange(meta_station_name)
   
-  on.exit(shiny::removeNotification(id = idRetrievingData), add = TRUE)
-  
-  return(dataETL)
+  return(az15min)
 }

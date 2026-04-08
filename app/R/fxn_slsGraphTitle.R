@@ -1,16 +1,22 @@
 #' `fxn_slsGraphTitle.R` - Build title for station-level summaries graph
 #' 
+#' @param startDate - Start date of period of interest
+#' @param endDate - End date of period of interest
 #' @return `slsGraphTitle` - Title for station-level summaries graph
 
 
-fxn_slsGraphTitle <- function() {
+fxn_slsGraphTitle <- function(startDate, endDate) {
   slsGraphTitle <- 
     htmltools::p(
       htmltools::HTML(
         paste0(
           bsicons::bs_icon("graph-up", class = "bolder-icon"),
           htmltools::HTML("&nbsp;&nbsp;"),
-          toupper("<strong>15-minute data over the past 48 hours from across the network</strong>"),
+          toupper(
+            paste0(
+              "<strong>15-minute data from ", gsub(" 0", " ", format(startDate, "%B %d, %Y")), " through ", gsub(" 0", " ", format(endDate, "%B %d, %Y")), " across the network</strong>"
+            )
+          ),
           htmltools::HTML("&nbsp;")
         )
       ),

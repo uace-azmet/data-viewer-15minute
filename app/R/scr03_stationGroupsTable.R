@@ -1,78 +1,85 @@
 stationGroupsTable <- stationGroups |>
   reactable::reactable(
-    columns = list(
-      group1 = reactable::colDef(
-        name = "Group 1",
-        #aggregate = NULL,
-        #sortable = NULL,
-        #resizable = NULL,
-        #filterable = NULL,
-        #searchable = NULL,
-        #filterMethod = NULL,
-        #show = TRUE,
-        #defaultSortOrder = NULL,
-        #sortNALast = FALSE,
-        #format = NULL,
-        #cell = NULL,
-        #grouped = NULL,
-        #aggregated = NULL,
-        #header = NULL,
-        #footer = NULL,
-        #details = NULL,
-        #filterInput = NULL,
-        html = TRUE,
-        na = "",
-        rowHeader = TRUE,
-        minWidth = 150,
-        #maxWidth = NULL,
-        #width = NULL,
-        #align = NULL,
-        #vAlign = NULL,
-        #headerVAlign = NULL,
-        #sticky = NULL,
-        #class = NULL,
-        #style = NULL,
-        #headerClass = NULL,
-        #headerStyle = NULL,
-        #footerClass = NULL,
-        #footerStyle = NULL
-      ), 
-      group2 = reactable::colDef(
-        name = "Group 2",
-        minWidth = 150,
-        html = TRUE,
-        na = "",
-        rowHeader = TRUE
+    columns = 
+      list(
+        group1 = 
+          reactable::colDef(
+            name = "Group 1",
+            #aggregate = NULL,
+            #sortable = NULL,
+            #resizable = NULL,
+            #filterable = NULL,
+            #searchable = NULL,
+            #filterMethod = NULL,
+            #show = TRUE,
+            #defaultSortOrder = NULL,
+            #sortNALast = FALSE,
+            #format = NULL,
+            #cell = NULL,
+            #grouped = NULL,
+            #aggregated = NULL,
+            #header = NULL,
+            #footer = NULL,
+            #details = NULL,
+            #filterInput = NULL,
+            html = TRUE,
+            na = "",
+            rowHeader = TRUE,
+            minWidth = 150,
+            #maxWidth = NULL,
+            #width = NULL,
+            #align = NULL,
+            #vAlign = NULL,
+            #headerVAlign = NULL,
+            #sticky = NULL,
+            #class = NULL,
+            #style = NULL,
+            #headerClass = NULL,
+            #headerStyle = NULL,
+            #footerClass = NULL,
+            #footerStyle = NULL
+          ), 
+        group2 = 
+          reactable::colDef(
+            name = "Group 2",
+            minWidth = 150,
+            html = TRUE,
+            na = "",
+            rowHeader = TRUE
+          ),
+        group3 = 
+          reactable::colDef(
+            name = "Group 3",
+            minWidth = 150,
+            html = TRUE,
+            na = "",
+            rowHeader = TRUE
+          ),
+        group4 = 
+          reactable::colDef(
+            name = "Group 4",
+            minWidth = 150,
+            html = TRUE,
+            na = "",
+            rowHeader = TRUE
+          ),
+        group5 = 
+          reactable::colDef(
+            name = "Group 5",
+            minWidth = 150,
+            html = TRUE,
+            na = "",
+            rowHeader = TRUE
+          ),
+        group6 = 
+          reactable::colDef(
+            name = "Group 6",
+            minWidth = 150,
+            html = TRUE,
+            na = "",
+            rowHeader = TRUE
+          )
       ),
-      group3 = reactable::colDef(
-        name = "Group 3",
-        minWidth = 150,
-        html = TRUE,
-        na = "",
-        rowHeader = TRUE
-      ),
-      group4 = reactable::colDef(
-        name = "Group 4",
-        minWidth = 150,
-        html = TRUE,
-        na = "",
-        rowHeader = TRUE
-      ),
-      group5 = reactable::colDef(
-        name = "Group 5",
-        minWidth = 150,
-        html = TRUE,
-        na = "",
-        rowHeader = TRUE
-      ),
-      group6 = reactable::colDef(
-        name = "Group 6",
-        minWidth = 150,
-        html = TRUE,
-        na = "",
-        rowHeader = TRUE
-      )
-    ),
     #columnGroups = NULL,
     rownames = FALSE,
     #groupBy = NULL,
