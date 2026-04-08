@@ -5,6 +5,7 @@
 
 
 fxn_nwsTableTitle <- function(endDate) {
+  
   nwsTableTitle <- 
     htmltools::p(
       htmltools::HTML(
