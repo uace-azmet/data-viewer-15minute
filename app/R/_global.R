@@ -99,6 +99,7 @@ az15minStationVariables <-
     "temp_air_maxF",
     "temp_air_minF",
     "temp_airF",
+    "temp_heat_indexF",
     "temp_panelF",
     "temp_soil_10cmF",
     "temp_soil_50cmF",
