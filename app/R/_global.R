@@ -104,6 +104,7 @@ az15minStationVariables <-
     "temp_soil_10cmF",
     "temp_soil_50cmF",
     "temp_wetbulbF",
+    "temp_humidity_index",
     "vp_actual",
     "vp_deficit",
     "vp_saturation",

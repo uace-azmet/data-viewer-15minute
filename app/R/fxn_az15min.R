@@ -114,6 +114,12 @@ fxn_az15min <- function(startDate, endDate) {
         )
     ) |>
     
+    # Calculate Temperature-Humidity Index, from https://www.nationalacademies.org/publications/20608
+    dplyr::mutate(
+      temp_humidity_index = 
+        (1.8 * temp_airC + 32) - ((0.55 - 0.0055 * relative_humidity) * (1.8 * temp_airC - 26))
+    ) |>
+    
     dplyr::select(
       meta_station_group,
       meta_station_name,
@@ -131,6 +137,7 @@ fxn_az15min <- function(startDate, endDate) {
       temp_wetbulbF,
       temp_soil_10cmF,
       temp_soil_50cmF,
+      temp_humidity_index,
       vp_actual,
       vp_deficit,
       vp_saturation,
@@ -149,6 +156,7 @@ fxn_az15min <- function(startDate, endDate) {
       dplyr::across(
         c(
           "relative_humidity",
+          "temp_humidity_index",
           "wind_vector_dir",
           "wind_2min_vector_dir",
           "wind_2min_vector_dir_max_daily",

@@ -250,6 +250,20 @@ fxn_nwsTable <- function(inData) {
               na = "NA",
               rowHeader = TRUE
             ),
+          temp_humidity_index = 
+            reactable::colDef(
+              name = 
+                htmltools::HTML(
+                  paste0(
+                    "THI<br>", 
+                    tags$span(style = "font-weight: normal; font-size: 0.8rem", "")
+                  )
+                ),
+              format = reactable::colFormat(digits = 0),
+              html = TRUE,
+              na = "NA",
+              rowHeader = TRUE
+            ),
           vp_actual = 
             reactable::colDef(
               name = 
