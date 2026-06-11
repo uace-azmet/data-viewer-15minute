@@ -339,6 +339,8 @@
   font-size: 0.85rem;
   font-style: normal;
   margin-top: 0.25rem;
+  max-height: 208px;
+  overflow-y: "auto";
 }
 
 .nws-table-help-text {
