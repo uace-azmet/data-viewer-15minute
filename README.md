@@ -1,2 +1,2 @@
 # data-viewer-15minute
-Shiny app to view 15-minute data in tables and time series, and support QA/QC
+Shiny app displaying tabular and graphical summaries of 15-minute data to support QA/QC
