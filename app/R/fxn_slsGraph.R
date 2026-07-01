@@ -129,8 +129,8 @@ fxn_slsGraph <- function(inData, stationGroup, stationVariable) {
         list(
           l = 0,
           r = 50, # For space between plot and modebar
-          b = 80, # For space between x-axis title and caption or figure help text
-          t = 0,
+          b = 0, # For space between x-axis title and caption or figure help text
+          t = 50,
           pad = 0
         ),
       modebar = list(bgcolor = "#FFFFFF", orientation = "v"),
