@@ -128,7 +128,7 @@ stationGroups <-
     group2 = c("Roll", "Wellton ETo", "Yuma N.Gila", "Yuma South", "Yuma Valley", "Yuma Valley ETo", NA),
     group3 = c("Aguila", "Buckeye", "Harquahala", "Maricopa", "Paloma", "Salome", NA),
     group4 = c("Chino Valley", "Desert Ridge", "Payson", "Phoenix Encanto", "Phoenix Greenway", NA, NA),
-    group5 = c("Coolidge", "Eloy", "Elgin", "Queen Creek", "Sahuarita", "Test", "Tucson"),
+    group5 = c("Coolidge", "Elgin", "Eloy", "Queen Creek", "Sahuarita", "Test", "Tucson"),
     group6 = c("Bonita", "Bowie", "Duncan", "Safford", "San Simon", "Willcox Bench", NA)
   )
 

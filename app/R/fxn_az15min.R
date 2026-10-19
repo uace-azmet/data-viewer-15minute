@@ -68,7 +68,7 @@ fxn_az15min <- function(startDate, endDate) {
               meta_station_name %in% c("Chino Valley", "Desert Ridge", "Payson", "Phoenix Encanto", "Phoenix Greenway"),
               "Group 4",
               dplyr::if_else(
-                meta_station_name %in% c("Coolidge", "Eloy", "Elgin", "Maricopa", "Queen Creek", "Sahuarita", "Test", "Tucson"),
+                meta_station_name %in% c("Coolidge", "Elgin", "Eloy", "Maricopa", "Queen Creek", "Sahuarita", "Test", "Tucson"),
                 "Group 5",
                 "Group 6"
               )
